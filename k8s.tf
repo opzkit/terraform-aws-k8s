@@ -54,13 +54,17 @@ resource "aws_s3_bucket_object" "extra_addons" {
   key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
   content  = each.value.content
   etag     = md5(each.value.content)
+  tags     = {}
+  metadata = {}
 }
 
 resource "aws_s3_bucket_object" "addons" {
-  bucket  = aws_s3_bucket.state_store.id
-  key     = "${var.name}-addons/addon.yaml"
-  content = local.addons_yaml
-  etag    = md5(local.addons_yaml)
+  bucket   = aws_s3_bucket.state_store.id
+  key      = "${var.name}-addons/addon.yaml"
+  content  = local.addons_yaml
+  etag     = md5(local.addons_yaml)
+  tags     = {}
+  metadata = {}
 }
 
 resource "kops_cluster" "k8s" {
@@ -243,7 +247,7 @@ resource "kops_instance_group" "masters" {
   node_labels = {
     "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
   }
-  max_price = var.master_max_price
+  max_price = (var.master_max_price != 0 ? to_string(var.master_max_price) : null)
   depends_on = [
   kops_cluster.k8s]
 }
@@ -265,7 +269,7 @@ resource "kops_instance_group" "nodes" {
   node_labels = {
     "kops.k8s.io/instancegroup" = "nodes-${each.key}"
   }
-  max_price = var.node_max_price
+  max_price = (var.node_max_price != 0 ? to_string(var.node_max_price) : null)
   depends_on = [
   kops_cluster.k8s]
 }

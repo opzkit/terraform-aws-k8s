@@ -5,7 +5,7 @@ Module for creating Kubernetes clusters using kOps
 
   ````terraform
 module "k8s" {
-  source             = "../../modules/k8s"
+  source             = "opzkit/k8s/aws"
   name               = local.name
   state_store        = local.state_store
   region             = local.region
