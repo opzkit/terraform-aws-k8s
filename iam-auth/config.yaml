@@ -1,0 +1,17 @@
+data:
+  config.yaml: |
+    clusterID: ${cluster_id}
+    server:
+      mapRoles:
+        # statically map AWSReservedSSO_AWSAdministratorAccess to a cluster admin
+      - roleARN: ${role_name}
+        username: admin:{{SessionName}}
+        groups:
+        - system:masters
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: aws-iam-authenticator
+  name: aws-iam-authenticator
+  namespace: kube-system

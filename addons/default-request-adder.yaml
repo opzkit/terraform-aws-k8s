@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default-request-adder
+  namespace: kube-system
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: default-request-adder
+  namespace: kube-system
+rules:
+  - apiGroups: [ "" ]
+    resources: [ "namespaces" ]
+    verbs: [ "list" ]
+  - apiGroups: [ "" ]
+    resources: [ "limitranges" ]
+    verbs: [ "list","create" ]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: default-request-adder
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: default-request-adder
+subjects:
+  - kind: ServiceAccount
+    name: default-request-adder
+    namespace: kube-system
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+  labels:
+    app: default-request-adder
+  name: default-request-adder
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default-request-adder
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: default-request-adder
+    spec:
+      serviceAccountName: default-request-adder
+      containers:
+        - name: default-request-adder
+          resources:
+            limits:
+              memory: "50Mi"
+            requests:
+              memory: "50Mi"
+          imagePullPolicy: Always
+          image: registry.gitlab.com/unboundsoftware/default-request-adder:1.0
+          args:
+            - /default-request-adder
+            - -excluded-ns=kube-system
+            - -memory=1Pi
+      restartPolicy: Always
