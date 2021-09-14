@@ -1,40 +1,40 @@
 variable "admin_ssh_key" {
-  type = string
+  type        = string
   description = "Path to SSH key to use for the node and master instances in the cluster"
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "Name of Kubernetes cluster"
 }
 
 variable "state_store" {
-  type = string
+  type        = string
   description = "Name of S3 bucket to use for kops state store"
 }
 
 variable "region" {
-  type = string
+  type        = string
   description = "Name of AWS region to use for cluster"
 }
 
 variable "vpc_id" {
-  type = string
+  type        = string
   description = "Id of VPC to use for cluster"
 }
 
 variable "private_subnet_ids" {
-  type = map(string)
+  type        = map(string)
   description = "A map of private subnet ids to use in the form <name> => <id>"
 }
 
 variable "utility_subnet_ids" {
-  type = map(string)
+  type        = map(string)
   description = "A map of public subnet ids to use in the form <name> => <id>"
 }
 
 variable "dns_zone" {
-  type = string
+  type        = string
   description = "Name of DNS zone to use for cluster"
 }
 

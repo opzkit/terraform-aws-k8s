@@ -247,7 +247,7 @@ resource "kops_instance_group" "masters" {
   node_labels = {
     "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
   }
-  max_price = (var.master_max_price != 0 ? to_string(var.master_max_price) : null)
+  max_price = (var.master_max_price != 0 ? tostring(var.master_max_price) : null)
   depends_on = [
   kops_cluster.k8s]
 }
@@ -269,7 +269,7 @@ resource "kops_instance_group" "nodes" {
   node_labels = {
     "kops.k8s.io/instancegroup" = "nodes-${each.key}"
   }
-  max_price = (var.node_max_price != 0 ? to_string(var.node_max_price) : null)
+  max_price = (var.node_max_price != 0 ? tostring(var.node_max_price) : null)
   depends_on = [
   kops_cluster.k8s]
 }
