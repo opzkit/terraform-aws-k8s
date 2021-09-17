@@ -1,56 +1,7 @@
-resource "aws_s3_bucket" "state_store" {
-  bucket        = var.state_store
-  acl           = "private"
-  force_destroy = true
-
-  versioning {
-    enabled = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
-  tags = {
-    Name = "${data.aws_caller_identity.current.id} kops state store"
-  }
-
-  lifecycle_rule {
-    enabled = true
-    id      = "Remove versions older than 30 days"
-    noncurrent_version_expiration {
-      days = 30
-    }
-  }
-
-  lifecycle_rule {
-    enabled = true
-    id      = "Remove backups older than 60 days"
-    prefix  = "${var.name}/backups"
-    expiration {
-      days                         = 60
-      expired_object_delete_marker = false
-    }
-  }
-}
-
-resource "aws_s3_bucket" "issuer" {
-  bucket        = "${replace(var.name, ".", "-")}-irsa-issuer"
-  acl           = "public-read"
-  force_destroy = true
-
-  tags = {
-    Name = "${var.name} IRSA Issuer"
-  }
-}
 
 resource "aws_s3_bucket_object" "extra_addons" {
   for_each = { for a in local.addons : a.name => a }
-  bucket   = aws_s3_bucket.state_store.id
+  bucket   = data.aws_s3_bucket.state_store.id
   key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
   content  = each.value.content
   etag     = md5(each.value.content)
@@ -59,7 +10,7 @@ resource "aws_s3_bucket_object" "extra_addons" {
 }
 
 resource "aws_s3_bucket_object" "addons" {
-  bucket   = aws_s3_bucket.state_store.id
+  bucket   = data.aws_s3_bucket.state_store.id
   key      = "${var.name}-addons/addon.yaml"
   content  = local.addons_yaml
   etag     = md5(local.addons_yaml)
@@ -83,8 +34,8 @@ resource "kops_cluster" "k8s" {
   }
 
   topology {
-    masters = "private"
-    nodes   = "private"
+    masters = local.topology
+    nodes   = local.topology
 
     dns {
       type = "Public"
@@ -119,10 +70,10 @@ resource "kops_cluster" "k8s" {
       name = etcd_cluster.value
 
       dynamic "member" {
-        for_each = var.private_subnet_ids
+        for_each = local.master_subnets_zones
         content {
-          name             = member.key
-          instance_group   = "master-${var.region}${member.key}"
+          name             = member.value
+          instance_group   = "master-${var.region}${member.value}"
           encrypted_volume = true
         }
       }
@@ -140,41 +91,42 @@ resource "kops_cluster" "k8s" {
 
   iam {
     allow_container_registry = true
-    service_account_external_permissions {
-      name      = "external-dns"
-      namespace = "kube-system"
-      aws {
-        inline_policy = <<EOT
-    [
-  {
-    "Effect": "Allow",
-    "Action": [
-      "route53:ChangeResourceRecordSets"
-    ],
-    "Resource": [
-      "arn:aws:route53:::hostedzone/*"
-    ]
-  },
-  {
-    "Effect": "Allow",
-    "Action": [
-      "route53:ListHostedZones",
-      "route53:ListResourceRecordSets"
-    ],
-    "Resource": [
-      "*"
-    ]
-  }
-]
-EOT
-      }
-    }
+    // TODO Enable when IRSA is "working" for aws loadbalancer
+    //    service_account_external_permissions {
+    //      name      = "external-dns"
+    //      namespace = "kube-system"
+    //      aws {
+    //        inline_policy = <<EOT
+    //    [
+    //  {
+    //    "Effect": "Allow",
+    //    "Action": [
+    //      "route53:ChangeResourceRecordSets"
+    //    ],
+    //    "Resource": [
+    //      "arn:aws:route53:::hostedzone/*"
+    //    ]
+    //  },
+    //  {
+    //    "Effect": "Allow",
+    //    "Action": [
+    //      "route53:ListHostedZones",
+    //      "route53:ListResourceRecordSets"
+    //    ],
+    //    "Resource": [
+    //      "*"
+    //    ]
+    //  }
+    //]
+    //EOT
+    //      }
+    //    }
   }
 
   api {
     load_balancer {
       type  = "Public"
-      class = "Classic"
+      class = "Network"
     }
   }
 
@@ -224,18 +176,19 @@ EOT
     enabled                           = true
   }
 
+  // TODO Enable when IRSA is "working" for aws loadbalancer
   service_account_issuer_discovery {
-    discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
-    enable_aws_oidc_provider = true
+    //    discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
+    enable_aws_oidc_provider = false
   }
 
   addons {
-    manifest = "s3://${aws_s3_bucket.state_store.id}/${var.name}-addons/addon.yaml"
+    manifest = "s3://${data.aws_s3_bucket.state_store.id}/${var.name}-addons/addon.yaml"
   }
 }
 
 resource "kops_instance_group" "masters" {
-  for_each     = var.private_subnet_ids
+  for_each     = toset(local.master_subnets_zones)
   cluster_name = kops_cluster.k8s.id
   name         = "master-${var.region}${each.key}"
   role         = "Master"
@@ -243,7 +196,7 @@ resource "kops_instance_group" "masters" {
   max_size     = 1
   machine_type = var.master_type
   subnets = [
-  "private-${var.region}${each.key}"]
+  "${local.node_group_subnet_prefix}${each.key}"]
   node_labels = {
     "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
   }
@@ -253,15 +206,15 @@ resource "kops_instance_group" "masters" {
 }
 
 resource "kops_instance_group" "nodes" {
-  for_each     = var.private_subnet_ids
+  for_each     = var.utility_subnet_ids
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  min_size     = 1
-  max_size     = 2
+  min_size     = var.node_min_size
+  max_size     = var.node_max_size
   machine_type = var.node_type
   subnets = [
-  "private-${var.region}${each.key}"]
+  "${local.node_group_subnet_prefix}${each.key}"]
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
@@ -279,23 +232,14 @@ resource "kops_cluster_updater" "k8s_updater" {
 
   depends_on = [
     kops_cluster.k8s,
-    kops_instance_group.masters["a"],
-    kops_instance_group.masters["b"],
-    kops_instance_group.masters["c"],
-    kops_instance_group.nodes["a"],
-    kops_instance_group.nodes["b"],
-    kops_instance_group.nodes["c"]
+    kops_instance_group.masters,
+    kops_instance_group.nodes,
   ]
 
-  keepers = {
-    cluster            = kops_cluster.k8s.revision,
-    masters-eu-west-1a = kops_instance_group.masters["a"].revision,
-    masters-eu-west-1b = kops_instance_group.masters["b"].revision,
-    masters-eu-west-1c = kops_instance_group.masters["c"].revision,
-    nodes-a            = kops_instance_group.nodes["a"].revision,
-    nodes-b            = kops_instance_group.nodes["b"].revision,
-    nodes-c            = kops_instance_group.nodes["c"].revision
-  }
+  keepers = merge({ cluster = kops_cluster.k8s.revision },
+    tomap({ for k, v in kops_instance_group.masters : k => v.revision }),
+    tomap({ for k, v in kops_instance_group.nodes : k => v.revision }),
+  )
 
   rolling_update {
     validation_timeout = "20m"

@@ -3,7 +3,7 @@ data:
     clusterID: ${cluster_id}
     server:
       mapRoles:
-        # statically map AWSReservedSSO_AWSAdministratorAccess to a cluster admin
+        # statically map ROLE to a cluster admin
       - roleARN: ${role_name}
         username: admin:{{SessionName}}
         groups:

@@ -1,7 +1,24 @@
 # terraform-k8s
 Module for creating Kubernetes clusters using kOps
 
-## Exampple
+## What is configured
+
+* Kubernetes cluster using [kOps]() with RBAC authentication enabled
+* Support for [custom addons]()
+* (AWS IAM Authenticator)[] is configured to allow access using AWS Iam roles
+
+TODOs:
+* IAM Auth role mapping?
+* Sane defaults?
+* irsa roles and policies?
+* Docs
+* Cleanup
+* Output?
+
+### Custom addons
+
+
+## Example
 
   ````terraform
 module "k8s" {
