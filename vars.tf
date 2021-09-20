@@ -39,12 +39,20 @@ variable "private_subnet_ids" {
   type        = map(string)
   default     = {}
   description = "A map of private subnet ids to use in the form <name> => <id>"
+  validation {
+    condition     = length(var.private_subnet_ids) % 2 == 1
+    error_message = "The number of subnets must be odd (1,3)."
+  }
 }
 
 variable "utility_subnet_ids" {
   type        = map(string)
   default     = {}
   description = "A map of public subnet ids to use in the form <name> => <id>"
+  validation {
+    condition     = length(var.utility_subnet_ids) >= 2
+    error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
+  }
 }
 
 variable "dns_zone" {
