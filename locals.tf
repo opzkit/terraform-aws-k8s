@@ -15,11 +15,11 @@ locals {
     Resource : [
     "${data.aws_s3_bucket.state_store.arn}/${var.name}-addons/*"]
   }
-  master_policies = [
+  master_policies = flatten([
     local.master_policies_aws_loadbalancer,
     local.master_policy_addon_bucket_access,
-    var.master_policies
-  ]
+    var.master_policies]
+  )
 
   iam_auth_configmap = {
     name    = "aws_iam_authenticator_config"
