@@ -27,30 +27,24 @@ variable "region" {
 variable "vpc_id" {
   type        = string
   description = "Id of VPC to use for cluster"
-  default     = ""
-}
-
-variable "create_vpc_network" {
-  type    = bool
-  default = false
 }
 
 variable "private_subnet_ids" {
   type        = map(string)
   default     = {}
-  description = "A map of private subnet ids to use in the form <name> => <id>"
+  description = "A map of private subnet ids to use in the form <zone> => <id>"
   validation {
     condition     = length(var.private_subnet_ids) % 2 == 1
     error_message = "The number of subnets must be odd (1,3)."
   }
 }
 
-variable "utility_subnet_ids" {
+variable "public_subnet_ids" {
   type        = map(string)
   default     = {}
-  description = "A map of public subnet ids to use in the form <name> => <id>"
+  description = "A map of public subnet ids to use in the form <zone> => <id>"
   validation {
-    condition     = length(var.utility_subnet_ids) >= 2
+    condition     = length(var.public_subnet_ids) >= 2
     error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
   }
 }

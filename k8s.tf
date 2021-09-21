@@ -53,7 +53,7 @@ resource "kops_cluster" "k8s" {
   }
 
   dynamic "subnet" {
-    for_each = var.utility_subnet_ids
+    for_each = var.public_subnet_ids
     content {
       name        = "utility-${var.region}${subnet.key}"
       provider_id = subnet.value
@@ -206,7 +206,7 @@ resource "kops_instance_group" "masters" {
 }
 
 resource "kops_instance_group" "nodes" {
-  for_each     = var.utility_subnet_ids
+  for_each     = var.public_subnet_ids
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"

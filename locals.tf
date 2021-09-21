@@ -46,7 +46,7 @@ locals {
   private_subnets_enabled  = length(var.private_subnet_ids) > 0
   node_group_subnet_prefix = local.private_subnets_enabled ? "private-${var.region}" : "utility-${var.region}"
   topology                 = local.private_subnets_enabled ? "private" : "public"
-  master_subnets_zones     = local.private_subnets_enabled ? keys(var.private_subnet_ids) : slice(keys(var.utility_subnet_ids), 0, var.master_count)
+  master_subnets_zones     = local.private_subnets_enabled ? keys(var.private_subnet_ids) : slice(keys(var.public_subnet_ids), 0, var.master_count)
 }
 
 data "aws_s3_bucket" "state_store" {
