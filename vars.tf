@@ -34,8 +34,8 @@ variable "private_subnet_ids" {
   default     = {}
   description = "A map of private subnet ids to use in the form <zone> => <id>"
   validation {
-    condition     = length(var.private_subnet_ids) % 2 == 1
-    error_message = "The number of subnets must be odd (1,3)."
+    condition     = length(var.private_subnet_ids) == 0 || length(var.private_subnet_ids) % 2 == 1
+    error_message = "The number of private subnets must be odd (1,3) or zero."
   }
 }
 
