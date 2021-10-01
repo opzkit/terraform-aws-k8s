@@ -122,3 +122,27 @@ variable "master_policies" {
   default     = null
   description = "Additional master policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
+
+variable "api_loadbalancer" {
+  type        = bool
+  default     = true
+  description = "Should a LoadBalancer be created for the Kubernetes API"
+}
+
+variable "kubelet_auth_webhook" {
+  type        = bool
+  default     = false
+  description = "Use webhook for Kubelet authentication"
+}
+
+variable "node_termination_handler_sqs" {
+  type        = bool
+  default     = false
+  description = "Use SQS for Node Termination Handler draining"
+}
+
+variable "docker_config" {
+  type        = string
+  default     = null
+  description = "Docker config containing authentication to use for accessing registries"
+}

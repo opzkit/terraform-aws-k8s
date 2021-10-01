@@ -1,4 +1,3 @@
-
 resource "aws_s3_bucket_object" "extra_addons" {
   for_each = { for a in local.addons : a.name => a }
   bucket   = data.aws_s3_bucket.state_store.id
@@ -65,7 +64,8 @@ resource "kops_cluster" "k8s" {
   dynamic "etcd_cluster" {
     for_each = [
       "main",
-    "events"]
+      "events"
+    ]
     content {
       name = etcd_cluster.value
 
@@ -81,9 +81,11 @@ resource "kops_cluster" "k8s" {
   }
 
   kubernetes_api_access = [
-  "0.0.0.0/0"]
+    "0.0.0.0/0"
+  ]
   ssh_access = [
-  "0.0.0.0/0"]
+    "0.0.0.0/0"
+  ]
 
   additional_policies = {
     master = jsonencode(local.master_policies)
@@ -124,9 +126,12 @@ resource "kops_cluster" "k8s" {
   }
 
   api {
-    load_balancer {
-      type  = "Public"
-      class = "Network"
+    dynamic "load_balancer" {
+      for_each = var.api_loadbalancer ? [{}] : []
+      content {
+        type  = "Public"
+        class = "Network"
+      }
     }
   }
 
@@ -144,6 +149,7 @@ resource "kops_cluster" "k8s" {
 
   cert_manager {
     enabled = true
+    managed = true
   }
 
   cluster_autoscaler {
@@ -161,7 +167,21 @@ resource "kops_cluster" "k8s" {
     upstream_nameservers = []
   }
 
-  kubelet {
+  dynamic "kubelet" {
+    for_each = !var.kubelet_auth_webhook ? [{}] : []
+    content {}
+  }
+
+  dynamic "kubelet" {
+    for_each = var.kubelet_auth_webhook ? [{}] : []
+    content {
+      authentication_token_webhook = true
+      authorization_mode           = "Webhook"
+
+      anonymous_auth {
+        value = false
+      }
+    }
   }
 
   metrics_server {
@@ -169,17 +189,39 @@ resource "kops_cluster" "k8s" {
     insecure = false
   }
 
-  node_termination_handler {
-    enable_prometheus_metrics         = false
-    enable_scheduled_event_draining   = false
-    enable_spot_interruption_draining = false
-    enabled                           = true
+  dynamic "node_termination_handler" {
+    for_each = var.node_termination_handler_sqs ? [{}] : []
+    content {
+      enable_prometheus_metrics         = false
+      enable_scheduled_event_draining   = false
+      enable_spot_interruption_draining = false
+      enabled                           = true
+      enable_sqs_termination_draining   = true
+      managed_asg_tag                   = "aws-node-termination-handler/managed"
+    }
+  }
+
+  dynamic "node_termination_handler" {
+    for_each = !var.node_termination_handler_sqs ? [{}] : []
+    content {
+      enable_prometheus_metrics         = false
+      enable_scheduled_event_draining   = false
+      enable_spot_interruption_draining = false
+      enabled                           = true
+    }
   }
 
   // TODO Enable when IRSA is "working" for aws loadbalancer
   service_account_issuer_discovery {
     //    discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
     enable_aws_oidc_provider = false
+  }
+
+  dynamic "secrets" {
+    for_each = var.docker_config == null ? [] : [var.docker_config]
+    content {
+      docker_config = secrets.value
+    }
   }
 
   addons {
@@ -196,13 +238,15 @@ resource "kops_instance_group" "masters" {
   max_size     = 1
   machine_type = var.master_type
   subnets = [
-  "${local.node_group_subnet_prefix}${each.key}"]
+    "${local.node_group_subnet_prefix}${each.key}"
+  ]
   node_labels = {
     "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
   }
   max_price = (var.master_max_price != 0 ? tostring(var.master_max_price) : null)
   depends_on = [
-  kops_cluster.k8s]
+    kops_cluster.k8s
+  ]
 }
 
 resource "kops_instance_group" "nodes" {
@@ -214,7 +258,8 @@ resource "kops_instance_group" "nodes" {
   max_size     = var.node_max_size
   machine_type = var.node_type
   subnets = [
-  "${local.node_group_subnet_prefix}${each.key}"]
+    "${local.node_group_subnet_prefix}${each.key}"
+  ]
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
@@ -224,7 +269,8 @@ resource "kops_instance_group" "nodes" {
   }
   max_price = (var.node_max_price != 0 ? tostring(var.node_max_price) : null)
   depends_on = [
-  kops_cluster.k8s]
+    kops_cluster.k8s
+  ]
 }
 
 resource "kops_cluster_updater" "k8s_updater" {
