@@ -94,36 +94,18 @@ resource "kops_cluster" "k8s" {
 
   iam {
     allow_container_registry = true
-    // TODO Enable when IRSA is "working" for aws loadbalancer
-    //    service_account_external_permissions {
-    //      name      = "external-dns"
-    //      namespace = "kube-system"
-    //      aws {
-    //        inline_policy = <<EOT
-    //    [
-    //  {
-    //    "Effect": "Allow",
-    //    "Action": [
-    //      "route53:ChangeResourceRecordSets"
-    //    ],
-    //    "Resource": [
-    //      "arn:aws:route53:::hostedzone/*"
-    //    ]
-    //  },
-    //  {
-    //    "Effect": "Allow",
-    //    "Action": [
-    //      "route53:ListHostedZones",
-    //      "route53:ListResourceRecordSets"
-    //    ],
-    //    "Resource": [
-    //      "*"
-    //    ]
-    //  }
-    //]
-    //EOT
-    //      }
-    //    }
+
+    dynamic "service_account_external_permissions" {
+      for_each = var.aws_oidc_provider ? local.external_permissions : []
+      content {
+        name      = service_account_external_permissions.value.name
+        namespace = service_account_external_permissions.value.namespace
+        aws {
+          policy_ar_ns  = lookup(service_account_external_permissions.value.aws, "policy_ar_ns", null)
+          inline_policy = lookup(service_account_external_permissions.value.aws, "inline_policy", null)
+        }
+      }
+    }
   }
 
   api {
@@ -214,10 +196,9 @@ resource "kops_cluster" "k8s" {
     }
   }
 
-  // TODO Enable when IRSA is "working" for aws loadbalancer
   service_account_issuer_discovery {
-    //    discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
-    enable_aws_oidc_provider = false
+    discovery_store          = var.aws_oidc_provider ? "s3://${aws_s3_bucket.issuer[0].bucket}" : null
+    enable_aws_oidc_provider = var.aws_oidc_provider
   }
 
   dynamic "secrets" {
