@@ -22,6 +22,10 @@ locals {
     var.master_policies
     ]
   )
+  node_policies = flatten([
+    var.node_policies
+    ]
+  )
   external_permissions = flatten([
     var.service_account_external_permissions
     ]
