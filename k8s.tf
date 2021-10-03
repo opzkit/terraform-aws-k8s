@@ -110,7 +110,7 @@ resource "kops_cluster" "k8s" {
 
   api {
     dynamic "load_balancer" {
-      for_each = var.api_loadbalancer ? [{}] : []
+      for_each = var.api_loadbalancer ? [1] : []
       content {
         type  = "Public"
         class = "Network"
@@ -152,18 +152,12 @@ resource "kops_cluster" "k8s" {
     upstream_nameservers = []
   }
 
-  dynamic "kubelet" {
-    for_each = !var.kubelet_auth_webhook ? [{}] : []
-    content {}
-  }
-
-  dynamic "kubelet" {
-    for_each = var.kubelet_auth_webhook ? [{}] : []
-    content {
-      authentication_token_webhook = true
-      authorization_mode           = "Webhook"
-
-      anonymous_auth {
+  kubelet {
+    authentication_token_webhook = var.kubelet_auth_webhook
+    authorization_mode           = var.kubelet_auth_webhook ? "Webhook" : null
+    dynamic "anonymous_auth" {
+      for_each = var.kubelet_auth_webhook ? [1] : []
+      content {
         value = false
       }
     }
@@ -174,26 +168,13 @@ resource "kops_cluster" "k8s" {
     insecure = false
   }
 
-  dynamic "node_termination_handler" {
-    for_each = var.node_termination_handler_sqs ? [{}] : []
-    content {
-      enable_prometheus_metrics         = false
-      enable_scheduled_event_draining   = false
-      enable_spot_interruption_draining = false
-      enabled                           = true
-      enable_sqs_termination_draining   = true
-      managed_asg_tag                   = "aws-node-termination-handler/managed"
-    }
-  }
-
-  dynamic "node_termination_handler" {
-    for_each = !var.node_termination_handler_sqs ? [{}] : []
-    content {
-      enable_prometheus_metrics         = false
-      enable_scheduled_event_draining   = false
-      enable_spot_interruption_draining = false
-      enabled                           = true
-    }
+  node_termination_handler {
+    enable_prometheus_metrics         = false
+    enable_scheduled_event_draining   = false
+    enable_spot_interruption_draining = false
+    enabled                           = true
+    enable_sqs_termination_draining   = var.node_termination_handler_sqs
+    managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
   }
 
   service_account_issuer_discovery {
