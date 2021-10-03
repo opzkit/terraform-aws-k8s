@@ -123,6 +123,12 @@ variable "master_policies" {
   description = "Additional master policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
 
+variable "node_policies" {
+  type        = any
+  default     = null
+  description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
+}
+
 variable "api_loadbalancer" {
   type        = bool
   default     = true
@@ -145,4 +151,10 @@ variable "docker_config" {
   type        = string
   default     = null
   description = "Docker config containing authentication to use for accessing registries"
+}
+
+variable "container_runtime" {
+  type        = string
+  default     = null
+  description = "Container runtime to use. If not set, kOps default will be used."
 }

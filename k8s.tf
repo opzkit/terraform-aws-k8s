@@ -89,6 +89,7 @@ resource "kops_cluster" "k8s" {
 
   additional_policies = {
     master = jsonencode(local.master_policies)
+    node   = jsonencode(var.node_policies)
   }
 
   iam {
@@ -158,6 +159,8 @@ resource "kops_cluster" "k8s" {
     skip_nodes_with_local_storage = false
     skip_nodes_with_system_pods   = false
   }
+
+  container_runtime = var.container_runtime
 
   kube_dns {
     cache_max_concurrent = 0
