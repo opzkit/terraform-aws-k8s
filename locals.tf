@@ -22,37 +22,7 @@ locals {
     var.master_policies
     ]
   )
-  external_permissions_external_dns = {
-    name      = "external-dns"
-    namespace = "kube-system"
-    aws = {
-      inline_policy = <<EOT
-            [
-      {
-        "Effect": "Allow",
-        "Action": [
-          "route53:ChangeResourceRecordSets"
-        ],
-        "Resource": [
-          "arn:aws:route53:::hostedzone/*"
-        ]
-      },
-      {
-        "Effect": "Allow",
-        "Action": [
-          "route53:ListHostedZones",
-          "route53:ListResourceRecordSets"
-        ],
-        "Resource": [
-          "*"
-        ]
-      }
-    ]
-    EOT
-    }
-  }
   external_permissions = flatten([
-    local.external_permissions_external_dns,
     var.service_account_external_permissions
     ]
   )
