@@ -126,7 +126,7 @@ variable "master_policies" {
 variable "node_policies" {
   type        = any
   default     = null
-  description = "Additional node policies, https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
+  description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
 
 variable "aws_oidc_provider" {
@@ -138,7 +138,7 @@ variable "aws_oidc_provider" {
 variable "service_account_external_permissions" {
   type        = any
   default     = null
-  description = "External permissions for Service Accounts (IRSA), "
+  description = "External permissions for Service Accounts (IRSA), https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
 }
 
 variable "api_loadbalancer" {
