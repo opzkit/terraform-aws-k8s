@@ -1,13 +1,15 @@
 # terraform-k8s
+
 Module for creating Kubernetes clusters using kOps
 
 ## What is configured
 
-* Kubernetes cluster using [kOps]() with RBAC authentication enabled
-* Support for [custom addons]()
-* (AWS IAM Authenticator)[] is configured to allow access using AWS Iam roles
+* Kubernetes cluster using [kOps](https://kops.sigs.k8s.io) with RBAC authentication enabled
+* Support for [custom addons](https://kops.sigs.k8s.io/addons/#custom-addons)
+* [AWS IAM Authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator) is configured to allow access using AWS Iam roles
 
 TODOs:
+
 * IAM Auth role mapping?
 * Sane defaults?
 * irsa roles and policies?
@@ -16,7 +18,6 @@ TODOs:
 * Output?
 
 ### Custom addons
-
 
 ## Example
 
@@ -36,11 +37,46 @@ module "k8s" {
       name : "argocd"
       version : "0.0.1"
       content : local.argocd_yaml
-  }]
+    }
+  ]
+  service_account_external_permissions = [
+    local.external_permissions_external_dns
+  ]
 
   providers = {
     kops = kops
   }
 }
 
+locals {
+  external_permissions_external_dns = {
+    name      = "external-dns"
+    namespace = "kube-system"
+    aws       = {
+      inline_policy = <<EOT
+              [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "route53:ChangeResourceRecordSets"
+          ],
+          "Resource": [
+            "arn:aws:route53:::hostedzone/*"
+          ]
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "route53:ListHostedZones",
+            "route53:ListResourceRecordSets"
+          ],
+          "Resource": [
+            "*"
+          ]
+        }
+      ]
+      EOT
+    }
+  }
+}
 ````
