@@ -13,12 +13,22 @@ locals {
       "s3:GetObject"
     ],
     Resource : [
-    "${data.aws_s3_bucket.state_store.arn}/${var.name}-addons/*"]
+      "${data.aws_s3_bucket.state_store.arn}/${var.name}-addons/*"
+    ]
   }
   master_policies = flatten([
     local.master_policies_aws_loadbalancer,
     local.master_policy_addon_bucket_access,
-    var.master_policies]
+    var.master_policies
+    ]
+  )
+  node_policies = flatten([
+    var.node_policies
+    ]
+  )
+  external_permissions = flatten([
+    var.service_account_external_permissions
+    ]
   )
 
   iam_auth_configmap = {
@@ -38,7 +48,8 @@ locals {
 
   addons = concat(var.extra_addons, [
     local.iam_auth_configmap,
-  local.default_request_adder])
+    local.default_request_adder
+  ])
   addons_yaml = templatefile("${path.module}/addons/addons.yaml", {
     addons = local.addons
   })

@@ -122,3 +122,51 @@ variable "master_policies" {
   default     = null
   description = "Additional master policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
+
+variable "node_policies" {
+  type        = any
+  default     = null
+  description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
+}
+
+variable "aws_oidc_provider" {
+  type        = bool
+  default     = false
+  description = "Enable OIDS provider for IRSA, https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
+}
+
+variable "service_account_external_permissions" {
+  type        = any
+  default     = null
+  description = "External permissions for Service Accounts (IRSA), https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
+}
+
+variable "api_loadbalancer" {
+  type        = bool
+  default     = true
+  description = "Should a LoadBalancer be created for the Kubernetes API"
+}
+
+variable "kubelet_auth_webhook" {
+  type        = bool
+  default     = false
+  description = "Use webhook for Kubelet authentication"
+}
+
+variable "node_termination_handler_sqs" {
+  type        = bool
+  default     = false
+  description = "Use SQS for Node Termination Handler draining"
+}
+
+variable "docker_config" {
+  type        = string
+  default     = null
+  description = "Docker config containing authentication to use for accessing registries"
+}
+
+variable "container_runtime" {
+  type        = string
+  default     = null
+  description = "Container runtime to use. If not set, kOps default will be used."
+}
