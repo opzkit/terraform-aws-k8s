@@ -177,6 +177,18 @@ variable "container_runtime" {
   description = "Container runtime to use. If not set, kOps default will be used."
 }
 
+variable "custom_ca_key" {
+  type        = string
+  default     = null
+  description = "Custom certificate key, https://kops.sigs.k8s.io/custom_ca/"
+}
+
+variable "custom_ca_cert" {
+  type        = string
+  default     = null
+  description = "Custom certificate cert, https://kops.sigs.k8s.io/custom_ca/"
+}
+
 variable "cloud_only" {
   type        = bool
   default     = false

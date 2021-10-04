@@ -183,7 +183,9 @@ resource "kops_cluster" "k8s" {
   }
 
   secrets {
-    docker_config = var.docker_config
+    docker_config   = var.docker_config
+    cluster_ca_cert = var.custom_ca_cert
+    cluster_ca_key  = var.custom_ca_key
   }
 
   addons {
