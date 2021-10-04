@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        tf-version: [ 0.14.11, 0.15.5, 1.0.1 ]
+        tf-version: [ 0.14.11, 0.15.5, 1.0.8 ]
     steps:
       - name: Install terraform v${{ matrix.tf-version }}
         run: |
@@ -28,7 +28,5 @@ jobs:
           rm *
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Validate syntax for terraform v${{ matrix.tf-version }}
-        run: |
-          terraform init
-          terraform validate
+      - name: Validate examples terraform v${{ matrix.tf-version }}
+        run: make examples

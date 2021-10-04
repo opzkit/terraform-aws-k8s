@@ -13,12 +13,6 @@ variable "state_store_bucket_name" {
   description = "Name of S3 bucket to use for kops state store. The bucket must exist!s"
 }
 
-// TODO Enable when IRSA is "working" for aws loadbalancer
-//variable "irsa_bucket_name" {
-//  type        = string
-//  description = "Name of S3 bucket to use for kops IRSA - link?. The bucket must exist!s"
-//}
-
 variable "region" {
   type        = string
   description = "Name of AWS region to use for cluster"

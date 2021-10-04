@@ -182,11 +182,8 @@ resource "kops_cluster" "k8s" {
     enable_aws_oidc_provider = var.aws_oidc_provider
   }
 
-  dynamic "secrets" {
-    for_each = var.docker_config == null ? [] : [var.docker_config]
-    content {
-      docker_config = secrets.value
-    }
+  secrets {
+    docker_config = var.docker_config
   }
 
   addons {

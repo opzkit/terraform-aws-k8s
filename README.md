@@ -11,8 +11,6 @@ Module for creating Kubernetes clusters using kOps
 TODOs:
 
 * IAM Auth role mapping?
-* Sane defaults?
-* irsa roles and policies?
 * Docs
 * Cleanup
 * Output?
@@ -20,6 +18,8 @@ TODOs:
 ### Custom addons
 
 ## Example
+
+A bunch of examples can be found under [examples](./examples).
 
   ````terraform
 module "k8s" {
