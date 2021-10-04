@@ -113,13 +113,13 @@ variable "iam_role_name" {
 
 variable "master_policies" {
   type        = any
-  default     = null
+  default     = []
   description = "Additional master policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
 
 variable "node_policies" {
   type        = any
-  default     = null
+  default     = []
   description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
 
