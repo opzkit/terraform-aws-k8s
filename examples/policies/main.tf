@@ -7,7 +7,7 @@ module "k8s" {
   vpc_id                  = "vpc-123"
   private_subnet_ids      = { "a" : "subnet-123" }
   public_subnet_ids       = { "a" : "subnet-987", "b" : "subnet-654" }
-  admin_ssh_key           = "./dummy_ssh_private"
+  admin_ssh_key           = "../dummy_ssh_private"
   dns_zone                = "test.com"
   master_policies = [
     local.master_policy_some_bucket_access
