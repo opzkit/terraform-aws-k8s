@@ -88,8 +88,8 @@ resource "kops_cluster" "k8s" {
   ]
 
   additional_policies = {
-    master = jsonencode(local.master_policies)
-    node   = jsonencode(local.node_policies)
+    master = length(local.master_policies) == 0 ? null : jsonencode(local.master_policies)
+    node   = length(local.node_policies) == 0 ? null : jsonencode(local.node_policies)
   }
 
   iam {
