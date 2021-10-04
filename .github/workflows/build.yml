@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "*"
+    tags-ignore:
+      - "*"
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        tf-version: [ 0.14.11, 0.15.5, 1.0.1 ]
+    steps:
+      - name: Install terraform v${{ matrix.tf-version }}
+        run: |
+          curl -LO https://releases.hashicorp.com/terraform/${{ matrix.tf-version }}/terraform_${{ matrix.tf-version }}_linux_amd64.zip
+          unzip terraform_${{ matrix.tf-version }}_linux_amd64.zip
+          sudo mv terraform /usr/local/bin
+          rm *
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Validate syntax for terraform v${{ matrix.tf-version }}
+        run: |
+          terraform init
+          terraform validate
