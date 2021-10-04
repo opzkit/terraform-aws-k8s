@@ -1,12 +1,14 @@
 #!/usr/bin/make -f
 
 SHELL = /bin/bash
-
+EXAMPLES = $(shell find ./examples/* -maxdepth 1 -type d -not -path '*/\.*')
 .PHONY: examples
-examples: tf-examples/basic
+examples: $(addprefix example/,$(EXAMPLES))
 
-.PHONY: tf-examples/%
-tf-examples/%:
-	@terraform -chdir=examples/$* init
-	@terraform -chdir=examples/$* validate
-	@terraform -chdir=examples/$* plan
+.PHONY: example/%
+example/%:
+	@echo "Processing example: $(notdir $*)"
+	@terraform -chdir=$* init
+	@terraform -chdir=$* validate
+	@terraform -chdir=$* plan
+
