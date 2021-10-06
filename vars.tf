@@ -131,7 +131,7 @@ variable "aws_oidc_provider" {
 
 variable "service_account_external_permissions" {
   type        = any
-  default     = null
+  default     = []
   description = "External permissions for Service Accounts (IRSA), https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
 }
 
