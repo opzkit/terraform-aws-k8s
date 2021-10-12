@@ -109,6 +109,7 @@ resource "kops_cluster" "k8s" {
   }
 
   api {
+    dns {}
     dynamic "load_balancer" {
       for_each = var.api_loadbalancer ? [1] : []
       content {
