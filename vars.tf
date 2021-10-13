@@ -8,9 +8,8 @@ variable "name" {
   description = "Name of Kubernetes cluster"
 }
 
-variable "state_store_bucket_name" {
-  type        = string
-  description = "Name of S3 bucket to use for kops state store. The bucket must exist!s"
+variable "bucket_state_store" {
+  description = "The S3 bucket to use for kops state store. The bucket must exist!"
 }
 
 variable "region" {
