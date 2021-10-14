@@ -13,7 +13,7 @@ locals {
       "s3:GetObject"
     ],
     Resource : [
-      "${data.aws_s3_bucket.state_store.arn}/${var.name}-addons/*"
+      "${var.bucket_state_store.arn}/${var.name}-addons/*"
     ]
   }
   master_policies = flatten([
@@ -60,8 +60,4 @@ locals {
   master_subnets_zones     = local.private_subnets_enabled ? keys(var.private_subnet_ids) : slice(keys(var.public_subnet_ids), 0, var.master_count)
 
   secrets = (length(compact([var.docker_config])) > 0) ? [""] : []
-}
-
-data "aws_s3_bucket" "state_store" {
-  bucket = var.state_store_bucket_name
 }
