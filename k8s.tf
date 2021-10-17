@@ -256,6 +256,7 @@ resource "kops_cluster_updater" "k8s_updater" {
 
   rolling_update {
     validation_timeout = "20m"
+    cloud_only         = var.cloud_only
   }
 
   validate {
