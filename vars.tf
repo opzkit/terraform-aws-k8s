@@ -163,3 +163,9 @@ variable "container_runtime" {
   default     = null
   description = "Container runtime to use. If not set, kOps default will be used."
 }
+
+variable "cloud_only" {
+  type        = bool
+  default     = false
+  description = "CloudOnly perform rolling update without confirming progress with k8s."
+}
