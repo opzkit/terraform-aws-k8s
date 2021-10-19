@@ -105,9 +105,9 @@ variable "extra_addons" {
   description = "Extra addons in the form [{name: \"<name>\", version:\"<version>\", content: \"<YAML content>\"}]"
 }
 
-variable "iam_role_name" {
-  type        = string
-  description = "The IAM role that will be allowed admin access to the Kubernetes cluster (format: arn:aws:iam::<account>:<role|user>/<user/role>)"
+variable "iam_role_mappings" {
+  type        = map(string)
+  description = "The IAM role arn that will be allowed access with a ClusterRole to the Kubernetes cluster. Mapping from IAM ARN => Kubernetes ClusterRole"
 }
 
 variable "master_policies" {

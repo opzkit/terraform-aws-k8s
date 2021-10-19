@@ -35,8 +35,8 @@ locals {
     name    = "aws_iam_authenticator_config"
     version = "0.0.1"
     content = templatefile("${path.module}/iam-auth/config.yaml", {
-      role_name  = var.iam_role_name
-      cluster_id = var.name
+      role_mappings = var.iam_role_mappings
+      cluster_id    = var.name
     })
   }
 

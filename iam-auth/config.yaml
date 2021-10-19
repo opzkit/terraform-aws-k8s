@@ -3,11 +3,13 @@ data:
     clusterID: ${cluster_id}
     server:
       mapRoles:
-        # statically map ROLE to a cluster admin
-      - roleARN: ${role_name}
-        username: admin:{{SessionName}}
+        # statically map IAM Roles to a ClusterRole
+%{ for iam, k8s in role_mappings ~}
+      - roleARN: ${iam}
+        username: role:{{SessionName}}
         groups:
-        - system:masters
+        - ${k8s}
+%{endfor ~}
 kind: ConfigMap
 apiVersion: v1
 metadata:

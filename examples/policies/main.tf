@@ -1,6 +1,5 @@
 module "k8s" {
   source             = "../../"
-  iam_role_name      = "iam-role"
   name               = "name"
   bucket_state_store = aws_s3_bucket.state-store
   region             = "eu-west-1"
@@ -12,6 +11,7 @@ module "k8s" {
   master_policies = [
     local.master_policy_some_bucket_access
   ]
+  iam_role_mappings = { "iam_role" : "system:masters" }
 }
 
 resource "aws_s3_bucket" "state-store" {
