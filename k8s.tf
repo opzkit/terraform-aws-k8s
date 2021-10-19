@@ -263,3 +263,8 @@ resource "kops_cluster_updater" "k8s_updater" {
     timeout = "20m"
   }
 }
+
+data "aws_security_group" "nodes" {
+  depends_on = [kops_cluster_updater.k8s_updater]
+  name       = "nodes.${var.name}"
+}
