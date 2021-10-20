@@ -1,3 +1,3 @@
-output "node_security_group_name" {
-  value = "nodes.${var.name}"
+output "nodes_security_group" {
+  value = data.aws_security_group.nodes
 }
