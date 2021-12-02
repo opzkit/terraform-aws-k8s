@@ -240,6 +240,31 @@ resource "kops_instance_group" "nodes" {
   ]
 }
 
+resource "kops_instance_group" "additional_nodes" {
+  for_each     = var.additional_nodes
+  cluster_name = kops_cluster.k8s.id
+  name         = "nodes-${each.key}"
+  role         = "Node"
+  min_size     = each.value.min_size
+  max_size     = each.value.max_size
+  machine_type = each.value.type
+  subnets      = tolist([for k, v in var.public_subnet_ids : "${local.node_group_subnet_prefix}${k}"])
+  cloud_labels = {
+    "k8s.io/cluster-autoscaler/enabled"     = "true"
+    "k8s.io/cluster-autoscaler/${var.name}" = "true"
+  }
+  node_labels = merge(each.value.labels, {
+    "kops.k8s.io/instancegroup" = "nodes-${each.key}"
+  })
+  max_price = (each.value.max_price != 0 ? tostring(each.value.max_price) : null)
+  depends_on = [
+    kops_cluster.k8s
+  ]
+  taints                       = each.value.taints
+  detailed_instance_monitoring = true
+}
+
+
 resource "kops_cluster_updater" "k8s_updater" {
   cluster_name = kops_cluster.k8s.id
 

@@ -89,6 +89,19 @@ variable "node_max_price" {
   description = "Maximum spot price for node instances, if unset spot instances are not used"
 }
 
+variable "additional_nodes" {
+  type = map(object({
+    min_size  = number
+    max_size  = number
+    max_price = number
+    type      = string
+    taints    = list(string)
+    labels    = map(string)
+  }))
+  description = "Additional node groups"
+  default     = {}
+}
+
 variable "kubernetes_version" {
   type        = string
   default     = "1.21.4"
