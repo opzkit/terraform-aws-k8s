@@ -1,5 +1,6 @@
 variable "admin_ssh_key" {
   type        = string
+  default     = ""
   description = "Path to SSH key to use for the node and master instances in the cluster"
 }
 
