@@ -1,4 +1,4 @@
-resource "aws_s3_bucket_object" "extra_addons" {
+resource "aws_s3_object" "extra_addons" {
   for_each = { for a in local.addons : a.name => a }
   bucket   = var.bucket_state_store.id
   key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
@@ -8,7 +8,7 @@ resource "aws_s3_bucket_object" "extra_addons" {
   metadata = {}
 }
 
-resource "aws_s3_bucket_object" "addons" {
+resource "aws_s3_object" "addons" {
   bucket   = var.bucket_state_store.id
   key      = "${var.name}-addons/addon.yaml"
   content  = local.addons_yaml
