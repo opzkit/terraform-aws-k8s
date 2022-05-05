@@ -1,6 +1,7 @@
 variable "admin_ssh_key" {
   type        = string
   description = "Path to SSH key to use for the node and master instances in the cluster"
+  default     = null
 }
 
 variable "name" {
@@ -138,7 +139,7 @@ variable "node_policies" {
 variable "aws_oidc_provider" {
   type        = bool
   default     = false
-  description = "Enable OIDS provider for IRSA, https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
+  description = "Enable OIDC provider for IRSA, https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
 }
 
 variable "service_account_external_permissions" {

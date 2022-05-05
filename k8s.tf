@@ -19,7 +19,7 @@ resource "aws_s3_object" "addons" {
 
 resource "kops_cluster" "k8s" {
   name               = var.name
-  admin_ssh_key      = file(var.admin_ssh_key)
+  admin_ssh_key      = var.admin_ssh_key != null ? file(var.admin_ssh_key) : null
   cloud_provider     = "aws"
   channel            = "stable"
   kubernetes_version = var.kubernetes_version
@@ -27,9 +27,7 @@ resource "kops_cluster" "k8s" {
   network_id         = var.vpc_id
 
   networking {
-    calico {
-      major_version = "v3"
-    }
+    calico {}
   }
 
   topology {
@@ -93,8 +91,8 @@ resource "kops_cluster" "k8s" {
   }
 
   iam {
-    allow_container_registry = true
-
+    allow_container_registry                 = true
+    use_service_account_external_permissions = var.aws_oidc_provider
     dynamic "service_account_external_permissions" {
       for_each = var.aws_oidc_provider ? local.external_permissions : []
       content {
@@ -149,7 +147,6 @@ resource "kops_cluster" "k8s" {
     cache_max_concurrent = 0
     cache_max_size       = 0
     provider             = "CoreDNS"
-    replicas             = 0
     upstream_nameservers = []
   }
 
@@ -176,6 +173,8 @@ resource "kops_cluster" "k8s" {
     enabled                           = true
     enable_sqs_termination_draining   = var.node_termination_handler_sqs
     managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
+    enable_rebalance_draining         = true
+    enable_rebalance_monitoring       = true
   }
 
   service_account_issuer_discovery {
