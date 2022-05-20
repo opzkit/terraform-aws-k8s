@@ -105,7 +105,6 @@ variable "additional_nodes" {
 
 variable "kubernetes_version" {
   type        = string
-  default     = "1.21.4"
   description = "Kubernetes version for kOps cluster"
 }
 
