@@ -276,6 +276,7 @@ resource "kops_cluster_updater" "k8s_updater" {
   keepers = merge({ cluster = kops_cluster.k8s.revision },
     tomap({ for k, v in kops_instance_group.masters : v.name => v.revision }),
     tomap({ for k, v in kops_instance_group.nodes : v.name => v.revision }),
+    tomap({ for k, v in kops_instance_group.additional_nodes : v.name => v.revision }),
   )
 
   rolling_update {
