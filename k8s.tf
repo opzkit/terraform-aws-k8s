@@ -213,6 +213,7 @@ resource "kops_instance_group" "masters" {
   depends_on = [
     kops_cluster.k8s
   ]
+  detailed_instance_monitoring = true
 }
 
 resource "kops_instance_group" "nodes" {
@@ -237,6 +238,7 @@ resource "kops_instance_group" "nodes" {
   depends_on = [
     kops_cluster.k8s
   ]
+  detailed_instance_monitoring = true
 }
 
 resource "kops_instance_group" "additional_nodes" {
