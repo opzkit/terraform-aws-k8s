@@ -215,7 +215,7 @@ resource "kops_instance_group" "masters" {
   ]
   detailed_instance_monitoring = true
   instance_metadata {
-    http_put_response_hop_limit = 2
+    http_put_response_hop_limit = 3
   }
 }
 
@@ -243,7 +243,7 @@ resource "kops_instance_group" "nodes" {
   ]
   detailed_instance_monitoring = true
   instance_metadata {
-    http_put_response_hop_limit = 2
+    http_put_response_hop_limit = 3
   }
 }
 
@@ -270,7 +270,7 @@ resource "kops_instance_group" "additional_nodes" {
   taints                       = each.value.taints
   detailed_instance_monitoring = true
   instance_metadata {
-    http_put_response_hop_limit = 2
+    http_put_response_hop_limit = 3
   }
 }
 
