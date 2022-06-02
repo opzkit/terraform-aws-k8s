@@ -167,7 +167,7 @@ variable "node_termination_handler_sqs" {
 
 variable "docker_config" {
   type        = string
-  default     = null
+  default     = "{}"
   description = "Docker config containing authentication to use for accessing registries"
 }
 

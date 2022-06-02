@@ -58,6 +58,4 @@ locals {
   node_group_subnet_prefix = local.private_subnets_enabled ? "private-${var.region}" : "utility-${var.region}"
   topology                 = local.private_subnets_enabled ? "private" : "public"
   master_subnets_zones     = local.private_subnets_enabled ? slice(keys(var.private_subnet_ids), 0, var.master_count) : slice(keys(var.public_subnet_ids), 0, var.master_count)
-
-  secrets = (length(compact([var.docker_config])) > 0) ? [""] : []
 }
