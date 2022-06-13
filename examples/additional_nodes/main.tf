@@ -15,12 +15,13 @@ module "k8s" {
   }
   additional_nodes = {
     "processing" = {
-      min_size  = 1
-      max_size  = 2
-      max_price = 0.4
-      type      = "c5.2xlarge"
-      taints    = ["tasks=processing:NoSchedule"]
-      labels    = { "tasks" = "processing" }
+      min_size             = 1
+      max_size             = 2
+      types                = ["c5.2xlarge", "c5a.2xlarge"]
+      on_demand_base       = 0
+      on_demand_above_base = 0
+      taints               = ["tasks=processing:NoSchedule"]
+      labels               = { "tasks" = "processing" }
     }
   }
 }
