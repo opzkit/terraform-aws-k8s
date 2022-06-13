@@ -40,6 +40,7 @@ LBS=$(aws elbv2 --region "${REGION}" describe-load-balancers --query 'LoadBalanc
 for arn in ${LBS}; do
   count=$(has_tag "$arn")
   if [ "$count" -eq 1 ]; then
+    echo "Tagging load balancer ${arn}"
     aws elbv2 --region "${REGION}" add-tags --resource-arns "$arn" --tags "Key=KubernetesCluster,Value=${CLUSTER}"
   fi
 
@@ -47,6 +48,7 @@ for arn in ${LBS}; do
   for tg in ${tgs}; do
     count=$(has_tag "$tg")
     if [ "$count" -eq 1 ]; then
+      echo "Tagging target group ${tg}"
       aws elbv2 --region "${REGION}" add-tags --resource-arns "$tg" --tags "Key=KubernetesCluster,Value=${CLUSTER}"
     fi
   done
@@ -55,6 +57,7 @@ for arn in ${LBS}; do
   for listener in ${listeners}; do
     count=$(has_tag "$listener")
     if [ "$count" -eq 1 ]; then
+      echo "Tagging listener ${listener}"
       aws elbv2 --region "${REGION}" add-tags --resource-arns "$listener" --tags "Key=KubernetesCluster,Value=${CLUSTER}"
     fi
 
@@ -62,6 +65,7 @@ for arn in ${LBS}; do
     for rule in ${rules}; do
       count=$(has_tag "$rule")
       if [ "$count" -eq 1 ]; then
+        echo "Tagging rule ${rule}"
         aws elbv2 --region "${REGION}" add-tags --resource-arns "$rule" --tags "Key=KubernetesCluster,Value=${CLUSTER}"
       fi
     done
@@ -70,6 +74,7 @@ done
 
 sgs=$(aws ec2 describe-security-groups --region "${REGION}" --filter "Name=tag:elbv2.k8s.aws/cluster,Values=${CLUSTER}" --output text --query 'SecurityGroups[*].GroupId')
 for sg in $sgs; do
+  echo "Tagging security group ${sg}"
   aws ec2 --region "$REGION" create-tags --resources "$sg" --tags "Key=KubernetesCluster,Value=${CLUSTER}"
 done
 ```
