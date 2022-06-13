@@ -178,6 +178,18 @@ variable "node_termination_handler_sqs" {
   description = "Use SQS for Node Termination Handler draining"
 }
 
+variable "enable_rebalance_draining" {
+  type        = bool
+  default     = false
+  description = "Whether node termination handler drain nodes when the re-balance recommendation notice is received or not"
+}
+
+variable "enable_rebalance_monitoring" {
+  type        = bool
+  default     = false
+  description = "Whether node termination handler cordon nodes when the re-balance recommendation notice is received or not"
+}
+
 variable "docker_config" {
   type        = string
   default     = "{}"
