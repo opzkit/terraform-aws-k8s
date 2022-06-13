@@ -173,8 +173,8 @@ resource "kops_cluster" "k8s" {
     enabled                           = true
     enable_sqs_termination_draining   = var.node_termination_handler_sqs
     managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
-    enable_rebalance_draining         = true
-    enable_rebalance_monitoring       = true
+    enable_rebalance_draining         = var.enable_rebalance_draining
+    enable_rebalance_monitoring       = var.enable_rebalance_monitoring
   }
 
   service_account_issuer_discovery {
