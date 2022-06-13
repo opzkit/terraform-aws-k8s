@@ -48,10 +48,22 @@ variable "dns_zone" {
   description = "Name of DNS zone to use for cluster"
 }
 
-variable "master_type" {
-  type        = string
-  default     = "t3.medium"
-  description = "Instance types for master instances"
+variable "master_types" {
+  type        = list(string)
+  default     = ["t3.medium"]
+  description = "Instance types for master instances. Specifying more than one instance type will result in a mixed instance policy."
+}
+
+variable "master_on_demand_base" {
+  default     = 0
+  type        = number
+  description = "Number of instances in each group to keep as on demand. Specifying 0 will only use spot instances."
+}
+
+variable "master_on_demand_above_base" {
+  default     = 0
+  type        = number
+  description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
 }
 
 variable "master_count" {
@@ -60,16 +72,10 @@ variable "master_count" {
   description = "Number of master instances"
 }
 
-variable "master_max_price" {
-  type        = number
-  default     = 0.03
-  description = "Maximum spot price for master instances, if unset spot instances are not used"
-}
-
-variable "node_type" {
-  type        = string
-  default     = "t3.medium"
-  description = "Instance types for master instances"
+variable "node_types" {
+  type        = list(string)
+  default     = ["t3.medium"]
+  description = "Instance types for master instances. Specifying more than one instance type will result in a mixed instance policy."
 }
 
 variable "node_min_size" {
@@ -84,20 +90,27 @@ variable "node_max_size" {
   description = "Maximum number of instances in node group"
 }
 
-variable "node_max_price" {
+variable "node_on_demand_base" {
+  default     = 0
   type        = number
-  default     = 0.03
-  description = "Maximum spot price for node instances, if unset spot instances are not used"
+  description = "Number of instances in each group to keep as on demand. Specifying 0 will only use spot instances."
+}
+
+variable "node_on_demand_above_base" {
+  default     = 0
+  type        = number
+  description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
 }
 
 variable "additional_nodes" {
   type = map(object({
-    min_size  = number
-    max_size  = number
-    max_price = number
-    type      = string
-    taints    = list(string)
-    labels    = map(string)
+    min_size             = number
+    max_size             = number
+    types                = list(string)
+    taints               = list(string)
+    labels               = map(string)
+    on_demand_base       = number
+    on_demand_above_base = number
   }))
   description = "Additional node groups"
   default     = {}

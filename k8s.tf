@@ -198,14 +198,23 @@ resource "kops_instance_group" "masters" {
   role         = "Master"
   min_size     = 1
   max_size     = 1
-  machine_type = var.master_type
+  machine_type = var.master_types[0]
+  mixed_instances_policy {
+    instances = var.master_types
+    on_demand_base {
+      value = var.master_on_demand_base
+    }
+    on_demand_above_base {
+      value = var.master_on_demand_above_base
+    }
+    spot_allocation_strategy = "capacity-optimized"
+  }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
   ]
   node_labels = {
     "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
   }
-  max_price = (var.master_max_price != 0 ? tostring(var.master_max_price) : null)
   depends_on = [
     kops_cluster.k8s
   ]
@@ -222,7 +231,17 @@ resource "kops_instance_group" "nodes" {
   role         = "Node"
   min_size     = var.node_min_size
   max_size     = var.node_max_size
-  machine_type = var.node_type
+  machine_type = var.node_types[0]
+  mixed_instances_policy {
+    instances = var.node_types
+    on_demand_base {
+      value = var.node_on_demand_base
+    }
+    on_demand_above_base {
+      value = var.node_on_demand_above_base
+    }
+    spot_allocation_strategy = "capacity-optimized"
+  }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
   ]
@@ -233,7 +252,6 @@ resource "kops_instance_group" "nodes" {
   node_labels = {
     "kops.k8s.io/instancegroup" = "nodes-${each.key}"
   }
-  max_price = (var.node_max_price != 0 ? tostring(var.node_max_price) : null)
   depends_on = [
     kops_cluster.k8s
   ]
@@ -250,8 +268,18 @@ resource "kops_instance_group" "additional_nodes" {
   role         = "Node"
   min_size     = each.value.min_size
   max_size     = each.value.max_size
-  machine_type = each.value.type
-  subnets      = tolist([for k, v in var.public_subnet_ids : "${local.node_group_subnet_prefix}${k}"])
+  machine_type = each.value.types[0]
+  mixed_instances_policy {
+    instances = each.value.types
+    on_demand_base {
+      value = each.value.on_demand_base
+    }
+    on_demand_above_base {
+      value = each.value.on_demand_above_base
+    }
+    spot_allocation_strategy = "capacity-optimized"
+  }
+  subnets = tolist([for k, v in var.public_subnet_ids : "${local.node_group_subnet_prefix}${k}"])
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
@@ -259,7 +287,6 @@ resource "kops_instance_group" "additional_nodes" {
   node_labels = merge(each.value.labels, {
     "kops.k8s.io/instancegroup" = "nodes-${each.key}"
   })
-  max_price = (each.value.max_price != 0 ? tostring(each.value.max_price) : null)
   depends_on = [
     kops_cluster.k8s
   ]
