@@ -18,9 +18,11 @@ resource "aws_s3_object" "addons" {
 }
 
 resource "kops_cluster" "k8s" {
-  name               = var.name
-  admin_ssh_key      = var.admin_ssh_key != null ? file(var.admin_ssh_key) : null
-  cloud_provider     = "aws"
+  name          = var.name
+  admin_ssh_key = var.admin_ssh_key != null ? file(var.admin_ssh_key) : null
+  cloud_provider {
+    aws {}
+  }
   channel            = "stable"
   kubernetes_version = var.kubernetes_version
   dns_zone           = var.dns_zone
