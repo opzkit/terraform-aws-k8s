@@ -179,6 +179,10 @@ resource "kops_cluster" "k8s" {
     enable_rebalance_monitoring       = var.enable_rebalance_monitoring
   }
 
+  pod_identity_webhook {
+    enabled = true
+  }
+
   service_account_issuer_discovery {
     discovery_store          = var.aws_oidc_provider ? "s3://${aws_s3_bucket.issuer[0].bucket}" : null
     enable_aws_oidc_provider = var.aws_oidc_provider
