@@ -155,7 +155,14 @@ variable "aws_oidc_provider" {
 }
 
 variable "service_account_external_permissions" {
-  type        = any
+  type = list(object({
+    name      = string
+    namespace = string
+    aws = object({
+      inline_policy = optional(string)
+      policy_ar_ns  = optional(list(string))
+    })
+  }))
   default     = []
   description = "External permissions for Service Accounts (IRSA), https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
 }
