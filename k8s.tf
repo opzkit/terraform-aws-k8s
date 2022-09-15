@@ -195,6 +195,16 @@ resource "kops_cluster" "k8s" {
   addons {
     manifest = "s3://${var.bucket_state_store.id}/${var.name}-addons/addon.yaml"
   }
+
+  external_policies {
+    key   = "master"
+    value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+  }
+
+  external_policies {
+    key   = "node"
+    value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+  }
 }
 
 resource "kops_instance_group" "masters" {
