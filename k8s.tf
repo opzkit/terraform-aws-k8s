@@ -153,14 +153,6 @@ resource "kops_cluster" "k8s" {
   }
 
   kubelet {
-    authentication_token_webhook = var.kubelet_auth_webhook
-    authorization_mode           = var.kubelet_auth_webhook ? "Webhook" : null
-    dynamic "anonymous_auth" {
-      for_each = var.kubelet_auth_webhook ? [1] : []
-      content {
-        value = false
-      }
-    }
   }
 
   metrics_server {
