@@ -123,9 +123,10 @@ variable "kubernetes_version" {
 
 variable "extra_addons" {
   type = list(object({
-    name    = string,
-    version = string,
-    content = string,
+    name               = string,
+    version            = string,
+    kubernetes_version = optional(string),
+    content            = string,
   }))
   default     = []
   description = "Extra addons in the form [{name: \"<name>\", version:\"<version>\", content: \"<YAML content>\"}]"
@@ -207,4 +208,10 @@ variable "cloud_only" {
   type        = bool
   default     = false
   description = "CloudOnly perform rolling update without confirming progress with k8s."
+}
+
+variable "external_cluster_autoscaler" {
+  type        = bool
+  default     = false
+  description = "Use external cluster autoscaler and not the built in kOps addon (to support clusters with only spot instances)"
 }

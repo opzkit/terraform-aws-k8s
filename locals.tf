@@ -26,10 +26,17 @@ locals {
     var.node_policies
     ]
   )
-  external_permissions = flatten([
-    var.service_account_external_permissions
-    ]
-  )
+
+  external_permissions = concat(var.service_account_external_permissions, var.external_cluster_autoscaler ? [
+    for v in module.cluster_autoscaler.permissions : {
+      name      = v.name
+      namespace = v.namespace
+      aws = {
+        inline_policy = lookup(v.aws, "inline_policy", null)
+        policy_ar_ns  = lookup(v.aws, "policy_ar_ns", tolist(null))
+      }
+    }
+  ] : [])
 
   iam_auth_configmap = {
     name    = "aws_iam_authenticator_config"
@@ -46,11 +53,13 @@ locals {
     content = file("${path.module}/addons/default-request-adder.yaml")
   }
 
-  addons = concat(var.extra_addons, [
-    local.iam_auth_configmap,
-    local.default_request_adder
+  addons = flatten([
+    var.extra_addons, [
+      local.iam_auth_configmap,
+      local.default_request_adder
+    ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : []
   ])
-  addons_yaml = templatefile("${path.module}/addons/addons.yaml", {
+  addons_yaml = templatefile("${path.module}/addons/addons.yaml.tpl", {
     addons = local.addons
   })
 
