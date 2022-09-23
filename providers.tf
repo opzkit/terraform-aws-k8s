@@ -6,7 +6,7 @@ terraform {
     }
     kops = {
       source  = "eddycharly/kops"
-      version = "~>1.24.0"
+      version = "~>1.25.0"
     }
   }
   experiments = [module_variable_optional_attrs]
