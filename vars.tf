@@ -173,12 +173,6 @@ variable "api_loadbalancer" {
   description = "Should a LoadBalancer be created for the Kubernetes API"
 }
 
-variable "kubelet_auth_webhook" {
-  type        = bool
-  default     = false
-  description = "Use webhook for Kubelet authentication"
-}
-
 variable "node_termination_handler_sqs" {
   type        = bool
   default     = false
