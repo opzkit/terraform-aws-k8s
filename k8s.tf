@@ -1,5 +1,5 @@
 resource "aws_s3_object" "extra_addons" {
-  for_each = { for a in local.addons : a.name => a }
+  for_each = { for a in local.addons : "${a.name}-${a.version}" => a }
   bucket   = var.bucket_state_store.id
   key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
   content  = each.value.content
@@ -136,11 +136,14 @@ resource "kops_cluster" "k8s" {
     managed = true
   }
 
-  cluster_autoscaler {
-    balance_similar_node_groups   = false
-    enabled                       = true
-    skip_nodes_with_local_storage = false
-    skip_nodes_with_system_pods   = false
+  dynamic "cluster_autoscaler" {
+    for_each = var.external_cluster_autoscaler ? [] : [1]
+    content {
+      balance_similar_node_groups   = false
+      enabled                       = true
+      skip_nodes_with_local_storage = false
+      skip_nodes_with_system_pods   = false
+    }
   }
 
   container_runtime = var.container_runtime
@@ -334,4 +337,11 @@ resource "kops_cluster_updater" "k8s_updater" {
 data "aws_security_group" "nodes" {
   depends_on = [kops_cluster_updater.k8s_updater]
   name       = "nodes.${var.name}"
+}
+
+module "cluster_autoscaler" {
+  source       = "opzkit/k8s-addons-cluster-autoscaler/aws"
+  version      = "1.25.0"
+  replicas     = length(var.public_subnet_ids) * var.node_min_size > 1 ? 2 : 1
+  cluster_name = var.name
 }
