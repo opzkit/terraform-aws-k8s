@@ -120,7 +120,17 @@ resource "kops_cluster" "k8s" {
   }
 
   authentication {
-    aws {}
+    aws {
+      backend_mode = "CRD"
+      dynamic "identity_mappings" {
+        for_each = var.iam_role_mappings
+        content {
+          arn      = identity_mappings.key
+          username = "role:{{SessionName}}}"
+          groups   = [identity_mappings.value]
+        }
+      }
+    }
   }
 
   authorization {

@@ -38,15 +38,6 @@ locals {
     }
   ] : [])
 
-  iam_auth_configmap = {
-    name    = "aws_iam_authenticator_config"
-    version = "0.0.1"
-    content = templatefile("${path.module}/iam-auth/config.yaml", {
-      role_mappings = var.iam_role_mappings
-      cluster_id    = var.name
-    })
-  }
-
   default_request_adder = {
     name    = "default_request_adder"
     version = "1.0"
@@ -55,7 +46,6 @@ locals {
 
   addons = flatten([
     var.extra_addons, [
-      local.iam_auth_configmap,
       local.default_request_adder
     ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : []
   ])
