@@ -243,7 +243,7 @@ resource "kops_instance_group" "masters" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = var.master_max_instance_lifetime
+  max_instance_lifetime = "${var.master_max_instance_lifetime_hours + parseint(sha1("master-${var.region}${each.key}"), 16) % 10}h"
 }
 
 resource "kops_instance_group" "nodes" {
@@ -281,7 +281,7 @@ resource "kops_instance_group" "nodes" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = var.node_max_instance_lifetime
+  max_instance_lifetime = "${var.node_max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h"
 }
 
 resource "kops_instance_group" "additional_nodes" {
@@ -318,7 +318,7 @@ resource "kops_instance_group" "additional_nodes" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = each.value.max_instance_lifetime
+  max_instance_lifetime = "${each.value.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h"
 }
 
 

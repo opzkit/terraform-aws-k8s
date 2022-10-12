@@ -72,10 +72,10 @@ variable "master_count" {
   description = "Number of master instances"
 }
 
-variable "master_max_instance_lifetime" {
-  type        = string
-  description = "The maximum amount of time that an instance can be in service. Value expected must be in form of duration ('ms', 's', 'm', 'h')."
-  default     = "168h"
+variable "master_max_instance_lifetime_hours" {
+  type        = number
+  description = "The maximum amount of time that an instance can be in service."
+  default     = 168
 }
 
 variable "node_types" {
@@ -108,22 +108,22 @@ variable "node_on_demand_above_base" {
   description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
 }
 
-variable "node_max_instance_lifetime" {
-  type        = string
-  description = "The maximum amount of time that an instance can be in service. Value expected must be in form of duration ('ms', 's', 'm', 'h')."
-  default     = "168h"
+variable "node_max_instance_lifetime_hours" {
+  type        = number
+  description = "The maximum amount of time that an instance can be in service."
+  default     = 168
 }
 
 variable "additional_nodes" {
   type = map(object({
-    min_size              = number
-    max_size              = number
-    types                 = list(string)
-    taints                = list(string)
-    labels                = map(string)
-    on_demand_base        = number
-    on_demand_above_base  = number
-    max_instance_lifetime = optional(string, "168h")
+    min_size                    = number
+    max_size                    = number
+    types                       = list(string)
+    taints                      = list(string)
+    labels                      = map(string)
+    on_demand_base              = number
+    on_demand_above_base        = number
+    max_instance_lifetime_hours = optional(number, 168)
   }))
   description = "Additional node groups"
   default     = {}
