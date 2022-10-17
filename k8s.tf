@@ -354,7 +354,7 @@ data "aws_security_group" "nodes" {
 
 module "cluster_autoscaler" {
   source       = "opzkit/k8s-addons-cluster-autoscaler/aws"
-  version      = "1.25.0"
+  version      = "1.25.0.1"
   replicas     = length(var.public_subnet_ids) * var.node_min_size > 1 ? 2 : 1
   cluster_name = var.name
 }
