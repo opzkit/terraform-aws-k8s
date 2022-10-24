@@ -17,7 +17,7 @@ jobs:
           policy_type: 'aws'
           only_warn: true
           sarif_upload: true
-          #non_recursive:
+          non_recursive: true
           #iac_dir:
           #policy_path:
           #skip_rules:
