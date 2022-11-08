@@ -16,7 +16,7 @@ terraform {
   required_providers {
     kops = {
       source  = "eddycharly/kops"
-      version = "1.25.0"
+      version = "1.25.2"
     }
 
     aws = {
