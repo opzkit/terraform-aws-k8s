@@ -169,7 +169,7 @@ resource "kops_cluster" "k8s" {
   }
 
   metrics_server {
-    enabled  = true
+    enabled  = local.min_number_of_nodes > 1
     insecure = false
   }
 
@@ -185,7 +185,8 @@ resource "kops_cluster" "k8s" {
   }
 
   pod_identity_webhook {
-    enabled = true
+    enabled  = true
+    replicas = local.min_number_of_nodes > 1 ? 2 : 1
   }
 
   service_account_issuer_discovery {
