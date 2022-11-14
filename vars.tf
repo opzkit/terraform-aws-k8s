@@ -84,16 +84,13 @@ variable "node_types" {
   description = "Instance types for master instances. Specifying more than one instance type will result in a mixed instance policy."
 }
 
-variable "node_min_size" {
-  default     = 1
-  type        = number
-  description = "Minimum number of instances in node group"
-}
-
-variable "node_max_size" {
-  default     = 2
-  type        = number
-  description = "Maximum number of instances in node group"
+variable "node_size" {
+  default = {}
+  type = map(object({
+    min : optional(number, 1)
+    max : optional(number, 2)
+  }))
+  description = "A map of node min/max sizes to use for the node groups in each zone, <zone> => <min,max>"
 }
 
 variable "node_on_demand_base" {

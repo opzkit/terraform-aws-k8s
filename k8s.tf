@@ -251,8 +251,8 @@ resource "kops_instance_group" "nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  min_size     = var.node_min_size
-  max_size     = var.node_max_size
+  min_size     = lookup(local.min_nodes, each.key)
+  max_size     = lookup(local.max_nodes, each.key)
   machine_type = var.node_types[0]
   mixed_instances_policy {
     instances = var.node_types
@@ -355,6 +355,6 @@ data "aws_security_group" "nodes" {
 module "cluster_autoscaler" {
   source       = "opzkit/k8s-addons-cluster-autoscaler/aws"
   version      = "1.25.0.1"
-  replicas     = length(var.public_subnet_ids) * var.node_min_size > 1 ? 2 : 1
+  replicas     = local.min_number_of_nodes > 1 ? 2 : 1
   cluster_name = var.name
 }
