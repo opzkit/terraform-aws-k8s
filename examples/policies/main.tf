@@ -5,8 +5,8 @@ module "k8s" {
   bucket_state_store = aws_s3_bucket.state-store
   region             = "eu-west-1"
   vpc_id             = "vpc-123"
-  private_subnet_ids = { "a" : "subnet-123" }
-  public_subnet_ids  = { "a" : "subnet-987", "b" : "subnet-654" }
+  private_subnet_ids = { "a" : "subnet-1", "b" : "subnet-2", "c" : "subnet-3" }
+  public_subnet_ids  = { "a" : "subnet-4", "b" : "subnet-5", "c" : "subnet-6" }
   admin_ssh_key      = "../dummy_ssh_private"
   dns_zone           = "test.com"
   master_policies = [
