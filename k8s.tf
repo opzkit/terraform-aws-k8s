@@ -29,7 +29,19 @@ resource "kops_cluster" "k8s" {
   network_id         = var.vpc_id
 
   networking {
-    calico {}
+    dynamic "cilium" {
+      for_each = lookup(local.allowed_cnis, "cilium")
+      content {
+        cluster_name                = var.name
+        enable_remote_node_identity = true
+        preallocate_bpf_maps        = true
+      }
+    }
+
+    dynamic "calico" {
+      for_each = lookup(local.allowed_cnis, "calico")
+      content {}
+    }
   }
 
   topology {
