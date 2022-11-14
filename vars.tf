@@ -225,3 +225,9 @@ variable "external_cluster_autoscaler" {
   default     = false
   description = "Use external cluster autoscaler and not the built in kOps addon (to support clusters with only spot instances)"
 }
+
+variable "networking_cni" {
+  type        = string
+  default     = "calico"
+  description = "Which CNI provider to use, supported values are 'calico' and 'cilium'"
+}
