@@ -72,6 +72,12 @@ variable "master_on_demand_above_base" {
   description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
 }
 
+variable "master_spot_allocation_strategy" {
+  default     = "price-capacity-optimized"
+  type        = string
+  description = "The spot allocation strategy to use."
+}
+
 variable "master_count" {
   type        = number
   default     = 1
@@ -117,6 +123,12 @@ variable "node_on_demand_above_base" {
   description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
 }
 
+variable "node_spot_allocation_strategy" {
+  default     = "price-capacity-optimized"
+  type        = string
+  description = "The spot allocation strategy to use."
+}
+
 variable "node_max_instance_lifetime_hours" {
   type        = number
   description = "The maximum amount of time that an instance can be in service."
@@ -139,6 +151,7 @@ variable "additional_nodes" {
     on_demand_base              = number
     on_demand_above_base        = number
     max_instance_lifetime_hours = optional(number, 168)
+    spot_allocation_strategy    = optional(string, "price-capacity-optimized")
     image                       = optional(string)
   }))
   description = "Additional node groups"
