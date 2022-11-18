@@ -159,12 +159,6 @@ variable "node_policies" {
   description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
 }
 
-variable "aws_oidc_provider" {
-  type        = bool
-  default     = false
-  description = "Enable OIDC provider for IRSA, https://kops.sigs.k8s.io/cluster_spec/#service-account-issuer-discovery-and-aws-iam-roles-for-service-accounts-irsa"
-}
-
 variable "service_account_external_permissions" {
   type = list(object({
     name      = string
