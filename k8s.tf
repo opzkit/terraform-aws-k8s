@@ -106,9 +106,9 @@ resource "kops_cluster" "k8s" {
 
   iam {
     allow_container_registry                 = true
-    use_service_account_external_permissions = var.aws_oidc_provider
+    use_service_account_external_permissions = true
     dynamic "service_account_external_permissions" {
-      for_each = var.aws_oidc_provider ? local.external_permissions : []
+      for_each = local.external_permissions
       content {
         name      = service_account_external_permissions.value.name
         namespace = service_account_external_permissions.value.namespace
@@ -202,8 +202,8 @@ resource "kops_cluster" "k8s" {
   }
 
   service_account_issuer_discovery {
-    discovery_store          = var.aws_oidc_provider ? "s3://${aws_s3_bucket.issuer[0].bucket}" : null
-    enable_aws_oidc_provider = var.aws_oidc_provider
+    discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
+    enable_aws_oidc_provider = true
   }
 
   secrets {
