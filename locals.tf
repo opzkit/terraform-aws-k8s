@@ -46,8 +46,9 @@ locals {
 
   addons = flatten([
     var.extra_addons, [
-      local.default_request_adder
-    ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : []
+      local.default_request_adder,
+    ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : [],
+    var.alb_ssl_policy != null ? local.default_ingress : []
   ])
   addons_yaml = templatefile("${path.module}/addons/addons.yaml.tpl", {
     addons = local.addons

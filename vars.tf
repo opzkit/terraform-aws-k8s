@@ -225,3 +225,9 @@ variable "networking_cni" {
   default     = "calico"
   description = "Which CNI provider to use, supported values are 'calico' and 'cilium'"
 }
+
+variable "alb_ssl_policy" {
+  type        = string
+  default     = null
+  description = "SSL policy to use for ALB, https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/#ssl-policy"
+}
