@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: default
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/ssl-policy: '${ ssl_policy }'
+    alb.ingress.kubernetes.io/actions.response-200: >
+      {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"200","messageBody":"Default"}}
+  name: default-ingress
+spec:
+  rules:
+    - host: '${ host }'
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: response-200
+                port:
+                  name: use-annotation
+            pathType: Prefix
+  tls:
+    - hosts:
+        - '${ host }'
