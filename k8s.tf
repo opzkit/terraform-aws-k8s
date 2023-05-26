@@ -1,6 +1,7 @@
 resource "aws_s3_object" "extra_addons" {
   for_each = { for a in local.addons : "${a.name}-${a.version}" => a }
   bucket   = var.bucket_state_store.id
+  acl      = "private"
   key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
   content  = each.value.content
   etag     = md5(each.value.content)
