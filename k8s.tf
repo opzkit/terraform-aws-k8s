@@ -189,7 +189,7 @@ resource "kops_cluster" "k8s" {
   node_termination_handler {
     enable_prometheus_metrics         = false
     enable_scheduled_event_draining   = false
-    enable_spot_interruption_draining = false
+    enable_spot_interruption_draining = var.node_termination_handler_sqs
     enabled                           = true
     enable_sqs_termination_draining   = var.node_termination_handler_sqs
     managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
