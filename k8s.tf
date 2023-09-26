@@ -1,21 +1,21 @@
 resource "aws_s3_object" "extra_addons" {
-  for_each = { for a in local.addons : "${a.name}-${a.version}" => a }
-  bucket   = var.bucket_state_store.id
-  acl      = "private"
-  key      = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
-  content  = each.value.content
-  etag     = md5(each.value.content)
-  tags     = {}
-  metadata = {}
+  for_each    = { for a in local.addons : "${a.name}-${a.version}" => a }
+  bucket      = var.bucket_state_store.id
+  acl         = "private"
+  key         = "${var.name}-addons/${each.value.name}/v${each.value.version}.yaml"
+  content     = each.value.content
+  source_hash = md5(each.value.content)
+  tags        = {}
+  metadata    = {}
 }
 
 resource "aws_s3_object" "addons" {
-  bucket   = var.bucket_state_store.id
-  key      = "${var.name}-addons/addon.yaml"
-  content  = local.addons_yaml
-  etag     = md5(local.addons_yaml)
-  tags     = {}
-  metadata = {}
+  bucket      = var.bucket_state_store.id
+  key         = "${var.name}-addons/addon.yaml"
+  content     = local.addons_yaml
+  source_hash = md5(local.addons_yaml)
+  tags        = {}
+  metadata    = {}
 }
 
 resource "kops_cluster" "k8s" {

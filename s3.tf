@@ -11,7 +11,7 @@ resource "aws_s3_bucket_ownership_controls" "issuer" {
 }
 
 resource "aws_s3_bucket_public_access_block" "issuer" {
-  bucket = aws_s3_bucket.issuer.id
+  bucket                  = aws_s3_bucket.issuer.id
   block_public_acls       = false
   block_public_policy     = false
   ignore_public_acls      = false
