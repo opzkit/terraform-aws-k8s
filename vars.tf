@@ -48,6 +48,12 @@ variable "dns_zone" {
   description = "Name of DNS zone to use for cluster"
 }
 
+variable "image" {
+  type        = string
+  description = "The image to use for instances (can be overridden by master_image, node_image and image in additional_nodes)"
+  default     = ""
+}
+
 variable "master_types" {
   type        = list(string)
   default     = ["t3.medium"]
@@ -78,10 +84,16 @@ variable "master_max_instance_lifetime_hours" {
   default     = 168
 }
 
+variable "master_image" {
+  type        = string
+  description = "The image to use for master instances"
+  default     = ""
+}
+
 variable "node_types" {
   type        = list(string)
   default     = ["t3.medium"]
-  description = "Instance types for master instances. Specifying more than one instance type will result in a mixed instance policy."
+  description = "Instance types for node instances. Specifying more than one instance type will result in a mixed instance policy."
 }
 
 variable "node_size" {
@@ -111,6 +123,12 @@ variable "node_max_instance_lifetime_hours" {
   default     = 168
 }
 
+variable "node_image" {
+  type        = string
+  description = "The image to use for node instances"
+  default     = ""
+}
+
 variable "additional_nodes" {
   type = map(object({
     min_size                    = number
@@ -121,6 +139,7 @@ variable "additional_nodes" {
     on_demand_base              = number
     on_demand_above_base        = number
     max_instance_lifetime_hours = optional(number, 168)
+    image                       = optional(string)
   }))
   description = "Additional node groups"
   default     = {}
