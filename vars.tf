@@ -166,10 +166,16 @@ variable "iam_role_mappings" {
   description = "The IAM role arn that will be allowed access with a ClusterRole to the Kubernetes cluster. Mapping from IAM ARN => Kubernetes ClusterRole"
 }
 
+variable "control_plane_policies" {
+  type        = any
+  default     = []
+  description = "Additional control plane policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
+}
+
 variable "master_policies" {
   type        = any
   default     = []
-  description = "Additional master policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
+  description = "Deprecated, use control_plane_policies instead."
 }
 
 variable "node_policies" {
@@ -249,4 +255,10 @@ variable "alb_ssl_policy" {
   type        = string
   default     = null
   description = "SSL policy to use for ALB, https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/ingress/annotations/#ssl-policy"
+}
+
+variable "control_plane_prefix" {
+  type        = string
+  default     = "control-plane"
+  description = "Prefix of control plane instance groups"
 }
