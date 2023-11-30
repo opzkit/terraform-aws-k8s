@@ -105,7 +105,7 @@ resource "kops_cluster" "k8s" {
         for_each = local.master_subnets_zones
         content {
           name             = member.value
-          instance_group   = "master-${var.region}${member.value}"
+          instance_group   = "${var.control_plane_prefix}-${var.region}${member.value}"
           encrypted_volume = true
         }
       }
