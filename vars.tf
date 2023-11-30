@@ -262,3 +262,9 @@ variable "control_plane_prefix" {
   default     = "control-plane"
   description = "Prefix of control plane instance groups"
 }
+
+variable "backup_retention" {
+  type        = number
+  default     = 90
+  description = "Backup retention of etcd data in days"
+}

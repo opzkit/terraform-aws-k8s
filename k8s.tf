@@ -109,6 +109,12 @@ resource "kops_cluster" "k8s" {
           encrypted_volume = true
         }
       }
+
+      manager {
+        backup_retention_days = var.backup_retention
+        listen_metrics_ur_ls  = []
+        log_level             = 0
+      }
     }
   }
 
