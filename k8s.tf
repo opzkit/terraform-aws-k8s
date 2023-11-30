@@ -21,15 +21,63 @@ resource "aws_s3_object" "addons" {
 resource "kops_cluster" "k8s" {
   name          = var.name
   admin_ssh_key = var.admin_ssh_key != null ? file(var.admin_ssh_key) : null
+  config_store {
+    base = "s3://${var.bucket_state_store.id}/${var.name}"
+  }
   cloud_provider {
-    aws {}
+    aws {
+      load_balancer_controller {
+        enabled = true
+      }
+
+      node_termination_handler {
+        enable_prometheus_metrics         = false
+        enable_scheduled_event_draining   = false
+        enable_spot_interruption_draining = var.node_termination_handler_sqs
+        enabled                           = true
+        enable_sqs_termination_draining   = var.node_termination_handler_sqs
+        managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
+        enable_rebalance_draining         = var.enable_rebalance_draining
+        enable_rebalance_monitoring       = var.enable_rebalance_monitoring
+      }
+
+      pod_identity_webhook {
+        enabled  = true
+        replicas = local.min_number_of_nodes > 1 ? 2 : 1
+      }
+    }
   }
   channel            = "stable"
   kubernetes_version = var.kubernetes_version
   dns_zone           = var.dns_zone
-  network_id         = var.vpc_id
 
   networking {
+    network_id = var.vpc_id
+
+    topology {
+      dns = "Public"
+    }
+
+    dynamic "subnet" {
+      for_each = var.private_subnet_ids
+      content {
+        name = "private-${var.region}${subnet.key}"
+        id   = subnet.value
+        type = "Private"
+        zone = "${var.region}${subnet.key}"
+      }
+    }
+
+    dynamic "subnet" {
+      for_each = var.public_subnet_ids
+      content {
+        name = "utility-${var.region}${subnet.key}"
+        id   = subnet.value
+        type = "Utility"
+        zone = "${var.region}${subnet.key}"
+      }
+    }
+
     dynamic "cilium" {
       for_each = lookup(local.allowed_cnis, "cilium")
       content {
@@ -42,35 +90,6 @@ resource "kops_cluster" "k8s" {
     dynamic "calico" {
       for_each = lookup(local.allowed_cnis, "calico")
       content {}
-    }
-  }
-
-  topology {
-    masters = local.topology
-    nodes   = local.topology
-
-    dns {
-      type = "Public"
-    }
-  }
-
-  dynamic "subnet" {
-    for_each = var.private_subnet_ids
-    content {
-      name        = "private-${var.region}${subnet.key}"
-      provider_id = subnet.value
-      type        = "Private"
-      zone        = "${var.region}${subnet.key}"
-    }
-  }
-
-  dynamic "subnet" {
-    for_each = var.public_subnet_ids
-    content {
-      name        = "utility-${var.region}${subnet.key}"
-      provider_id = subnet.value
-      type        = "Utility"
-      zone        = "${var.region}${subnet.key}"
     }
   }
 
@@ -93,16 +112,13 @@ resource "kops_cluster" "k8s" {
     }
   }
 
-  kubernetes_api_access = [
-    "0.0.0.0/0"
-  ]
   ssh_access = [
     "0.0.0.0/0"
   ]
 
   additional_policies = {
-    master = length(local.master_policies) == 0 ? null : jsonencode(local.master_policies)
-    node   = length(local.node_policies) == 0 ? null : jsonencode(local.node_policies)
+    control-plane = length(local.control_plane_policies) == 0 ? null : jsonencode(local.control_plane_policies)
+    node          = length(local.node_policies) == 0 ? null : jsonencode(local.node_policies)
   }
 
   iam {
@@ -122,6 +138,7 @@ resource "kops_cluster" "k8s" {
   }
 
   api {
+    public_name = "api.${var.name}"
     dns {}
     dynamic "load_balancer" {
       for_each = var.api_loadbalancer ? [1] : []
@@ -130,6 +147,9 @@ resource "kops_cluster" "k8s" {
         class = "Network"
       }
     }
+    access = [
+      "0.0.0.0/0"
+    ]
   }
 
   authentication {
@@ -148,10 +168,6 @@ resource "kops_cluster" "k8s" {
 
   authorization {
     rbac {}
-  }
-
-  aws_load_balancer_controller {
-    enabled = true
   }
 
   cert_manager {
@@ -186,22 +202,6 @@ resource "kops_cluster" "k8s" {
     insecure = false
   }
 
-  node_termination_handler {
-    enable_prometheus_metrics         = false
-    enable_scheduled_event_draining   = false
-    enable_spot_interruption_draining = var.node_termination_handler_sqs
-    enabled                           = true
-    enable_sqs_termination_draining   = var.node_termination_handler_sqs
-    managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
-    enable_rebalance_draining         = var.enable_rebalance_draining
-    enable_rebalance_monitoring       = var.enable_rebalance_monitoring
-  }
-
-  pod_identity_webhook {
-    enabled  = true
-    replicas = local.min_number_of_nodes > 1 ? 2 : 1
-  }
-
   service_account_issuer_discovery {
     discovery_store          = "s3://${aws_s3_bucket.issuer.bucket}"
     enable_aws_oidc_provider = true
@@ -216,7 +216,7 @@ resource "kops_cluster" "k8s" {
   }
 
   external_policies {
-    key   = "master"
+    key   = "control-plane"
     value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
   }
 
@@ -229,8 +229,8 @@ resource "kops_cluster" "k8s" {
 resource "kops_instance_group" "masters" {
   for_each     = toset(local.master_subnets_zones)
   cluster_name = kops_cluster.k8s.id
-  name         = "master-${var.region}${each.key}"
-  role         = "Master"
+  name         = "${var.control_plane_prefix}-${var.region}${each.key}"
+  role         = "ControlPlane"
   image        = var.master_image != null ? var.master_image : var.image
   min_size     = 1
   max_size     = 1
@@ -249,7 +249,7 @@ resource "kops_instance_group" "masters" {
     "${local.node_group_subnet_prefix}${each.key}"
   ]
   node_labels = {
-    "kops.k8s.io/instancegroup" = "master-${var.region}${each.key}"
+    "kops.k8s.io/instancegroup" = "${var.control_plane_prefix}-${var.region}${each.key}"
   }
   depends_on = [
     kops_cluster.k8s
@@ -258,7 +258,7 @@ resource "kops_instance_group" "masters" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = var.master_max_instance_lifetime_hours != null ? "${var.master_max_instance_lifetime_hours + parseint(sha1("master-${var.region}${each.key}"), 16) % 10}h0m0s" : null
+  max_instance_lifetime = var.master_max_instance_lifetime_hours != null ? "${var.master_max_instance_lifetime_hours + parseint(sha1("${var.control_plane_prefix}-${var.region}${each.key}"), 16) % 10}h0m0s" : null
 }
 
 resource "kops_instance_group" "nodes" {
@@ -337,7 +337,6 @@ resource "kops_instance_group" "additional_nodes" {
   }
   max_instance_lifetime = each.value.max_instance_lifetime_hours != null ? "${each.value.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
 }
-
 
 resource "kops_cluster_updater" "k8s_updater" {
   cluster_name = kops_cluster.k8s.id
