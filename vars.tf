@@ -51,7 +51,7 @@ variable "dns_zone" {
 variable "image" {
   type        = string
   description = "The image to use for instances (can be overridden by master_image, node_image and image in additional_nodes)"
-  default     = ""
+  default     = null
 }
 
 variable "master_types" {
@@ -87,7 +87,7 @@ variable "master_max_instance_lifetime_hours" {
 variable "master_image" {
   type        = string
   description = "The image to use for master instances"
-  default     = ""
+  default     = null
 }
 
 variable "node_types" {
@@ -126,7 +126,7 @@ variable "node_max_instance_lifetime_hours" {
 variable "node_image" {
   type        = string
   description = "The image to use for node instances"
-  default     = ""
+  default     = null
 }
 
 variable "additional_nodes" {
