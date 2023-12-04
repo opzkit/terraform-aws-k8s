@@ -237,7 +237,7 @@ resource "kops_instance_group" "masters" {
   cluster_name = kops_cluster.k8s.id
   name         = "${var.control_plane_prefix}-${var.region}${each.key}"
   role         = "ControlPlane"
-  image        = var.master_image != null ? var.master_image : var.image
+  image        = coalesce(var.master_image, var.image, "${data.aws_ami.default_image.owner_id}/${data.aws_ami.default_image.name}")
   min_size     = 1
   max_size     = 1
   machine_type = var.master_types[0]
@@ -272,7 +272,7 @@ resource "kops_instance_group" "nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  image        = var.node_image != null ? var.node_image : var.image
+  image        = coalesce(var.node_image, var.image, "${data.aws_ami.default_image.owner_id}/${data.aws_ami.default_image.name}")
   min_size     = lookup(local.min_nodes, each.key)
   max_size     = lookup(local.max_nodes, each.key)
   machine_type = var.node_types[0]
@@ -311,7 +311,7 @@ resource "kops_instance_group" "additional_nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  image        = each.value.image != null ? each.value.image : var.image
+  image        = coalesce(each.value.image, var.image, "${data.aws_ami.default_image.owner_id}/${data.aws_ami.default_image.name}")
   min_size     = each.value.min_size
   max_size     = each.value.max_size
   machine_type = each.value.types[0]
