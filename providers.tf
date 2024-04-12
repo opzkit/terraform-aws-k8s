@@ -5,8 +5,8 @@ terraform {
       version = "~> 5.0"
     }
     kops = {
-      source  = "clayrisser/kops"
-      version = "1.28.0"
+      source  = "terraform-kops/kops"
+      version = "1.28.1"
     }
   }
   required_version = ">= 1.3.0"
