@@ -249,7 +249,7 @@ resource "kops_instance_group" "masters" {
     on_demand_above_base {
       value = var.master_on_demand_above_base
     }
-    spot_allocation_strategy = "capacity-optimized"
+    spot_allocation_strategy = var.master_spot_allocation_strategy
   }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
@@ -284,7 +284,7 @@ resource "kops_instance_group" "nodes" {
     on_demand_above_base {
       value = var.node_on_demand_above_base
     }
-    spot_allocation_strategy = "capacity-optimized"
+    spot_allocation_strategy = var.node_spot_allocation_strategy
   }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
@@ -323,7 +323,7 @@ resource "kops_instance_group" "additional_nodes" {
     on_demand_above_base {
       value = each.value.on_demand_above_base
     }
-    spot_allocation_strategy = "capacity-optimized"
+    spot_allocation_strategy = each.value.spot_allocation_strategy
   }
   subnets = tolist([for k, v in var.public_subnet_ids : "${local.node_group_subnet_prefix}${k}"])
   cloud_labels = {
