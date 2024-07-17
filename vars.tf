@@ -48,6 +48,18 @@ variable "dns_zone" {
   description = "Name of DNS zone to use for cluster"
 }
 
+variable "architecture" {
+  type        = string
+  description = "The architecture to use for finding ami image for nodes"
+  default     = "x86_64"
+}
+
+variable "master_architecture" {
+  type        = string
+  description = "The architecture to use for finding ami image for control plane"
+  default     = null
+}
+
 variable "image" {
   type        = string
   description = "The image to use for instances (can be overridden by master_image, node_image and image in additional_nodes)"
