@@ -12,6 +12,7 @@ metadata:
     alb.ingress.kubernetes.io/actions.response-200: >
       {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"200","messageBody":"Default"}}
   name: default-ingress
+  namespace: default
 spec:
   rules:
     - host: '${ host }'
