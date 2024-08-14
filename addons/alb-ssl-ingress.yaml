@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: alb-ssl-ingress
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -11,8 +16,8 @@ metadata:
     alb.ingress.kubernetes.io/ssl-policy: '${ ssl_policy }'
     alb.ingress.kubernetes.io/actions.response-200: >
       {"type":"fixed-response","fixedResponseConfig":{"contentType":"text/plain","statusCode":"200","messageBody":"Default"}}
-  name: default-ingress
-  namespace: default
+  name: alb-ssl-ingress
+  namespace: alb-ssl-ingress
 spec:
   rules:
     - host: '${ host }'
