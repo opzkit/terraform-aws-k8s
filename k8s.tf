@@ -201,6 +201,9 @@ resource "kops_cluster" "k8s" {
   }
 
   kubelet {
+    anonymous_auth {
+      value = false
+    }
   }
 
   metrics_server {
