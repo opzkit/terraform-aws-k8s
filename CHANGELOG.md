@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.16.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.15.1...v0.16.0) (2024-08-21)
+
+
+### Features
+
+* disable kubelet anonymous auth ([93adf2c](https://github.com/opzkit/terraform-aws-k8s/commit/93adf2c2b15fa76b0659444d50d541d54ded71e0))
+* update kops provider version to 1.29.0 ([82f3cd3](https://github.com/opzkit/terraform-aws-k8s/commit/82f3cd35ccd95b244804edda28edbb6d8b81d667))
+
+
+### Continuous Integration
+
+* fix typo in changelog section type ([a284d13](https://github.com/opzkit/terraform-aws-k8s/commit/a284d13dec36a0fda16e3bb65cf639886eb68697))
+
 ## [0.15.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.15.0...v0.15.1) (2024-08-14)
 
 
