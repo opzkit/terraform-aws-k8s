@@ -233,6 +233,10 @@ resource "kops_cluster" "k8s" {
     key   = "node"
     value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
   }
+
+  delete {
+    count = 0
+  }
 }
 
 resource "kops_instance_group" "masters" {
