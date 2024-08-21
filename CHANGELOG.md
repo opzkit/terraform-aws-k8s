@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.16.0...v0.16.1) (2024-08-21)
+
+
+### Bug Fixes
+
+* add delete block in cluster config ([bd09078](https://github.com/opzkit/terraform-aws-k8s/commit/bd09078fbd383667ceef9122e816693496a9fd9f))
+
 ## [0.16.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.15.1...v0.16.0) (2024-08-21)
 
 
