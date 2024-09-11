@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.16.1...v0.17.0) (2024-09-11)
+
+
+### Features
+
+* update kOps provider version to 1.30.0 ([04786cf](https://github.com/opzkit/terraform-aws-k8s/commit/04786cf1d1e668c8e7e4a1fbe3bfa9ae0d47076e))
+
 ## [0.16.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.16.0...v0.16.1) (2024-08-21)
 
 
