@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.18.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.17.0...v0.18.0) (2024-09-23)
+
+
+### Features
+
+* update kops provider version to 1.30.1 ([18e33a4](https://github.com/opzkit/terraform-aws-k8s/commit/18e33a4644418cf3710c89d31eb5d076dc9fc8c2))
+
+
+### Miscellaneous Chores
+
+* update cluster autoscaler module version ([f2db175](https://github.com/opzkit/terraform-aws-k8s/commit/f2db175481cda02a6c9d7620edd84007bafcea6b))
+
 ## [0.17.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.16.1...v0.17.0) (2024-09-11)
 
 
