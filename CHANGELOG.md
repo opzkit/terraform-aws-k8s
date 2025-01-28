@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.0...v0.18.1) (2025-01-28)
+
+
+### Miscellaneous Chores
+
+* **deps:** bump terraform-kops/kops from 1.30.1 to 1.30.3 ([31b7de2](https://github.com/opzkit/terraform-aws-k8s/commit/31b7de23f7b8aabe875954c09fab688f3b2b66c8))
+
 ## [0.18.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.17.0...v0.18.0) (2024-09-23)
 
 
