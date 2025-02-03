@@ -6,7 +6,7 @@ terraform {
     }
     kops = {
       source  = "terraform-kops/kops"
-      version = "1.30.3"
+      version = "1.30.4"
     }
   }
   required_version = ">= 1.3.0"
