@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.18.3](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.2...v0.18.3) (2025-02-04)
+
+
+### Miscellaneous Chores
+
+* **dependabot:** simplify terraform directories configuration ([52241fd](https://github.com/opzkit/terraform-aws-k8s/commit/52241fd6d20426ac72eeacba253feeb931fccdd1))
+* **deps:** bump terraform-kops/kops from 1.30.4 to 1.31.0 ([904baeb](https://github.com/opzkit/terraform-aws-k8s/commit/904baeb7b8a558039988c17e8a9f05af5d35f40f))
+
 ## [0.18.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.1...v0.18.2) (2025-02-03)
 
 
