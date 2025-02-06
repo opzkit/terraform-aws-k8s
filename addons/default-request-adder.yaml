@@ -39,14 +39,14 @@ metadata:
   annotations:
     cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
   labels:
-    app: default-request-adder
+    app.kubernetes.io/name: default-request-adder
   name: default-request-adder
   namespace: kube-system
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: default-request-adder
+      app.kubernetes.io/name: default-request-adder
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -55,7 +55,7 @@ spec:
   template:
     metadata:
       labels:
-        app: default-request-adder
+        app.kubernetes.io/name: default-request-adder
     spec:
       serviceAccountName: default-request-adder
       containers:
