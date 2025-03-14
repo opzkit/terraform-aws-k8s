@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.4](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.3...v0.18.4) (2025-03-14)
+
+
+### Code Refactoring
+
+* update label to use standardized naming convention ([3523c40](https://github.com/opzkit/terraform-aws-k8s/commit/3523c400c00ebc51d0f28a32f2a8859a4eb07595))
+
 ## [0.18.3](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.2...v0.18.3) (2025-02-04)
 
 
