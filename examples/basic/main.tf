@@ -23,4 +23,3 @@ resource "aws_s3_bucket_acl" "state-store" {
   bucket = aws_s3_bucket.state-store.id
   acl    = "public-read"
 }
-

@@ -62,7 +62,7 @@ locals {
   min_nodes               = tomap({ for k, v in var.public_subnet_ids : k => lookup(var.node_size, k, local.min_max_node_default).min })
   max_nodes               = tomap({ for k, v in var.public_subnet_ids : k => lookup(var.node_size, k, local.min_max_node_default).max })
   min_max_node_default    = { min : 1, max : 2 }
-  mox_nodes_less_than_min = anytrue(tolist([for k in keys(var.public_subnet_ids) : (lookup(local.min_nodes, k) > lookup(local.max_nodes, k))]))
+  mox_nodes_less_than_min = anytrue(tolist([for k in keys(var.public_subnet_ids) : (local.min_nodes[k] > local.max_nodes[k])]))
   min_number_of_nodes     = sum(values(local.min_nodes))
   allowed_cnis = {
     "cilium" : var.networking_cni == "cilium" ? [1] : []

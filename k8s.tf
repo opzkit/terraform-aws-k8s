@@ -79,7 +79,7 @@ resource "kops_cluster" "k8s" {
     }
 
     dynamic "cilium" {
-      for_each = lookup(local.allowed_cnis, "cilium")
+      for_each = local.allowed_cnis["cilium"]
       content {
         cluster_name                = var.name
         enable_remote_node_identity = true
@@ -88,7 +88,7 @@ resource "kops_cluster" "k8s" {
     }
 
     dynamic "calico" {
-      for_each = lookup(local.allowed_cnis, "calico")
+      for_each = local.allowed_cnis["calico"]
       content {}
     }
   }
@@ -280,8 +280,8 @@ resource "kops_instance_group" "nodes" {
   name         = "nodes-${each.key}"
   role         = "Node"
   image        = coalesce(var.node_image, var.image, "${data.aws_ami.default_node_image.owner_id}/${data.aws_ami.default_node_image.name}")
-  min_size     = lookup(local.min_nodes, each.key)
-  max_size     = lookup(local.max_nodes, each.key)
+  min_size     = local.min_nodes[each.key]
+  max_size     = local.max_nodes[each.key]
   machine_type = var.node_types[0]
   mixed_instances_policy {
     instances = var.node_types
