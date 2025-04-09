@@ -11,7 +11,7 @@ variable "name" {
 
 variable "bucket_state_store" {
   type = object({
-    id = string
+    id  = string
     arn = string
   })
   description = "The S3 bucket to use for kops state store. The bucket must exist!"
