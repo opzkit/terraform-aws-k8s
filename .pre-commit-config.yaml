@@ -1,0 +1,36 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args:
+          - --allow-multiple-documents
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-toml
+        args:
+          - --allow-multiple-documents
+      - id: no-commit-to-branch
+      - id:
+          check-added-large-files
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.22.0
+    hooks:
+      - id: commitlint
+        stages: [ commit-msg ]
+        additional_dependencies: [ '@commitlint/config-conventional' ]
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.98.1
+    hooks:
+      - id: terraform_tflint
+      - id: terraform_fmt
+      - id: terraform_checkov
+        language: docker_image
+        entry: --tty bridgecrew/checkov:3.2.354 --config-file checkov.yaml
+        pass_filenames: false

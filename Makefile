@@ -1,5 +1,3 @@
-#!/usr/bin/make -f
-
 SHELL = /bin/bash
 EXAMPLES = $(shell find ./examples/* -maxdepth 1 -type d -not -path '*/\.*')
 
@@ -12,4 +10,3 @@ example/%:
 	@terraform -chdir=$* init -upgrade
 	@terraform -chdir=$* validate
 	@terraform -chdir=$* plan
-

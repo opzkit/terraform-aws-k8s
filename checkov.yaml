@@ -1,0 +1,17 @@
+block-list-secret-scan: [ ]
+branch: master
+custom-tool-name: Checkov
+compact: true
+directory:
+  - .
+download-external-modules: true
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework:
+  - - terraform,terraform_plan,yaml,json,github_configuration,github_actions
+hard-fail-on: MEDIUM
+mask: [ ]
+quiet: true
+secrets-history-timeout: 12h
+secrets-scan-file-type: [ ]
+summary-position: top

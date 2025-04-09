@@ -8,6 +8,10 @@ terraform {
       source  = "terraform-kops/kops"
       version = "1.31.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.2.4-alpha.2"
+    }
   }
   required_version = ">= 1.3.0"
 }
