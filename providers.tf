@@ -6,11 +6,11 @@ terraform {
     }
     kops = {
       source  = "terraform-kops/kops"
-      version = "1.31.0"
+      version = "~> 1.31"
     }
     null = {
       source  = "hashicorp/null"
-      version = "3.2.4-alpha.2"
+      version = "~> 3.2"
     }
   }
   required_version = ">= 1.3.0"
