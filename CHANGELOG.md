@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.19.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.4...v0.19.0) (2025-04-09)
+
+
+### Features
+
+* refactor K8s resources and improve CI configuration ([#111](https://github.com/opzkit/terraform-aws-k8s/issues/111)) ([bca3c42](https://github.com/opzkit/terraform-aws-k8s/commit/bca3c42308f7f2d2a6ddc66bdb32e54c3cb7a6de))
+
+
+### Miscellaneous Chores
+
+* Configure Renovate ([154af0d](https://github.com/opzkit/terraform-aws-k8s/commit/154af0d360abad6ca0fc97eea337d886754a5d5a))
+* **deps:** add renovate.json ([ef60280](https://github.com/opzkit/terraform-aws-k8s/commit/ef60280ae69ceaa29107feedb3a38ebc7884184f))
+* **deps:** pin dependencies ([#109](https://github.com/opzkit/terraform-aws-k8s/issues/109)) ([f8cd24b](https://github.com/opzkit/terraform-aws-k8s/commit/f8cd24bbe1f4c6993a1e554393a5807f55600a01))
+* update pre-commit flow ([#112](https://github.com/opzkit/terraform-aws-k8s/issues/112)) ([11e3ae1](https://github.com/opzkit/terraform-aws-k8s/commit/11e3ae15622eb93f9d53f07ed3d0ee6d0b20e8db))
+
 ## [0.18.4](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.3...v0.18.4) (2025-03-14)
 
 
