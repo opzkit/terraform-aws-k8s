@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.19.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.0...v0.19.1) (2025-04-10)
+
+
+### Miscellaneous Chores
+
+* update required version and Kubernetes version ([#113](https://github.com/opzkit/terraform-aws-k8s/issues/113)) ([8dd7a3c](https://github.com/opzkit/terraform-aws-k8s/commit/8dd7a3c5542aec8385eb08b095b1abe6e7dd52a8))
+
 ## [0.19.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.18.4...v0.19.0) (2025-04-09)
 
 
