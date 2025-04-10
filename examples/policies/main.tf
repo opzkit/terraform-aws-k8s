@@ -1,7 +1,7 @@
 module "k8s" {
   source             = "../../"
   name               = "name"
-  kubernetes_version = "1.23.6"
+  kubernetes_version = "1.31.4"
   bucket_state_store = aws_s3_bucket.state-store
   region             = "eu-west-1"
   vpc_id             = "vpc-123"
