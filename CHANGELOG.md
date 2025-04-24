@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.19.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.1...v0.19.2) (2025-04-24)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/setup-python action to v5.6.0 ([#117](https://github.com/opzkit/terraform-aws-k8s/issues/117)) ([38f92e2](https://github.com/opzkit/terraform-aws-k8s/commit/38f92e28806984bfd1b0a2b77e0292cf9a2aad21))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.99.0 ([#115](https://github.com/opzkit/terraform-aws-k8s/issues/115)) ([f6e4b31](https://github.com/opzkit/terraform-aws-k8s/commit/f6e4b3144a7428283cca5b9bf4f61576d951816e))
+
 ## [0.19.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.0...v0.19.1) (2025-04-10)
 
 
