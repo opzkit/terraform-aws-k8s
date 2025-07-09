@@ -26,7 +26,7 @@ repos:
         stages: [ commit-msg ]
         additional_dependencies: [ '@commitlint/config-conventional' ]
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.99.4
+    rev: v1.99.5
     hooks:
       - id: terraform_tflint
       - id: terraform_fmt
