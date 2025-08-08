@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.19.3](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.2...v0.19.3) (2025-08-08)
+
+
+### Bug Fixes
+
+* **k8s:** add additional nodes to cluster updater dependencies ([#126](https://github.com/opzkit/terraform-aws-k8s/issues/126)) ([1763167](https://github.com/opzkit/terraform-aws-k8s/commit/176316748a5e94e9926c63079a81b279e3cc52b3))
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.100.0 ([#127](https://github.com/opzkit/terraform-aws-k8s/issues/127)) ([f5512e1](https://github.com/opzkit/terraform-aws-k8s/commit/f5512e143eec1e77b8597298d85b53941c565947))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.99.5 ([#124](https://github.com/opzkit/terraform-aws-k8s/issues/124)) ([39bc409](https://github.com/opzkit/terraform-aws-k8s/commit/39bc4091b213458461dc58873022137e832088b4))
+
 ## [0.19.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.1...v0.19.2) (2025-06-19)
 
 
