@@ -358,6 +358,7 @@ resource "kops_cluster_updater" "k8s_updater" {
     kops_cluster.k8s,
     kops_instance_group.masters,
     kops_instance_group.nodes,
+    kops_instance_group.additional_nodes,
   ]
 
   keepers = merge({ cluster = kops_cluster.k8s.revision },
