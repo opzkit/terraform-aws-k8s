@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get token
+        id: get_token
+        uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2
+        with:
+          app-id: ${{ vars.RELEASE_PLEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - uses: googleapis/release-please-action@a02a34c4d625f9be7cb89156071d8567266a2445 # v4
+        with:
+          token: ${{ steps.get_token.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
