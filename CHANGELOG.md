@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.19.4](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.3...v0.19.4) (2025-08-20)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v4.3.0 ([#131](https://github.com/opzkit/terraform-aws-k8s/issues/131)) ([31a1553](https://github.com/opzkit/terraform-aws-k8s/commit/31a1553f56d3b982e13464ced7a8ec95c86417c6))
+* **deps:** update actions/checkout action to v5 ([#132](https://github.com/opzkit/terraform-aws-k8s/issues/132)) ([59be62b](https://github.com/opzkit/terraform-aws-k8s/commit/59be62bec141e21aa249898163245769d5dc49aa))
+* **deps:** update actions/checkout digest to 08eba0b ([#130](https://github.com/opzkit/terraform-aws-k8s/issues/130)) ([fe057b0](https://github.com/opzkit/terraform-aws-k8s/commit/fe057b006c8e04e61b6d04128ecc18c863122f36))
+* **deps:** update googleapis/release-please-action digest to c2a5a2b ([#135](https://github.com/opzkit/terraform-aws-k8s/issues/135)) ([61acf68](https://github.com/opzkit/terraform-aws-k8s/commit/61acf6858463fb92205fea6328941b2bb69051e8))
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v6 ([#128](https://github.com/opzkit/terraform-aws-k8s/issues/128)) ([5c223d1](https://github.com/opzkit/terraform-aws-k8s/commit/5c223d1e4e966238507d423c4ac6cd463c9b57bc))
+* **deps:** update terraform-linters/setup-tflint action to v5 ([#133](https://github.com/opzkit/terraform-aws-k8s/issues/133)) ([3fa4be0](https://github.com/opzkit/terraform-aws-k8s/commit/3fa4be0ef67ac221e2ec97c2137eeff576770491))
+
+
+### Continuous Integration
+
+* add GitHub Actions workflow for release automation ([#134](https://github.com/opzkit/terraform-aws-k8s/issues/134)) ([d6fdf13](https://github.com/opzkit/terraform-aws-k8s/commit/d6fdf13963951e488e893b54f7e5c65c92c53fab))
+
 ## [0.19.3](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.2...v0.19.3) (2025-08-08)
 
 
