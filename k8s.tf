@@ -383,8 +383,7 @@ data "aws_security_group" "nodes" {
 }
 
 module "cluster_autoscaler" {
-  # Module version v1.33.2
-  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler.git?ref=8ec492bd68444c267a258e6db482a5856df935cf"
+  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler.git?ref=v1.33.2"
   replicas     = local.min_number_of_nodes > 1 ? 2 : 1
   cluster_name = var.name
 }
