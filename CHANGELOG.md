@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.19.5](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.4...v0.19.5) (2025-09-15)
+
+
+### Bug Fixes
+
+* update cluster autoscaler module source version ([#140](https://github.com/opzkit/terraform-aws-k8s/issues/140)) ([2c4d158](https://github.com/opzkit/terraform-aws-k8s/commit/2c4d158ef5102fa9b778ca6c8d83337c00aa80eb))
+
+
+### Miscellaneous Chores
+
+* **commitlint:** increase header max length to 105 chars ([#142](https://github.com/opzkit/terraform-aws-k8s/issues/142)) ([e7ca927](https://github.com/opzkit/terraform-aws-k8s/commit/e7ca927a14216ee3dbd090379caf295ff0b717e9))
+* **deps:** update actions/create-github-app-token digest to 6701853 ([#138](https://github.com/opzkit/terraform-aws-k8s/issues/138)) ([73ea1d9](https://github.com/opzkit/terraform-aws-k8s/commit/73ea1d9dabadba05df45fd77f56f8f0d188c7714))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler to v1.34.0 ([#141](https://github.com/opzkit/terraform-aws-k8s/issues/141)) ([0a7dccf](https://github.com/opzkit/terraform-aws-k8s/commit/0a7dccfd9ebd264313aad265cac5a6bb27bfce31))
+
 ## [0.19.4](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.3...v0.19.4) (2025-09-13)
 
 
