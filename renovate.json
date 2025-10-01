@@ -2,5 +2,22 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>opzkit/renovate-config"
+  ],
+  "kubernetes": {
+    "managerFilePatterns": [
+      ".+\\.yaml$/"
+    ]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update version variables in tf-files",
+      "managerFilePatterns": [
+        "/^outputs.tf$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?version = \"(?<currentValue>.+?)\"\\s"
+      ]
+    }
   ]
 }
