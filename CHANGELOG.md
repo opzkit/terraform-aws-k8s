@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.20.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.5...v0.20.0) (2025-10-01)
+
+
+### Features
+
+* add default_request_adder with excluded namespaces ([#146](https://github.com/opzkit/terraform-aws-k8s/issues/146)) ([47d6212](https://github.com/opzkit/terraform-aws-k8s/commit/47d6212aeeb75c989848be38f68183c783acef0a))
+* add package rules for default-request-adder grouping ([#154](https://github.com/opzkit/terraform-aws-k8s/issues/154)) ([f34e71f](https://github.com/opzkit/terraform-aws-k8s/commit/f34e71f583bd836923258db70dc0f36f5ded0d4d))
+
+
+### Bug Fixes
+
+* correct regex pattern for kubernetes managerFilePatterns ([#148](https://github.com/opzkit/terraform-aws-k8s/issues/148)) ([8d277d3](https://github.com/opzkit/terraform-aws-k8s/commit/8d277d3250c905781d8b242aeae098e3a11050b4))
+* update version and file references for default request adder ([#150](https://github.com/opzkit/terraform-aws-k8s/issues/150)) ([f52e2f6](https://github.com/opzkit/terraform-aws-k8s/commit/f52e2f64c35a24c013d78014450033143c84bd38))
+
+
+### Miscellaneous Chores
+
+* **deps:** pin registry.gitlab.com/unboundsoftware/default-request-adder docker tag to 1a57dce ([#149](https://github.com/opzkit/terraform-aws-k8s/issues/149)) ([a932c8e](https://github.com/opzkit/terraform-aws-k8s/commit/a932c8ee6a30cf2c171c8a1fed3f0b355ee306be))
+* **deps:** pin registry.gitlab.com/unboundsoftware/default-request-adder docker tag to 9eb0a0e ([#151](https://github.com/opzkit/terraform-aws-k8s/issues/151)) ([23d5ed0](https://github.com/opzkit/terraform-aws-k8s/commit/23d5ed0191e9b6e5ceeedc3079d2d676b4a76fcd))
+* **deps:** update default-request-adder to v1.2.1 ([#155](https://github.com/opzkit/terraform-aws-k8s/issues/155)) ([d0b8114](https://github.com/opzkit/terraform-aws-k8s/commit/d0b811415f719f037cd91f6ccd1ae138a57d895a))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.100.1 ([#143](https://github.com/opzkit/terraform-aws-k8s/issues/143)) ([8e4e1cd](https://github.com/opzkit/terraform-aws-k8s/commit/8e4e1cd9e12b8d5fb3c36585e0b286b5e299c3ed))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.101.0 ([#145](https://github.com/opzkit/terraform-aws-k8s/issues/145)) ([2dd709a](https://github.com/opzkit/terraform-aws-k8s/commit/2dd709afa382ab41159e7781b98738b6a380c2a5))
+
+
+### Continuous Integration
+
+* add custom manager for regex version updates ([#147](https://github.com/opzkit/terraform-aws-k8s/issues/147)) ([694b516](https://github.com/opzkit/terraform-aws-k8s/commit/694b5164069fdac118cbf7d285e70f708edf0777))
+
 ## [0.19.5](https://github.com/opzkit/terraform-aws-k8s/compare/v0.19.4...v0.19.5) (2025-09-15)
 
 
