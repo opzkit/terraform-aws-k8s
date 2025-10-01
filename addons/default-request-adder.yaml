@@ -15,8 +15,11 @@ rules:
     verbs: [ "list" ]
   - apiGroups: [ "" ]
     resources: [ "limitranges" ]
-    verbs: [ "list","create" ]
-
+    verbs: [ "list", "create" ]
+  - apiGroups: [ "" ]
+    resources: [ "limitranges" ]
+    resourceNames: [ "extreme-request-defaults" ]
+    verbs: [ "delete" ]
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
@@ -69,6 +72,6 @@ spec:
           image: registry.gitlab.com/unboundsoftware/default-request-adder:1.2.1@sha256:f2d57e96d7ade865740d93143f29efd64eee34aa180129e9cba16901ca058e51
           args:
             - /default-request-adder
-            - -excluded-ns=kube-system
+            - -excluded-ns=${ excluded_namespaces }
             - -memory=1Pi
       restartPolicy: Always

@@ -39,12 +39,6 @@ locals {
     }
   ] : [])
 
-  default_request_adder = {
-    name = "default_request_adder"
-    # renovate: datasource=gitlab-releases depName=unboundsoftware/default-request-adder
-    version = "1.2.1"
-    content = file("${path.module}/addons/default-request-adder.yaml")
-  }
 
   addons = flatten([
     var.extra_addons, [
