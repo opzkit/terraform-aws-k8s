@@ -8,6 +8,15 @@
       "/.+\\.yaml$/"
     ]
   },
+  "packageRules": [
+    {
+      "matchDepNames": [
+        "unboundsoftware/default-request-adder",
+        "registry.gitlab.com/unboundsoftware/default-request-adder"
+      ],
+      "groupName": "default-request-adder"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
