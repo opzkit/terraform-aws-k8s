@@ -66,7 +66,7 @@ spec:
             requests:
               memory: "50Mi"
           imagePullPolicy: Always
-          image: registry.gitlab.com/unboundsoftware/default-request-adder:1.0@sha256:1a57dcea1e8ea05f4e4b8ea325720f9d456a7b23a56064adcf91f1c04616d038
+          image: registry.gitlab.com/unboundsoftware/default-request-adder:1.1.4
           args:
             - /default-request-adder
             - -excluded-ns=kube-system
