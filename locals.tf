@@ -42,7 +42,7 @@ locals {
   default_request_adder = {
     name = "default_request_adder"
     # renovate: datasource=gitlab-releases depName=unboundsoftware/default-request-adder
-    version = "1.0"
+    version = "1.1.4"
     content = file("${path.module}/addons/default-request-adder.yaml")
   }
 
