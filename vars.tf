@@ -297,3 +297,9 @@ variable "backup_retention" {
   default     = 90
   description = "Backup retention of etcd data in days"
 }
+
+variable "default_request_adder_excluded_namespaces" {
+  type        = list(string)
+  default     = []
+  description = "Namespaces that should be excluded by default request adder (kube-system is always excluded), use * to disable (https://gitlab.com/unboundsoftware/default-request-adder)"
+}
