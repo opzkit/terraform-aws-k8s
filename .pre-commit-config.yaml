@@ -35,7 +35,7 @@ repos:
         entry: --tty bridgecrew/checkov:3.2.354 --config-file checkov.yaml
         pass_filenames: false
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 41.143.0
+    rev: 41.143.1
     hooks:
       - id: renovate-config-validator
         args: [ --strict ]
