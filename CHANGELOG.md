@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.21.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.20.1...v0.21.0) (2025-10-09)
+
+
+### Features
+
+* **k8s:** add containerd configuration support ([#179](https://github.com/opzkit/terraform-aws-k8s/issues/179)) ([246b237](https://github.com/opzkit/terraform-aws-k8s/commit/246b23748b81c8cc138d159bc6d668251138b67d))
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.101.1 ([#177](https://github.com/opzkit/terraform-aws-k8s/issues/177)) ([47b2145](https://github.com/opzkit/terraform-aws-k8s/commit/47b21452dd1b511d6a0af4d196134440dcfa4309))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.143.2 ([#180](https://github.com/opzkit/terraform-aws-k8s/issues/180)) ([14ba3a8](https://github.com/opzkit/terraform-aws-k8s/commit/14ba3a8236cfa1de41a5edfaca63b3962a2cfa10))
+
 ## [0.20.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.20.0...v0.20.1) (2025-10-09)
 
 
