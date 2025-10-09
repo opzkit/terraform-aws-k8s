@@ -303,3 +303,9 @@ variable "default_request_adder_excluded_namespaces" {
   default     = []
   description = "Namespaces that should be excluded by default request adder (kube-system is always excluded), use * to disable (https://gitlab.com/unboundsoftware/default-request-adder)"
 }
+
+variable "containerd_config_additions" {
+  type        = map(string)
+  description = "Additional config entries for the generated container.d comfig file"
+  default     = {}
+}

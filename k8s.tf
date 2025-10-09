@@ -19,6 +19,15 @@ resource "aws_s3_object" "addons" {
 }
 
 resource "kops_cluster" "k8s" {
+  containerd {
+    dynamic "config_additions" {
+      for_each = var.containerd_config_additions
+      content {
+        key   = config_additions.key
+        value = config_additions.value
+      }
+    }
+  }
   name          = var.name
   admin_ssh_key = var.admin_ssh_key != null ? file(var.admin_ssh_key) : null
   config_store {
