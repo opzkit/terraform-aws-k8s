@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.21.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.0...v0.21.1) (2025-10-11)
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.144.0 ([#181](https://github.com/opzkit/terraform-aws-k8s/issues/181)) ([44331ee](https://github.com/opzkit/terraform-aws-k8s/commit/44331ee17bc0991c4a31dfaed4d9fde169236c2a))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.144.1 ([#183](https://github.com/opzkit/terraform-aws-k8s/issues/183)) ([143b48d](https://github.com/opzkit/terraform-aws-k8s/commit/143b48df97bb1ec44a414815bf91fb67494bc395))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.144.3 ([#184](https://github.com/opzkit/terraform-aws-k8s/issues/184)) ([f74d77d](https://github.com/opzkit/terraform-aws-k8s/commit/f74d77df09d0e95b39d69621c71085a994f9beca))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.144.4 ([#185](https://github.com/opzkit/terraform-aws-k8s/issues/185)) ([0823a89](https://github.com/opzkit/terraform-aws-k8s/commit/0823a89e758a9bc6f3868aa2ede750d574485355))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.145.1 ([#186](https://github.com/opzkit/terraform-aws-k8s/issues/186)) ([28024c0](https://github.com/opzkit/terraform-aws-k8s/commit/28024c0cc81fd4704646d524aab933346c19b1ba))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.145.3 ([#187](https://github.com/opzkit/terraform-aws-k8s/issues/187)) ([72f9b22](https://github.com/opzkit/terraform-aws-k8s/commit/72f9b22a0066f3852a9fab9e2eb2e31490d5a5b1))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.146.0 ([#188](https://github.com/opzkit/terraform-aws-k8s/issues/188)) ([a398d38](https://github.com/opzkit/terraform-aws-k8s/commit/a398d3895b1bddcb17f619b25a7b7750a90c96d8))
+
 ## [0.21.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.20.1...v0.21.0) (2025-10-09)
 
 
