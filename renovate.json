@@ -15,6 +15,15 @@
         "registry.gitlab.com/unboundsoftware/default-request-adder"
       ],
       "groupName": "default-request-adder"
+    },
+    {
+      "description": "Schedule Renovate pre-commit hook updates daily (0:00-1:59)",
+      "matchPackageNames": [
+        "renovatebot/pre-commit-hooks"
+      ],
+      "schedule": [
+        "* 0-1 * * *"
+      ]
     }
   ],
   "customManagers": [
