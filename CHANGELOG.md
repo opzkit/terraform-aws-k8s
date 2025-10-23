@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.1...v0.21.2) (2025-10-23)
+
+
+### Code Refactoring
+
+* remove unused cluster_name variable ([#196](https://github.com/opzkit/terraform-aws-k8s/issues/196)) ([4e7f2e8](https://github.com/opzkit/terraform-aws-k8s/commit/4e7f2e8994b51408349d4a1151c804056bd3890e))
+
 ## [0.21.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.0...v0.21.1) (2025-10-22)
 
 
