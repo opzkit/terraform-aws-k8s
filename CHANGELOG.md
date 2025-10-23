@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.21.3](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.2...v0.21.3) (2025-10-23)
+
+
+### Miscellaneous Chores
+
+* **deps:** update googleapis/release-please-action digest to 16a9c90 ([#198](https://github.com/opzkit/terraform-aws-k8s/issues/198)) ([c6bff6e](https://github.com/opzkit/terraform-aws-k8s/commit/c6bff6e2d421d2baeb06b166d356277fa16ca1e6))
+
 ## [0.21.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.1...v0.21.2) (2025-10-23)
 
 
