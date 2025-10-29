@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.2...v0.22.0) (2025-10-29)
+
+
+### Features
+
+* add private and public subnet variables with validation ([#201](https://github.com/opzkit/terraform-aws-k8s/issues/201)) ([54cc189](https://github.com/opzkit/terraform-aws-k8s/commit/54cc189904a784f26f202e592bc71720d4175aba))
+* k8s-cilium-kubeproxy-update ([#200](https://github.com/opzkit/terraform-aws-k8s/issues/200)) ([2a0453c](https://github.com/opzkit/terraform-aws-k8s/commit/2a0453c342e5aceffc24f42ed89cf72df5d90595))
+* update subnet handling based on environment type ([#202](https://github.com/opzkit/terraform-aws-k8s/issues/202)) ([d3ce1cb](https://github.com/opzkit/terraform-aws-k8s/commit/d3ce1cb7feabd96264e10782717386eaf1859dbd))
+
+
+### Miscellaneous Chores
+
+* **deps:** update googleapis/release-please-action digest to 16a9c90 ([#198](https://github.com/opzkit/terraform-aws-k8s/issues/198)) ([c6bff6e](https://github.com/opzkit/terraform-aws-k8s/commit/c6bff6e2d421d2baeb06b166d356277fa16ca1e6))
+
 ## [0.21.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.1...v0.21.2) (2025-10-23)
 
 
