@@ -44,6 +44,7 @@ locals {
     var.extra_addons, [
       local.default_request_adder,
     ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : [],
+    length(local.allowed_cnis["cilium"]) == 1 ? local.cilium_patch_role : [],
     var.alb_ssl_policy != null ? local.default_ingress : []
   ])
   addons_yaml = templatefile("${path.module}/addons/addons.yaml.tpl", {

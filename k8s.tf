@@ -59,7 +59,9 @@ resource "kops_cluster" "k8s" {
   channel            = "stable"
   kubernetes_version = var.kubernetes_version
   dns_zone           = var.dns_zone
-
+  kube_proxy {
+    enabled = length(local.allowed_cnis["cilium"]) == 0
+  }
   networking {
     network_id = var.vpc_id
 
@@ -92,6 +94,7 @@ resource "kops_cluster" "k8s" {
       content {
         enable_remote_node_identity = true
         preallocate_bpf_maps        = true
+        enable_node_port            = true
       }
     }
 
