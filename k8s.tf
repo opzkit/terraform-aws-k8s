@@ -333,6 +333,12 @@ resource "kops_instance_group" "nodes" {
 }
 
 resource "kops_instance_group" "additional_nodes" {
+  lifecycle {
+    precondition {
+      condition     = !each.value.private || (each.value.private && local.private_subnets_enabled)
+      error_message = "nodegroup ${each.key} is specified to run in private subnet, but private subnets are not provided. Try setting variable private_subnets"
+    }
+  }
   for_each     = var.additional_nodes
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"

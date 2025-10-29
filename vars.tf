@@ -177,6 +177,7 @@ variable "node_image" {
 
 variable "additional_nodes" {
   type = map(object({
+    private                     = optional(bool, false)
     min_size                    = number
     max_size                    = number
     types                       = list(string)
