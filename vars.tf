@@ -41,10 +41,28 @@ variable "public_subnet_ids" {
   type        = map(string)
   default     = {}
   description = "A map of public subnet ids to use in the form <zone> => <id>"
+}
+
+variable "private_subnets" {
+  type = map(object({
+    cidr_block = string
+    id         = string
+  }))
+  default     = {}
+  description = "A map of private subnet ids to use in the form <zone> => <id>"
   validation {
-    condition     = length(var.public_subnet_ids) >= 2
-    error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
+    condition     = length(var.private_subnets) == 0 || length(var.private_subnets) % 2 == 1
+    error_message = "The number of private subnets must be odd (1,3) or zero."
   }
+}
+
+variable "public_subnets" {
+  type = map(object({
+    cidr_block = string
+    id         = string
+  }))
+  default     = {}
+  description = "A map of public subnet ids to use in the form <zone> => <id>"
 }
 
 variable "dns_zone" {
@@ -159,6 +177,7 @@ variable "node_image" {
 
 variable "additional_nodes" {
   type = map(object({
+    private                     = optional(bool, false)
     min_size                    = number
     max_size                    = number
     types                       = list(string)

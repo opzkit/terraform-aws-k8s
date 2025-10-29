@@ -19,6 +19,12 @@ resource "aws_s3_object" "addons" {
 }
 
 resource "kops_cluster" "k8s" {
+  lifecycle {
+    precondition {
+      condition     = length(local.public_subnets) >= 2
+      error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
+    }
+  }
   containerd {
     dynamic "config_additions" {
       for_each = var.containerd_config_additions
@@ -70,20 +76,22 @@ resource "kops_cluster" "k8s" {
     }
 
     dynamic "subnet" {
-      for_each = var.private_subnet_ids
+      for_each = local.private_subnets
       content {
+        cidr = subnet.value.cidr_block
         name = "private-${var.region}${subnet.key}"
-        id   = subnet.value
+        id   = subnet.value.id
         type = "Private"
         zone = "${var.region}${subnet.key}"
       }
     }
 
     dynamic "subnet" {
-      for_each = var.public_subnet_ids
+      for_each = local.public_subnets
       content {
+        cidr = subnet.value.cidr_block
         name = "utility-${var.region}${subnet.key}"
-        id   = subnet.value
+        id   = subnet.value.id
         type = "Utility"
         zone = "${var.region}${subnet.key}"
       }
@@ -286,7 +294,7 @@ resource "kops_instance_group" "masters" {
 }
 
 resource "kops_instance_group" "nodes" {
-  for_each     = var.public_subnet_ids
+  for_each     = local.public_subnets
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
@@ -325,6 +333,12 @@ resource "kops_instance_group" "nodes" {
 }
 
 resource "kops_instance_group" "additional_nodes" {
+  lifecycle {
+    precondition {
+      condition     = !each.value.private || (each.value.private && local.private_subnets_enabled)
+      error_message = "nodegroup ${each.key} is specified to run in private subnet, but private subnets are not provided. Try setting variable private_subnets"
+    }
+  }
   for_each     = var.additional_nodes
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
@@ -343,7 +357,7 @@ resource "kops_instance_group" "additional_nodes" {
     }
     spot_allocation_strategy = each.value.spot_allocation_strategy
   }
-  subnets = tolist([for k, v in var.public_subnet_ids : "${local.node_group_subnet_prefix}${k}"])
+  subnets = tolist([for k, v in local.public_subnets : "${local.node_group_subnet_prefix}${k}"])
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
