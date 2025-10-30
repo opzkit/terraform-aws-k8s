@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.22.0...v0.22.1) (2025-10-30)
+
+
+### Miscellaneous Chores
+
+* **deps:** update terraform-linters/setup-tflint action to v6.2.1 ([#203](https://github.com/opzkit/terraform-aws-k8s/issues/203)) ([5cce1a1](https://github.com/opzkit/terraform-aws-k8s/commit/5cce1a1826530d0b516aa61ee057f195b334bf4b))
+
 ## [0.22.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.2...v0.22.0) (2025-10-29)
 
 
