@@ -5,13 +5,15 @@ module "k8s" {
   bucket_state_store = aws_s3_bucket.state-store
   region             = "eu-west-1"
   vpc_id             = "vpc-123"
-  private_subnet_ids = { "a" : "subnet-1", "b" : "subnet-2", "c" : "subnet-3" }
-  public_subnet_ids  = { "a" : "subnet-4", "b" : "subnet-5", "c" : "subnet-6" }
+  private_subnets    = { "a" : { id : "subnet-1", cidr_block : "" }, "b" : { id : "subnet-2", cidr_block : "" }, "c" : { id : "subnet-3", cidr_block : "" } }
+  public_subnets     = { "a" : { id : "subnet-4", cidr_block : "" }, "b" : { id : "subnet-5", cidr_block : "" }, "c" : { id : "subnet-6", cidr_block : "" } }
   admin_ssh_key      = "../dummy_ssh_private"
   dns_zone           = "test.com"
-  master_policies = [
-    local.master_policy_some_bucket_access
-  ]
+  control_plane = {
+    policies = [
+      local.master_policy_some_bucket_access
+    ]
+  }
   iam_role_mappings = { "iam_role" : "system:masters" }
 }
 

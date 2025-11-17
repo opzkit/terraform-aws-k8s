@@ -36,7 +36,7 @@ data "aws_ami" "default_master_image" {
 
   filter {
     name   = "architecture"
-    values = [coalesce(var.master_architecture, var.architecture)]
+    values = [coalesce(var.control_plane_architecture, var.architecture)]
   }
 
   filter {

@@ -27,22 +27,6 @@ variable "vpc_id" {
   description = "Id of VPC to use for cluster"
 }
 
-variable "private_subnet_ids" {
-  type        = map(string)
-  default     = {}
-  description = "A map of private subnet ids to use in the form <zone> => <id>"
-  validation {
-    condition     = length(var.private_subnet_ids) == 0 || length(var.private_subnet_ids) % 2 == 1
-    error_message = "The number of private subnets must be odd (1,3) or zero."
-  }
-}
-
-variable "public_subnet_ids" {
-  type        = map(string)
-  default     = {}
-  description = "A map of public subnet ids to use in the form <zone> => <id>"
-}
-
 variable "private_subnets" {
   type = map(object({
     cidr_block = string
@@ -50,10 +34,6 @@ variable "private_subnets" {
   }))
   default     = {}
   description = "A map of private subnet ids to use in the form <zone> => <id>"
-  validation {
-    condition     = length(var.private_subnets) == 0 || length(var.private_subnets) % 2 == 1
-    error_message = "The number of private subnets must be odd (1,3) or zero."
-  }
 }
 
 variable "public_subnets" {
@@ -63,6 +43,10 @@ variable "public_subnets" {
   }))
   default     = {}
   description = "A map of public subnet ids to use in the form <zone> => <id>"
+  validation {
+    condition     = length(var.public_subnets) >= 2
+    error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
+  }
 }
 
 variable "dns_zone" {
@@ -76,7 +60,7 @@ variable "architecture" {
   default     = "x86_64"
 }
 
-variable "master_architecture" {
+variable "control_plane_architecture" {
   type        = string
   description = "The architecture to use for finding ami image for control plane"
   default     = null
@@ -88,91 +72,66 @@ variable "image" {
   default     = null
 }
 
-variable "master_types" {
-  type        = list(string)
-  default     = ["t3.medium"]
-  description = "Instance types for master instances. Specifying more than one instance type will result in a mixed instance policy."
+variable "control_plane" {
+  type = object({
+    size = optional(map(object({
+      min : optional(number, 1)
+      max : optional(number, 2)
+      })), {
+      "a" = {}
+      "b" = {}
+      "c" = {}
+    })
+    policies                    = optional(list(any), [])
+    types                       = optional(list(string), ["t3.medium"])
+    labels                      = optional(map(string), {})
+    on_demand_base              = optional(number, 0)
+    on_demand_above_base        = optional(number, 0)
+    max_instance_lifetime_hours = optional(number, 168)
+    spot_allocation_strategy    = optional(string, "price-capacity-optimized")
+    image                       = optional(string)
+    rolling_update = optional(object({
+      drain_and_terminate = optional(bool, true)
+      max_surge           = optional(string, "1")
+      max_unavailable     = optional(string, "1")
+    }), {})
+  })
+  description = "Controlplane node group"
+  default     = {}
 }
 
-variable "master_on_demand_base" {
-  default     = 0
-  type        = number
-  description = "Number of instances in each group to keep as on demand. Specifying 0 will only use spot instances."
+variable "nodes" {
+  type = object({
+    size = optional(map(object({
+      min : optional(number, 1)
+      max : optional(number, 2)
+      })), {
+      "a" = {}
+      "b" = {}
+      "c" = {}
+    })
+    policies                    = optional(list(any), [])
+    types                       = optional(list(string), ["t3.medium"])
+    labels                      = optional(map(string), {})
+    on_demand_base              = optional(number, 0)
+    on_demand_above_base        = optional(number, 0)
+    max_instance_lifetime_hours = optional(number, 168)
+    spot_allocation_strategy    = optional(string, "price-capacity-optimized")
+    image                       = optional(string)
+    rolling_update = optional(object({
+      drain_and_terminate = optional(bool, true)
+      max_surge           = optional(string, "1")
+      max_unavailable     = optional(string, "1")
+    }), {})
+  })
+  description = "Default node group"
+  default     = {}
 }
 
-variable "master_on_demand_above_base" {
-  default     = 0
-  type        = number
-  description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
-}
-
-variable "master_spot_allocation_strategy" {
-  default     = "price-capacity-optimized"
-  type        = string
-  description = "The spot allocation strategy to use."
-}
-
-variable "master_count" {
-  type        = number
-  default     = 1
-  description = "Number of master instances"
-}
-
-variable "master_max_instance_lifetime_hours" {
-  type        = number
-  description = "The maximum amount of time that an instance can be in service."
-  default     = 168
-}
-
-variable "master_image" {
-  type        = string
-  description = "The image to use for master instances"
-  default     = null
-}
-
-variable "node_types" {
-  type        = list(string)
-  default     = ["t3.medium"]
-  description = "Instance types for node instances. Specifying more than one instance type will result in a mixed instance policy."
-}
-
-variable "node_size" {
-  default = {}
-  type = map(object({
-    min : optional(number, 1)
-    max : optional(number, 2)
-  }))
-  description = "A map of node min/max sizes to use for the node groups in each zone, <zone> => <min,max>"
-}
-
-variable "node_on_demand_base" {
-  default     = 0
-  type        = number
-  description = "Number of instances in each group to keep as on demand. Specifying 0 will only use spot instances."
-}
-
-variable "node_on_demand_above_base" {
-  default     = 0
-  type        = number
-  description = "Percentage of instances in each group above base to keep as on demand. Specifying 0 will only use spot instances."
-}
-
-variable "node_spot_allocation_strategy" {
-  default     = "price-capacity-optimized"
-  type        = string
-  description = "The spot allocation strategy to use."
-}
-
-variable "node_max_instance_lifetime_hours" {
-  type        = number
-  description = "The maximum amount of time that an instance can be in service."
-  default     = 168
-}
-
-variable "node_image" {
-  type        = string
-  description = "The image to use for node instances"
-  default     = null
+variable "node_termination_handler_sqs" {
+  type        = bool
+  default     = false
+  description = "Use SQS for Node Termination Handler draining"
 }
 
 variable "additional_nodes" {
@@ -188,6 +147,15 @@ variable "additional_nodes" {
     max_instance_lifetime_hours = optional(number, 168)
     spot_allocation_strategy    = optional(string, "price-capacity-optimized")
     image                       = optional(string)
+    rolling_update = optional(object({
+      drain_and_terminate = bool
+      max_surge           = string
+      max_unavailable     = string
+      }), {
+      drain_and_terminate = true
+      max_surge           = "1"
+      max_unavailable     = "1"
+    })
   }))
   description = "Additional node groups"
   default     = {}
@@ -214,24 +182,6 @@ variable "iam_role_mappings" {
   description = "The IAM role arn that will be allowed access with a ClusterRole to the Kubernetes cluster. Mapping from IAM ARN => Kubernetes ClusterRole"
 }
 
-variable "control_plane_policies" {
-  type        = any
-  default     = []
-  description = "Additional control plane policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
-}
-
-variable "master_policies" {
-  type        = any
-  default     = []
-  description = "Deprecated, use control_plane_policies instead."
-}
-
-variable "node_policies" {
-  type        = any
-  default     = []
-  description = "Additional node policies, https://kops.sigs.k8s.io/iam_roles/#adding-additional-policies"
-}
-
 variable "service_account_external_permissions" {
   type = list(object({
     name      = string
@@ -249,12 +199,6 @@ variable "api_loadbalancer" {
   type        = bool
   default     = true
   description = "Should a LoadBalancer be created for the Kubernetes API"
-}
-
-variable "node_termination_handler_sqs" {
-  type        = bool
-  default     = false
-  description = "Use SQS for Node Termination Handler draining"
 }
 
 variable "enable_rebalance_draining" {
