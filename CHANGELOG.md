@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.23.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.22.0...v0.23.0) (2025-11-17)
+
+
+### Features
+
+* **k8s:** add node-role labels for better categorization ([#210](https://github.com/opzkit/terraform-aws-k8s/issues/210)) ([e8c3ea7](https://github.com/opzkit/terraform-aws-k8s/commit/e8c3ea703c9ee67bdf26018b60a57bde6fa8862e))
+* **k8s:** refactor instance group configuration and settings ([#211](https://github.com/opzkit/terraform-aws-k8s/issues/211)) ([ae4995f](https://github.com/opzkit/terraform-aws-k8s/commit/ae4995f7f8015b7886b0acf74403a335c372b8db))
+
+
+### Miscellaneous Chores
+
+* **automerge:** integrate GitHub app token for auto-merge ([#207](https://github.com/opzkit/terraform-aws-k8s/issues/207)) ([ed66f69](https://github.com/opzkit/terraform-aws-k8s/commit/ed66f693afc56424de775c8694290ba886d097d8))
+* **deps:** update default-request-adder to v1.2.2 ([#208](https://github.com/opzkit/terraform-aws-k8s/issues/208)) ([2b542aa](https://github.com/opzkit/terraform-aws-k8s/commit/2b542aa83abec954fe6fbaee56017274430f8abc))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v41.173.1 ([#205](https://github.com/opzkit/terraform-aws-k8s/issues/205)) ([16d0767](https://github.com/opzkit/terraform-aws-k8s/commit/16d0767a5112efb84f762badb96c6d8f4df07bbd))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42 ([#206](https://github.com/opzkit/terraform-aws-k8s/issues/206)) ([d916786](https://github.com/opzkit/terraform-aws-k8s/commit/d916786c4b04870ea42c9988f5036e01ab1cca62))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.11.0 ([#209](https://github.com/opzkit/terraform-aws-k8s/issues/209)) ([6ed63b1](https://github.com/opzkit/terraform-aws-k8s/commit/6ed63b1e67a3108cacd93c31f8a54383074e8e44))
+* **deps:** update terraform-linters/setup-tflint action to v6.2.1 ([#203](https://github.com/opzkit/terraform-aws-k8s/issues/203)) ([5cce1a1](https://github.com/opzkit/terraform-aws-k8s/commit/5cce1a1826530d0b516aa61ee057f195b334bf4b))
+
 ## [0.22.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.21.2...v0.22.0) (2025-10-29)
 
 
