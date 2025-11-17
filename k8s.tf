@@ -39,6 +39,7 @@ resource "kops_cluster" "k8s" {
   config_store {
     base = "s3://${var.bucket_state_store.id}/${var.name}"
   }
+
   cloud_provider {
     aws {
       load_balancer_controller {
@@ -121,7 +122,7 @@ resource "kops_cluster" "k8s" {
       name = etcd_cluster.value
 
       dynamic "member" {
-        for_each = local.master_subnets_zones
+        for_each = toset([for k, v in var.control_plane.size : k if v.max > 0])
         content {
           name             = member.value
           instance_group   = "${var.control_plane_prefix}-${var.region}${member.value}"
@@ -259,23 +260,23 @@ resource "kops_cluster" "k8s" {
 }
 
 resource "kops_instance_group" "masters" {
-  for_each     = toset(local.master_subnets_zones)
+  for_each     = toset([for k, v in var.control_plane.size : k if v.max > 0])
   cluster_name = kops_cluster.k8s.id
   name         = "${var.control_plane_prefix}-${var.region}${each.key}"
   role         = "ControlPlane"
-  image        = coalesce(var.master_image, var.image, "${data.aws_ami.default_master_image.owner_id}/${data.aws_ami.default_master_image.name}")
-  min_size     = 1
-  max_size     = 1
-  machine_type = var.master_types[0]
+  image        = coalesce(var.control_plane.image, var.image, "${data.aws_ami.default_master_image.owner_id}/${data.aws_ami.default_master_image.name}")
+  min_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).min
+  max_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).max
+  machine_type = var.control_plane.types[0]
   mixed_instances_policy {
-    instances = var.master_types
+    instances = var.control_plane.types
     on_demand_base {
-      value = var.master_on_demand_base
+      value = var.control_plane.on_demand_base
     }
     on_demand_above_base {
-      value = var.master_on_demand_above_base
+      value = var.control_plane.on_demand_above_base
     }
-    spot_allocation_strategy = var.master_spot_allocation_strategy
+    spot_allocation_strategy = var.control_plane.spot_allocation_strategy
   }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
@@ -291,7 +292,7 @@ resource "kops_instance_group" "masters" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = var.master_max_instance_lifetime_hours != null ? "${var.master_max_instance_lifetime_hours + parseint(sha1("${var.control_plane_prefix}-${var.region}${each.key}"), 16) % 10}h0m0s" : null
+  max_instance_lifetime = var.control_plane.max_instance_lifetime_hours != null ? "${var.control_plane.max_instance_lifetime_hours + parseint(sha1("${var.control_plane_prefix}-${var.region}${each.key}"), 16) % 10}h0m0s" : null
 }
 
 resource "kops_instance_group" "nodes" {
@@ -299,19 +300,19 @@ resource "kops_instance_group" "nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  image        = coalesce(var.node_image, var.image, "${data.aws_ami.default_node_image.owner_id}/${data.aws_ami.default_node_image.name}")
-  min_size     = local.min_nodes[each.key]
-  max_size     = local.max_nodes[each.key]
-  machine_type = var.node_types[0]
+  image        = coalesce(var.nodes.image, var.image, "${data.aws_ami.default_node_image.owner_id}/${data.aws_ami.default_node_image.name}")
+  min_size     = var.nodes.size[each.key].min
+  max_size     = var.nodes.size[each.key].max
+  machine_type = var.nodes.types[0]
   mixed_instances_policy {
-    instances = var.node_types
+    instances = var.nodes.types
     on_demand_base {
-      value = var.node_on_demand_base
+      value = var.nodes.on_demand_base
     }
     on_demand_above_base {
-      value = var.node_on_demand_above_base
+      value = var.nodes.on_demand_above_base
     }
-    spot_allocation_strategy = var.node_spot_allocation_strategy
+    spot_allocation_strategy = var.nodes.spot_allocation_strategy
   }
   subnets = [
     "${local.node_group_subnet_prefix}${each.key}"
@@ -331,7 +332,13 @@ resource "kops_instance_group" "nodes" {
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = var.node_max_instance_lifetime_hours != null ? "${var.node_max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
+  max_instance_lifetime = var.nodes.max_instance_lifetime_hours != null ? "${var.nodes.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
+
+  rolling_update {
+    drain_and_terminate = var.nodes.rolling_update.drain_and_terminate
+    max_surge           = var.nodes.rolling_update.max_surge
+    max_unavailable     = var.nodes.rolling_update.max_unavailable
+  }
 }
 
 resource "kops_instance_group" "additional_nodes" {
@@ -377,6 +384,12 @@ resource "kops_instance_group" "additional_nodes" {
     http_put_response_hop_limit = 3
   }
   max_instance_lifetime = each.value.max_instance_lifetime_hours != null ? "${each.value.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
+
+  rolling_update {
+    drain_and_terminate = each.value.rolling_update.drain_and_terminate
+    max_surge           = each.value.rolling_update.max_surge
+    max_unavailable     = each.value.rolling_update.max_unavailable
+  }
 }
 
 resource "kops_cluster_updater" "k8s_updater" {

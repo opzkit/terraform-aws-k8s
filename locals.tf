@@ -19,12 +19,11 @@ locals {
   control_plane_policies = flatten([
     local.control_plane_policies_aws_loadbalancer,
     local.control_plane_policy_addon_bucket_access,
-    var.control_plane_policies,
-    var.master_policies
+    var.control_plane.policies,
     ]
   )
   node_policies = flatten([
-    var.node_policies
+    var.nodes.policies
     ]
   )
 
@@ -51,41 +50,70 @@ locals {
     addons = local.addons
   })
 
-  private_subnets = length(var.private_subnets) == 0 ? tomap({ for k, v in var.private_subnet_ids : k => {
-    id         = v
-    cidr_block = ""
-  } }) : var.private_subnets
-  public_subnets = length(var.public_subnets) == 0 ? tomap({ for k, v in var.public_subnet_ids : k => {
-    id         = v
-    cidr_block = ""
-  } }) : var.public_subnets
-  private_subnets_enabled  = length(local.private_subnets) > 0
-  node_group_subnet_prefix = local.private_subnets_enabled ? "private-${var.region}" : "utility-${var.region}"
-  master_subnets_zones     = local.private_subnets_enabled ? slice(keys(local.private_subnets), 0, var.master_count) : slice(keys(local.public_subnets), 0, var.master_count)
+  private_subnets            = var.private_subnets
+  public_subnets             = var.public_subnets
+  private_subnets_enabled    = length(local.private_subnets) > 0
+  node_group_subnet_prefix   = local.private_subnets_enabled ? "private-${var.region}" : "utility-${var.region}"
+  control_plane_subnet_zones = local.private_subnets_enabled ? keys(local.private_subnets) : keys(local.public_subnets)
+  nodes_subnet_zones         = local.private_subnets_enabled ? keys(local.private_subnets) : keys(local.public_subnets)
+  min_number_of_nodes        = sum([for k, v in var.nodes.size : v.min])
 
-  min_nodes               = tomap({ for k, v in local.public_subnets : k => lookup(var.node_size, k, local.min_max_node_default).min })
-  max_nodes               = tomap({ for k, v in local.public_subnets : k => lookup(var.node_size, k, local.min_max_node_default).max })
-  min_max_node_default    = { min : 1, max : 2 }
-  mox_nodes_less_than_min = anytrue(tolist([for k in keys(local.public_subnets) : (local.min_nodes[k] > local.max_nodes[k])]))
-  min_number_of_nodes     = sum(values(local.min_nodes))
   allowed_cnis = {
     "cilium" : var.networking_cni == "cilium" ? [1] : []
     "calico" : var.networking_cni == "calico" ? [1] : []
   }
 }
 
+resource "null_resource" "nodes_size_check" {
+  lifecycle {
+    precondition {
+      condition     = length(setunion(setsubtract(keys(var.nodes.size), local.nodes_subnet_zones), setsubtract(local.nodes_subnet_zones, keys(var.nodes.size)))) == 0
+      error_message = "The same zones must be present in both nodes.size and public/private subnets"
+    }
+  }
+}
+
+resource "null_resource" "control_plane_size_check" {
+  lifecycle {
+    precondition {
+      condition     = length(setunion(setsubtract(keys(var.control_plane.size), local.control_plane_subnet_zones), setsubtract(local.control_plane_subnet_zones, keys(var.control_plane.size)))) == 0
+      error_message = "The same zones must be present in both control_plane.size and public/private subnets"
+    }
+  }
+}
+
 resource "null_resource" "public_private_subnet_zones_check" {
-  count = local.private_subnets_enabled && length(local.private_subnets) > 0 && (keys(local.private_subnets) != keys(local.public_subnets)) ? "The same zones must be supplied when using private subnets" : 0
+  lifecycle {
+    precondition {
+      condition     = local.private_subnets_enabled && length(local.private_subnets) > 0 && (keys(local.private_subnets) == keys(local.public_subnets))
+      error_message = "The same zones must be supplied when using private subnets"
+    }
+  }
 }
 
 resource "null_resource" "node_count_check" {
-  count = local.min_number_of_nodes == 0 ? "Number of nodes must be at least one counting all subnets" : 0
+  lifecycle {
+    precondition {
+      condition     = local.min_number_of_nodes != 0
+      error_message = "Number of nodes must be at least one counting all subnets"
+    }
+  }
 }
 
 resource "null_resource" "node_min_max_check" {
-  count = local.mox_nodes_less_than_min ? "Min nodes is larger than max nodes for at least one subnet" : 0
+  lifecycle {
+    precondition {
+      condition     = alltrue(tolist([for k, v in var.nodes.size : (v.min <= v.max)]))
+      error_message = "Min nodes is larger than max nodes for at least one subnet"
+    }
+  }
 }
 
 resource "null_resource" "cni_check" {
-  count = !contains(keys(local.allowed_cnis), var.networking_cni) ? "Unsupported CNI provider" : 0
+  lifecycle {
+    precondition {
+      condition     = contains(keys(local.allowed_cnis), var.networking_cni)
+      error_message = "Unsupported CNI provider"
+    }
+  }
 }
