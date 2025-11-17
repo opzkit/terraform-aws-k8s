@@ -9,8 +9,16 @@ jobs:
   enable_automerge:
     runs-on: ubuntu-latest
     steps:
+      - name: Get token
+        id: get_token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2
+        with:
+          app-id: ${{ vars.AUTO_MERGE_APP_ID }}
+          private-key: ${{ secrets.AUTO_MERGE_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - name: Enable auto-merge for PRs
         run: gh pr merge --auto --squash --delete-branch "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.PR_GITHUB_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: '${{ steps.get_token.outputs.token }}'
