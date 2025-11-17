@@ -281,7 +281,8 @@ resource "kops_instance_group" "masters" {
     "${local.node_group_subnet_prefix}${each.key}"
   ]
   node_labels = {
-    "kops.k8s.io/instancegroup" = "${var.control_plane_prefix}-${var.region}${each.key}"
+    "kops.k8s.io/instancegroup"                        = "${var.control_plane_prefix}-${var.region}${each.key}"
+    "node-role.kubernetes.io/${var.region}${each.key}" = true
   }
   depends_on = [
     kops_cluster.k8s
@@ -320,7 +321,8 @@ resource "kops_instance_group" "nodes" {
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
   }
   node_labels = {
-    "kops.k8s.io/instancegroup" = "nodes-${each.key}"
+    "kops.k8s.io/instancegroup"                        = "nodes-${each.key}"
+    "node-role.kubernetes.io/${var.region}${each.key}" = true
   }
   depends_on = [
     kops_cluster.k8s
@@ -363,7 +365,8 @@ resource "kops_instance_group" "additional_nodes" {
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
   }
   node_labels = merge(each.value.labels, {
-    "kops.k8s.io/instancegroup" = "nodes-${each.key}"
+    "kops.k8s.io/instancegroup"           = "nodes-${each.key}"
+    "node-role.kubernetes.io/${each.key}" = true
   })
   depends_on = [
     kops_cluster.k8s
