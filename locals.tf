@@ -85,7 +85,7 @@ resource "null_resource" "control_plane_size_check" {
 resource "null_resource" "public_private_subnet_zones_check" {
   lifecycle {
     precondition {
-      condition     = local.private_subnets_enabled && length(local.private_subnets) > 0 && (keys(local.private_subnets) == keys(local.public_subnets))
+      condition     = !local.private_subnets_enabled || (length(local.private_subnets) > 0 && (keys(local.private_subnets) == keys(local.public_subnets)))
       error_message = "The same zones must be supplied when using private subnets"
     }
   }
