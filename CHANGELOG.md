@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.23.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.23.0...v0.23.1) (2025-11-18)
+
+
+### Bug Fixes
+
+* update precondition logic for subnet zone checks ([#215](https://github.com/opzkit/terraform-aws-k8s/issues/215)) ([6d17a07](https://github.com/opzkit/terraform-aws-k8s/commit/6d17a072f6fa3aecd8813217b2ec228f895fd6fb))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v5.0.1 ([#213](https://github.com/opzkit/terraform-aws-k8s/issues/213)) ([8987047](https://github.com/opzkit/terraform-aws-k8s/commit/8987047662f5f2f6181a23a732afdf2bb8cb319f))
+* **deps:** update actions/checkout digest to 93cb6ef ([#212](https://github.com/opzkit/terraform-aws-k8s/issues/212)) ([62680f9](https://github.com/opzkit/terraform-aws-k8s/commit/62680f99e2af06b2b2c82e96b99258905527268e))
+
 ## [0.23.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.22.0...v0.23.0) (2025-11-17)
 
 
