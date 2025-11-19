@@ -104,6 +104,7 @@ resource "kops_cluster" "k8s" {
         enable_remote_node_identity = true
         preallocate_bpf_maps        = true
         enable_node_port            = true
+        enable_prometheus_metrics   = true
       }
     }
 
