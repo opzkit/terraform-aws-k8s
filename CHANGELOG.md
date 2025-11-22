@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.24.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.23.1...v0.24.0) (2025-11-22)
+
+
+### Features
+
+* enable Prometheus metrics for Cilium ([#216](https://github.com/opzkit/terraform-aws-k8s/issues/216)) ([16f67ce](https://github.com/opzkit/terraform-aws-k8s/commit/16f67ce32ff43d68c2ec86b196c114b285f641cd))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v6 ([#219](https://github.com/opzkit/terraform-aws-k8s/issues/219)) ([33d3df7](https://github.com/opzkit/terraform-aws-k8s/commit/33d3df775ab01f1982f4b1df7179d10a220a3596))
+* **deps:** update actions/create-github-app-token digest to 7e473ef ([#220](https://github.com/opzkit/terraform-aws-k8s/issues/220)) ([0213d49](https://github.com/opzkit/terraform-aws-k8s/commit/0213d498db8a80f0caff0572acc25733673ef1f9))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.104.0 ([#218](https://github.com/opzkit/terraform-aws-k8s/issues/218)) ([70b8447](https://github.com/opzkit/terraform-aws-k8s/commit/70b8447f207af6d67da5e3e335069e64743869cd))
+
 ## [0.23.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.23.0...v0.23.1) (2025-11-18)
 
 
