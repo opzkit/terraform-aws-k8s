@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.24.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.0...v0.24.1) (2025-11-28)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/setup-python action to v6.1.0 ([#223](https://github.com/opzkit/terraform-aws-k8s/issues/223)) ([88c29c8](https://github.com/opzkit/terraform-aws-k8s/commit/88c29c841acc76c98bf9f8c0b8f5bada1b98efcc))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.19.3 ([#221](https://github.com/opzkit/terraform-aws-k8s/issues/221)) ([a0a2fc9](https://github.com/opzkit/terraform-aws-k8s/commit/a0a2fc9896a7f832bd974fa1903a5e3ba4f3be61))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler to v1.34.2 ([#224](https://github.com/opzkit/terraform-aws-k8s/issues/224)) ([e3b2ee0](https://github.com/opzkit/terraform-aws-k8s/commit/e3b2ee076b42321903bdc2feb2ae911b1face70d))
+
 ## [0.24.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.23.1...v0.24.0) (2025-11-22)
 
 
