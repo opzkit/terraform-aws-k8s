@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.24.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.1...v0.24.2) (2025-12-06)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v6.0.1 ([#228](https://github.com/opzkit/terraform-aws-k8s/issues/228)) ([58779e0](https://github.com/opzkit/terraform-aws-k8s/commit/58779e0d37e8c0535590c7989a8e99b84ff9af4e))
+* **deps:** update actions/checkout digest to 8e8c483 ([#227](https://github.com/opzkit/terraform-aws-k8s/issues/227)) ([adbca2b](https://github.com/opzkit/terraform-aws-k8s/commit/adbca2b6229300842b89b0166df69cec0b817181))
+* **deps:** update actions/create-github-app-token digest to 29824e6 ([#229](https://github.com/opzkit/terraform-aws-k8s/issues/229)) ([bb4e0bf](https://github.com/opzkit/terraform-aws-k8s/commit/bb4e0bf8a5f98bc981e0e691bb82dccd463b1eca))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.27.0 ([#225](https://github.com/opzkit/terraform-aws-k8s/issues/225)) ([851baeb](https://github.com/opzkit/terraform-aws-k8s/commit/851baebc25777f388807bc0205114a7df9e8a16a))
+
 ## [0.24.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.0...v0.24.1) (2025-11-28)
 
 
