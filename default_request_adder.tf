@@ -2,7 +2,7 @@ locals {
   default_request_adder = [{
     name = "default_request_adder"
     # renovate: datasource=gitlab-releases depName=unboundsoftware/default-request-adder
-    version = "1.2.2"
+    version = "1.2.3"
     content = templatefile("${path.module}/addons/default-request-adder.yaml", {
       excluded_namespaces = join(",", distinct(flatten([["kube-system"], local.excluded_trimmed])))
     })
