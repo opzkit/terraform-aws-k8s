@@ -69,7 +69,7 @@ spec:
             requests:
               memory: "50Mi"
           imagePullPolicy: Always
-          image: registry.gitlab.com/unboundsoftware/default-request-adder:1.2.3@sha256:9d2a2d3eb58d6d4445e24d10a59734a2a8b9d95248c2e06ce714ab374384f76e
+          image: registry.gitlab.com/unboundsoftware/default-request-adder:1.2.4@sha256:066e67a8c7cd16750e80a242baa841a703eb159a7839a68bd6b2be239dedff16
           args:
             - /default-request-adder
             - -excluded-ns=${ excluded_namespaces }
