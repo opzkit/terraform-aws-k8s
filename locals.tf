@@ -123,8 +123,8 @@ resource "null_resource" "additional_nodes_zones_check" {
     precondition {
       condition = alltrue([
         for name, node in var.additional_nodes :
-        node.zones == null || alltrue([
-          for z in node.zones :
+        alltrue([
+          for z in coalesce(node.zones, keys(node.private ? local.private_subnets : local.public_subnets)) :
           contains(keys(node.private ? local.private_subnets : local.public_subnets), z)
         ])
       ])

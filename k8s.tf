@@ -367,7 +367,7 @@ resource "kops_instance_group" "additional_nodes" {
     }
     spot_allocation_strategy = each.value.spot_allocation_strategy
   }
-  subnets = tolist([for k, v in(each.value.private ? local.private_subnets : local.public_subnets) : (each.value.private ? "private-${var.region}${k}" : "utility-${var.region}${k}") if each.value.zones == null || contains(each.value.zones, k)])
+  subnets = tolist([for k, v in(each.value.private ? local.private_subnets : local.public_subnets) : (each.value.private ? "private-${var.region}${k}" : "utility-${var.region}${k}") if contains(coalesce(each.value.zones, keys(each.value.private ? local.private_subnets : local.public_subnets)), k)])
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
