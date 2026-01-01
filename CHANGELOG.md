@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.25.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.1...v0.25.0) (2026-01-01)
+
+
+### Features
+
+* add zones field for AZ selection in additional node groups ([#234](https://github.com/opzkit/terraform-aws-k8s/issues/234)) ([5d1bbd7](https://github.com/opzkit/terraform-aws-k8s/commit/5d1bbd748250cc1a1c84fa4e7f7cb5fe0ad15a4f))
+
+
+### Bug Fixes
+
+* use coalesce to handle null zones in additional_nodes ([#236](https://github.com/opzkit/terraform-aws-k8s/issues/236)) ([cdba27f](https://github.com/opzkit/terraform-aws-k8s/commit/cdba27f403e3f82fd0ee04fc8ab9bbbe8e276064))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v6.0.1 ([#228](https://github.com/opzkit/terraform-aws-k8s/issues/228)) ([58779e0](https://github.com/opzkit/terraform-aws-k8s/commit/58779e0d37e8c0535590c7989a8e99b84ff9af4e))
+* **deps:** update actions/checkout digest to 8e8c483 ([#227](https://github.com/opzkit/terraform-aws-k8s/issues/227)) ([adbca2b](https://github.com/opzkit/terraform-aws-k8s/commit/adbca2b6229300842b89b0166df69cec0b817181))
+* **deps:** update actions/create-github-app-token digest to 29824e6 ([#229](https://github.com/opzkit/terraform-aws-k8s/issues/229)) ([bb4e0bf](https://github.com/opzkit/terraform-aws-k8s/commit/bb4e0bf8a5f98bc981e0e691bb82dccd463b1eca))
+* **deps:** update default-request-adder to v1.2.3 ([#231](https://github.com/opzkit/terraform-aws-k8s/issues/231)) ([4333e5f](https://github.com/opzkit/terraform-aws-k8s/commit/4333e5f668052d6894b20ba864b45ca28a0ea690))
+* **deps:** update default-request-adder to v1.2.4 ([#232](https://github.com/opzkit/terraform-aws-k8s/issues/232)) ([3b2b48c](https://github.com/opzkit/terraform-aws-k8s/commit/3b2b48c2f5b5012adba0a172c44bf9021ef49fdb))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.27.0 ([#225](https://github.com/opzkit/terraform-aws-k8s/issues/225)) ([851baeb](https://github.com/opzkit/terraform-aws-k8s/commit/851baebc25777f388807bc0205114a7df9e8a16a))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.39.2 ([#230](https://github.com/opzkit/terraform-aws-k8s/issues/230)) ([bb934eb](https://github.com/opzkit/terraform-aws-k8s/commit/bb934ebe5b3a620121c409638a5a0e73f5bb21f0))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.64.1 ([#233](https://github.com/opzkit/terraform-aws-k8s/issues/233)) ([f0392ca](https://github.com/opzkit/terraform-aws-k8s/commit/f0392ca84c5b63f9b10675da16a1b69ce2356630))
+
 ## [0.24.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.0...v0.24.1) (2025-11-28)
 
 
