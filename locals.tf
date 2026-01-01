@@ -117,3 +117,18 @@ resource "null_resource" "cni_check" {
     }
   }
 }
+
+resource "null_resource" "additional_nodes_zones_check" {
+  lifecycle {
+    precondition {
+      condition = alltrue([
+        for name, node in var.additional_nodes :
+        node.zones == null || alltrue([
+          for z in node.zones :
+          contains(keys(node.private ? local.private_subnets : local.public_subnets), z)
+        ])
+      ])
+      error_message = "Additional node group zones must be valid subnet zones (e.g., 'a', 'b', 'c')"
+    }
+  }
+}

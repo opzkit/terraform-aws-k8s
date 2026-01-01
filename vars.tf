@@ -136,6 +136,7 @@ variable "node_termination_handler_sqs" {
 
 variable "additional_nodes" {
   type = map(object({
+    zones                       = optional(list(string))
     private                     = optional(bool, false)
     min_size                    = number
     max_size                    = number
@@ -157,7 +158,7 @@ variable "additional_nodes" {
       max_unavailable     = "1"
     })
   }))
-  description = "Additional node groups"
+  description = "Additional node groups. Set zones to restrict to specific AZs (e.g., [\"a\", \"b\"]), or leave null for all zones."
   default     = {}
 }
 
