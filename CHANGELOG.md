@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.25.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.25.0...v0.25.1) (2026-01-12)
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.104.1 ([#237](https://github.com/opzkit/terraform-aws-k8s/issues/237)) ([cbdeecb](https://github.com/opzkit/terraform-aws-k8s/commit/cbdeecbf5c1c62358f647be05af1ef77a0197dab))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.105.0 ([#240](https://github.com/opzkit/terraform-aws-k8s/issues/240)) ([019530d](https://github.com/opzkit/terraform-aws-k8s/commit/019530dd93ae635de2a666d0624394aa892fb1ec))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.71.0 ([#239](https://github.com/opzkit/terraform-aws-k8s/issues/239)) ([7259b38](https://github.com/opzkit/terraform-aws-k8s/commit/7259b38673c1231475ad21d246a75dd6df360a9c))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.78.1 ([#241](https://github.com/opzkit/terraform-aws-k8s/issues/241)) ([5a06d70](https://github.com/opzkit/terraform-aws-k8s/commit/5a06d70ae0d9603336eae9e472c275b428d7969b))
+
 ## [0.25.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.24.1...v0.25.0) (2026-01-01)
 
 
