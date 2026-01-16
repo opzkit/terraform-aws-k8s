@@ -54,18 +54,6 @@ variable "dns_zone" {
   description = "Name of DNS zone to use for cluster"
 }
 
-variable "architecture" {
-  type        = string
-  description = "The architecture to use for finding ami image for nodes"
-  default     = "x86_64"
-}
-
-variable "control_plane_architecture" {
-  type        = string
-  description = "The architecture to use for finding ami image for control plane"
-  default     = null
-}
-
 variable "image" {
   type        = string
   description = "The image to use for instances (can be overridden by master_image, node_image and image in additional_nodes)"
@@ -82,9 +70,10 @@ variable "control_plane" {
       "b" = {}
       "c" = {}
     })
+    architecture                = optional(string, "x86_64")
     policies                    = optional(list(any), [])
     types                       = optional(list(string), ["t3.medium"])
-    labels                      = optional(map(string), {})
+    taints                      = optional(list(string), [])
     on_demand_base              = optional(number, 0)
     on_demand_above_base        = optional(number, 0)
     max_instance_lifetime_hours = optional(number, 168)
@@ -110,8 +99,10 @@ variable "nodes" {
       "b" = {}
       "c" = {}
     })
+    architecture                = optional(string, "x86_64")
     policies                    = optional(list(any), [])
     types                       = optional(list(string), ["t3.medium"])
+    taints                      = optional(list(string), [])
     labels                      = optional(map(string), {})
     on_demand_base              = optional(number, 0)
     on_demand_above_base        = optional(number, 0)
@@ -136,30 +127,32 @@ variable "node_termination_handler_sqs" {
 
 variable "additional_nodes" {
   type = map(object({
-    zones                       = optional(list(string))
-    private                     = optional(bool, false)
-    min_size                    = number
-    max_size                    = number
-    types                       = list(string)
+    size = optional(map(object({
+      min : optional(number, 1)
+      max : optional(number, 2)
+      })), {
+      "a" = {}
+      "b" = {}
+      "c" = {}
+    })
+    architecture                = optional(string, "x86_64")
+    policies                    = optional(list(any), [])
+    types                       = optional(list(string), ["t3.medium"])
     taints                      = optional(list(string), [])
     labels                      = optional(map(string), {})
-    on_demand_base              = number
-    on_demand_above_base        = number
+    on_demand_base              = optional(number, 0)
+    on_demand_above_base        = optional(number, 0)
     max_instance_lifetime_hours = optional(number, 168)
     spot_allocation_strategy    = optional(string, "price-capacity-optimized")
     image                       = optional(string)
-    architecture                = optional(string)
     rolling_update = optional(object({
-      drain_and_terminate = bool
-      max_surge           = string
-      max_unavailable     = string
-      }), {
-      drain_and_terminate = true
-      max_surge           = "1"
-      max_unavailable     = "1"
-    })
+      drain_and_terminate = optional(bool, true)
+      max_surge           = optional(string, "1")
+      max_unavailable     = optional(string, "1")
+    }), {})
   }))
-  description = "Additional node groups. Set zones to restrict to specific AZs (e.g., [\"a\", \"b\"]), or leave null for all zones."
+
+  description = "Additional node groups."
   default     = {}
 }
 
