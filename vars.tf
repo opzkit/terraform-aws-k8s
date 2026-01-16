@@ -141,8 +141,8 @@ variable "additional_nodes" {
     min_size                    = number
     max_size                    = number
     types                       = list(string)
-    taints                      = list(string)
-    labels                      = map(string)
+    taints                      = optional(list(string), [])
+    labels                      = optional(map(string), {})
     on_demand_base              = number
     on_demand_above_base        = number
     max_instance_lifetime_hours = optional(number, 168)
