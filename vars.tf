@@ -148,6 +148,7 @@ variable "additional_nodes" {
     max_instance_lifetime_hours = optional(number, 168)
     spot_allocation_strategy    = optional(string, "price-capacity-optimized")
     image                       = optional(string)
+    architecture                = optional(string)
     rolling_update = optional(object({
       drain_and_terminate = bool
       max_surge           = string

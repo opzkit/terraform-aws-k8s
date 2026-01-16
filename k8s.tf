@@ -260,12 +260,12 @@ resource "kops_cluster" "k8s" {
   }
 }
 
-resource "kops_instance_group" "masters" {
+resource "kops_instance_group" "control_plane" {
   for_each     = toset([for k, v in var.control_plane.size : k if v.max > 0])
   cluster_name = kops_cluster.k8s.id
   name         = "${var.control_plane_prefix}-${var.region}${each.key}"
   role         = "ControlPlane"
-  image        = coalesce(var.control_plane.image, var.image, "${data.aws_ami.default_master_image.owner_id}/${data.aws_ami.default_master_image.name}")
+  image        = coalesce(var.control_plane.image, var.image, "${data.aws_ami.default_node_image["control_plane"].owner_id}/${data.aws_ami.default_node_image["control_plane"].name}")
   min_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).min
   max_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).max
   machine_type = var.control_plane.types[0]
@@ -301,7 +301,7 @@ resource "kops_instance_group" "nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  image        = coalesce(var.nodes.image, var.image, "${data.aws_ami.default_node_image.owner_id}/${data.aws_ami.default_node_image.name}")
+  image        = coalesce(var.nodes.image, var.image, "${data.aws_ami.default_node_image["nodes"].owner_id}/${data.aws_ami.default_node_image["nodes"].name}")
   min_size     = var.nodes.size[each.key].min
   max_size     = var.nodes.size[each.key].max
   machine_type = var.nodes.types[0]
@@ -353,7 +353,7 @@ resource "kops_instance_group" "additional_nodes" {
   cluster_name = kops_cluster.k8s.id
   name         = "nodes-${each.key}"
   role         = "Node"
-  image        = coalesce(each.value.image, var.image, "${data.aws_ami.default_node_image.owner_id}/${data.aws_ami.default_node_image.name}")
+  image        = coalesce(each.value.image, var.image, "${data.aws_ami.default_node_image[each.key].owner_id}/${data.aws_ami.default_node_image[each.key].name}")
   min_size     = each.value.min_size
   max_size     = each.value.max_size
   machine_type = each.value.types[0]
@@ -398,13 +398,13 @@ resource "kops_cluster_updater" "k8s_updater" {
 
   depends_on = [
     kops_cluster.k8s,
-    kops_instance_group.masters,
+    kops_instance_group.control_plane,
     kops_instance_group.nodes,
     kops_instance_group.additional_nodes,
   ]
 
   keepers = merge({ cluster = kops_cluster.k8s.revision },
-    tomap({ for k, v in kops_instance_group.masters : v.name => v.revision }),
+    tomap({ for k, v in kops_instance_group.control_plane : v.name => v.revision }),
     tomap({ for k, v in kops_instance_group.nodes : v.name => v.revision }),
     tomap({ for k, v in kops_instance_group.additional_nodes : v.name => v.revision }),
   )
