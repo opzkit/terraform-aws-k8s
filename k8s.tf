@@ -297,65 +297,13 @@ resource "kops_instance_group" "control_plane" {
 }
 
 resource "kops_instance_group" "nodes" {
-  for_each     = local.public_subnets
+  for_each     = local.all_node_groups
   cluster_name = kops_cluster.k8s.id
-  name         = "nodes-${each.key}"
+  name         = each.key
   role         = "Node"
-  image        = coalesce(var.nodes.image, var.image, "${data.aws_ami.default_node_image["nodes"].owner_id}/${data.aws_ami.default_node_image["nodes"].name}")
-  min_size     = var.nodes.size[each.key].min
-  max_size     = var.nodes.size[each.key].max
-  machine_type = var.nodes.types[0]
-  mixed_instances_policy {
-    instances = var.nodes.types
-    on_demand_base {
-      value = var.nodes.on_demand_base
-    }
-    on_demand_above_base {
-      value = var.nodes.on_demand_above_base
-    }
-    spot_allocation_strategy = var.nodes.spot_allocation_strategy
-  }
-  subnets = [
-    "${local.node_group_subnet_prefix}${each.key}"
-  ]
-  cloud_labels = {
-    "k8s.io/cluster-autoscaler/enabled"     = "true"
-    "k8s.io/cluster-autoscaler/${var.name}" = "true"
-  }
-  node_labels = {
-    "kops.k8s.io/instancegroup"                        = "nodes-${each.key}"
-    "node-role.kubernetes.io/${var.region}${each.key}" = true
-  }
-  depends_on = [
-    kops_cluster.k8s
-  ]
-  detailed_instance_monitoring = true
-  instance_metadata {
-    http_put_response_hop_limit = 3
-  }
-  max_instance_lifetime = var.nodes.max_instance_lifetime_hours != null ? "${var.nodes.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
-
-  rolling_update {
-    drain_and_terminate = var.nodes.rolling_update.drain_and_terminate
-    max_surge           = var.nodes.rolling_update.max_surge
-    max_unavailable     = var.nodes.rolling_update.max_unavailable
-  }
-}
-
-resource "kops_instance_group" "additional_nodes" {
-  lifecycle {
-    precondition {
-      condition     = !each.value.private || (each.value.private && local.private_subnets_enabled)
-      error_message = "nodegroup ${each.key} is specified to run in private subnet, but private subnets are not provided. Try setting variable private_subnets"
-    }
-  }
-  for_each     = var.additional_nodes
-  cluster_name = kops_cluster.k8s.id
-  name         = "nodes-${each.key}"
-  role         = "Node"
-  image        = coalesce(each.value.image, var.image, "${data.aws_ami.default_node_image[each.key].owner_id}/${data.aws_ami.default_node_image[each.key].name}")
-  min_size     = each.value.min_size
-  max_size     = each.value.max_size
+  image        = coalesce(var.nodes.image, var.image, "${data.aws_ami.default_node_image[each.value.name].owner_id}/${data.aws_ami.default_node_image[each.value.name].name}")
+  min_size     = each.value.size.min
+  max_size     = each.value.size.max
   machine_type = each.value.types[0]
   mixed_instances_policy {
     instances = each.value.types
@@ -367,24 +315,27 @@ resource "kops_instance_group" "additional_nodes" {
     }
     spot_allocation_strategy = each.value.spot_allocation_strategy
   }
-  subnets = tolist([for k, v in(each.value.private ? local.private_subnets : local.public_subnets) : (each.value.private ? "private-${var.region}${k}" : "utility-${var.region}${k}") if contains(coalesce(each.value.zones, keys(each.value.private ? local.private_subnets : local.public_subnets)), k)])
+  subnets = [
+    "${local.node_group_subnet_prefix}${each.value.zone}"
+  ]
   cloud_labels = {
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
   }
+  taints = each.value.taints
   node_labels = merge(each.value.labels, {
-    "kops.k8s.io/instancegroup"           = "nodes-${each.key}"
-    "node-role.kubernetes.io/${each.key}" = true
+    "kops.k8s.io/instancegroup"                               = each.key
+    "node-role.kubernetes.io/${var.region}${each.value.zone}" = true
+    "node-role.kubernetes.io/${each.value.name}"              = true
   })
   depends_on = [
     kops_cluster.k8s
   ]
-  taints                       = each.value.taints
   detailed_instance_monitoring = true
   instance_metadata {
     http_put_response_hop_limit = 3
   }
-  max_instance_lifetime = each.value.max_instance_lifetime_hours != null ? "${each.value.max_instance_lifetime_hours + parseint(sha1("nodes-${each.key}"), 16) % 10}h0m0s" : null
+  max_instance_lifetime = each.value.max_instance_lifetime_hours != null ? "${each.value.max_instance_lifetime_hours + parseint(sha1(each.key), 16) % 10}h0m0s" : null
 
   rolling_update {
     drain_and_terminate = each.value.rolling_update.drain_and_terminate
@@ -400,13 +351,11 @@ resource "kops_cluster_updater" "k8s_updater" {
     kops_cluster.k8s,
     kops_instance_group.control_plane,
     kops_instance_group.nodes,
-    kops_instance_group.additional_nodes,
   ]
 
   keepers = merge({ cluster = kops_cluster.k8s.revision },
     tomap({ for k, v in kops_instance_group.control_plane : v.name => v.revision }),
     tomap({ for k, v in kops_instance_group.nodes : v.name => v.revision }),
-    tomap({ for k, v in kops_instance_group.additional_nodes : v.name => v.revision }),
   )
 
   rolling_update {
