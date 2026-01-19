@@ -1,8 +1,8 @@
 locals {
   default_request_adder = [{
     name = "default_request_adder"
-    # renovate: datasource=gitlab-releases depName=unboundsoftware/default-request-adder
-    version = "1.2.4"
+    # renovate: datasource=gitea-releases depName=unboundsoftware/default-request-adder registryUrl=https://gitea.unbound.se
+    version = "1.6.0"
     content = templatefile("${path.module}/addons/default-request-adder.yaml", {
       excluded_namespaces = join(",", distinct(flatten([["kube-system"], local.excluded_trimmed])))
     })
