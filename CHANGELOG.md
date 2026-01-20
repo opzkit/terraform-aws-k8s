@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.26.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.25.1...v0.26.0) (2026-01-20)
+
+
+### Features
+
+* add architecture support for AMI data sources ([#244](https://github.com/opzkit/terraform-aws-k8s/issues/244)) ([aba974e](https://github.com/opzkit/terraform-aws-k8s/commit/aba974e13cf872ab43422fcfcea1471e00c4f358))
+
+
+### Miscellaneous Chores
+
+* **deps:** pin oci.unbound.se/unboundsoftware/default-request-adder docker tag to a93451a ([#248](https://github.com/opzkit/terraform-aws-k8s/issues/248)) ([3728653](https://github.com/opzkit/terraform-aws-k8s/commit/37286539d9157825cfd0710e4254bfd0a32030b4))
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.1 ([#249](https://github.com/opzkit/terraform-aws-k8s/issues/249)) ([5e1a762](https://github.com/opzkit/terraform-aws-k8s/commit/5e1a762576a2d5ba4d44a114f78242e930b86d3d))
+* **deps:** update oci.unbound.se/unboundsoftware/default-request-adder docker tag to v1.6.1 ([#250](https://github.com/opzkit/terraform-aws-k8s/issues/250)) ([32a73a2](https://github.com/opzkit/terraform-aws-k8s/commit/32a73a2922894436f7dfba4a2a304c683cc386c8))
+* update default_request_adder version and registry ([#247](https://github.com/opzkit/terraform-aws-k8s/issues/247)) ([860c57e](https://github.com/opzkit/terraform-aws-k8s/commit/860c57ee789e43f5f7101a7379088833f6a6b404))
+
+
+### Code Refactoring
+
+* simplify node_group handling and remove redundancy ([#251](https://github.com/opzkit/terraform-aws-k8s/issues/251)) ([cd4a5fd](https://github.com/opzkit/terraform-aws-k8s/commit/cd4a5fd2475c343e21d2bfd815bed2023545b38d))
+* streamline variable management and node group naming ([#246](https://github.com/opzkit/terraform-aws-k8s/issues/246)) ([e52b40c](https://github.com/opzkit/terraform-aws-k8s/commit/e52b40c138799cf7e4a908f46a68875e044e6fce))
+
 ## [0.25.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.25.0...v0.25.1) (2026-01-16)
 
 
