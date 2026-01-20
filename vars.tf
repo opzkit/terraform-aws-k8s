@@ -54,12 +54,6 @@ variable "dns_zone" {
   description = "Name of DNS zone to use for cluster"
 }
 
-variable "image" {
-  type        = string
-  description = "The image to use for instances (can be overridden by master_image, node_image and image in additional_nodes)"
-  default     = null
-}
-
 variable "control_plane" {
   type = object({
     size = optional(map(object({
@@ -88,44 +82,13 @@ variable "control_plane" {
   description = "Controlplane node group"
   default     = {}
 }
-
-variable "nodes" {
-  type = object({
-    size = optional(map(object({
-      min : optional(number, 1)
-      max : optional(number, 2)
-      })), {
-      "a" = {}
-      "b" = {}
-      "c" = {}
-    })
-    architecture                = optional(string, "x86_64")
-    policies                    = optional(list(any), [])
-    types                       = optional(list(string), ["t3.medium"])
-    taints                      = optional(list(string), [])
-    labels                      = optional(map(string), {})
-    on_demand_base              = optional(number, 0)
-    on_demand_above_base        = optional(number, 0)
-    max_instance_lifetime_hours = optional(number, 168)
-    spot_allocation_strategy    = optional(string, "price-capacity-optimized")
-    image                       = optional(string)
-    rolling_update = optional(object({
-      drain_and_terminate = optional(bool, true)
-      max_surge           = optional(string, "1")
-      max_unavailable     = optional(string, "1")
-    }), {})
-  })
-  description = "Default node group"
-  default     = {}
-}
-
 variable "node_termination_handler_sqs" {
   type        = bool
   default     = false
   description = "Use SQS for Node Termination Handler draining"
 }
 
-variable "additional_nodes" {
+variable "node_groups" {
   type = map(object({
     size = optional(map(object({
       min : optional(number, 1)
@@ -152,8 +115,12 @@ variable "additional_nodes" {
     }), {})
   }))
 
-  description = "Additional node groups."
-  default     = {}
+  description = "node groups."
+  default = {
+    nodes = {
+
+    }
+  }
 }
 
 variable "kubernetes_version" {
