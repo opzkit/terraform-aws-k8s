@@ -13,8 +13,9 @@ module "k8s" {
     "iam_role" : "system:masters",
     "another_role" : "system:reader"
   }
-  additional_nodes = {
-    "processing" = {
+  node_groups = {
+    nodes = {}
+    processing = {
       min_size             = 1
       max_size             = 2
       types                = ["c5.2xlarge", "c5a.2xlarge"]

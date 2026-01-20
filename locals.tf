@@ -22,10 +22,7 @@ locals {
     var.control_plane.policies,
     ]
   )
-  node_policies = flatten([
-    var.nodes.policies
-    ]
-  )
+  node_policies = flatten([for v in var.node_groups : v.policies])
 
   external_permissions = concat(var.service_account_external_permissions, var.external_cluster_autoscaler ? [
     for v in module.cluster_autoscaler.permissions : {
@@ -55,41 +52,39 @@ locals {
   private_subnets_enabled  = length(local.private_subnets) > 0
   node_group_subnet_prefix = local.private_subnets_enabled ? "private-${var.region}" : "utility-${var.region}"
   subnet_zones             = local.private_subnets_enabled ? keys(local.private_subnets) : keys(local.public_subnets)
-  min_number_of_nodes      = sum([for k, v in var.nodes.size : v.min])
+  min_number_of_nodes      = sum([for v in var.node_groups : sum([for x in v.size : x.min])])
 
   allowed_cnis = {
     "cilium" : var.networking_cni == "cilium" ? [1] : []
     "calico" : var.networking_cni == "calico" ? [1] : []
   }
 
-  control_plane_name      = "control_plane"
-  default_node_group_name = "node"
+  control_plane_name = "control_plane"
 
-  node_groups               = merge({ (local.default_node_group_name) = var.nodes }, { for k, v in var.additional_nodes : k => v })
-  all_node_group_in_subnets = setproduct(keys(merge({ (local.default_node_group_name) = var.nodes }, { for k, v in var.additional_nodes : k => v })), keys(local.public_subnets))
+  all_node_group_in_subnets = setproduct(keys(var.node_groups), keys(local.public_subnets))
 
   all_node_groups = { for k in local.all_node_group_in_subnets : "${k[0]}-${k[1]}" =>
     {
       name                        = k[0]
       zone                        = k[1]
-      size                        = local.node_groups[k[0]].size[k[1]]
-      policies                    = local.node_groups[k[0]].policies
-      types                       = local.node_groups[k[0]].types
-      taints                      = local.node_groups[k[0]].taints
-      labels                      = local.node_groups[k[0]].labels
-      on_demand_base              = local.node_groups[k[0]].on_demand_base
-      on_demand_above_base        = local.node_groups[k[0]].on_demand_above_base
-      max_instance_lifetime_hours = local.node_groups[k[0]].max_instance_lifetime_hours
-      spot_allocation_strategy    = local.node_groups[k[0]].spot_allocation_strategy
-      image                       = local.node_groups[k[0]].image
-      rolling_update              = local.node_groups[k[0]].rolling_update
-      architecture                = local.node_groups[k[0]].architecture
+      size                        = var.node_groups[k[0]].size[k[1]]
+      policies                    = var.node_groups[k[0]].policies
+      types                       = var.node_groups[k[0]].types
+      taints                      = var.node_groups[k[0]].taints
+      labels                      = var.node_groups[k[0]].labels
+      on_demand_base              = var.node_groups[k[0]].on_demand_base
+      on_demand_above_base        = var.node_groups[k[0]].on_demand_above_base
+      max_instance_lifetime_hours = var.node_groups[k[0]].max_instance_lifetime_hours
+      spot_allocation_strategy    = var.node_groups[k[0]].spot_allocation_strategy
+      image                       = var.node_groups[k[0]].image
+      rolling_update              = var.node_groups[k[0]].rolling_update
+      architecture                = var.node_groups[k[0]].architecture
     }
   }
 }
 
 resource "null_resource" "nodes_subnet_check" {
-  for_each = local.node_groups
+  for_each = var.node_groups
   lifecycle {
     precondition {
       condition     = length(setunion(setsubtract(keys(each.value.size), local.subnet_zones), setsubtract(local.subnet_zones, keys(each.value.size)))) == 0
@@ -116,7 +111,6 @@ resource "null_resource" "public_private_subnet_zones_check" {
   }
 }
 
-# TODO A similar check that we have at least one control plane node
 resource "null_resource" "node_count_check" {
   lifecycle {
     precondition {

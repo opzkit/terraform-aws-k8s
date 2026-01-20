@@ -1,5 +1,5 @@
 data "aws_ami" "default_node_image" {
-  for_each    = merge({ (local.default_node_group_name) = var.nodes.architecture }, { (local.control_plane_name) = var.control_plane.architecture }, { for k, v in var.additional_nodes : k => v.architecture })
+  for_each    = merge({ (local.control_plane_name) = var.control_plane.architecture }, { for k, v in var.node_groups : k => v.architecture })
   most_recent = true
   name_regex  = "^ubuntu/.*noble-24.04-.*-server-\\d+(\\.\\d+)?$"
   owners      = ["099720109477"]
