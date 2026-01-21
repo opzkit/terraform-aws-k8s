@@ -5,15 +5,15 @@ moved {
 
 moved {
   from = kops_instance_group.nodes["a"]
-  to   = kops_instance_group.nodes["node-a"]
+  to   = kops_instance_group.nodes["nodes-a"]
 }
 
 moved {
   from = kops_instance_group.nodes["b"]
-  to   = kops_instance_group.nodes["node-b"]
+  to   = kops_instance_group.nodes["nodes-b"]
 }
 
 moved {
   from = kops_instance_group.nodes["c"]
-  to   = kops_instance_group.nodes["node-c"]
+  to   = kops_instance_group.nodes["nodes-c"]
 }
