@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.27.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.26.0...v0.27.0) (2026-01-21)
+
+
+### Features
+
+* **containerd:** add registry mirrors ([#252](https://github.com/opzkit/terraform-aws-k8s/issues/252)) ([e165599](https://github.com/opzkit/terraform-aws-k8s/commit/e16559918d9375526c882cc0556c9878abdaeda9))
+
+
+### Bug Fixes
+
+* **moved:** update node references for consistency and clarity ([#254](https://github.com/opzkit/terraform-aws-k8s/issues/254)) ([f7637e9](https://github.com/opzkit/terraform-aws-k8s/commit/f7637e9817006998d891c2eb9a3e291216ed793c))
+
 ## [0.26.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.25.1...v0.26.0) (2026-01-20)
 
 
