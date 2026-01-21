@@ -26,6 +26,14 @@ resource "kops_cluster" "k8s" {
     }
   }
   containerd {
+    dynamic "registry_mirrors" {
+      for_each = var.registry_mirrors
+      content {
+        key   = registry_mirrors.key
+        value = registry_mirrors.value
+      }
+    }
+
     dynamic "config_additions" {
       for_each = var.containerd_config_additions
       content {

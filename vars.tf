@@ -234,3 +234,9 @@ variable "containerd_config_additions" {
   description = "Additional config entries for the generated container.d comfig file"
   default     = {}
 }
+
+variable "registry_mirrors" {
+  type        = map(list(string))
+  description = "Registry mirrors for containerd - maps registry to list of mirror endpoints"
+  default     = {}
+}
