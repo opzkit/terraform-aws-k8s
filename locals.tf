@@ -72,6 +72,7 @@ locals {
       types                       = var.node_groups[k[0]].types
       taints                      = var.node_groups[k[0]].taints
       labels                      = var.node_groups[k[0]].labels
+      cloud_labels                = var.node_groups[k[0]].cloud_labels
       on_demand_base              = var.node_groups[k[0]].on_demand_base
       on_demand_above_base        = var.node_groups[k[0]].on_demand_above_base
       max_instance_lifetime_hours = var.node_groups[k[0]].max_instance_lifetime_hours
