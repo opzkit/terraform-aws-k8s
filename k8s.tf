@@ -326,10 +326,10 @@ resource "kops_instance_group" "nodes" {
   subnets = [
     "${local.node_group_subnet_prefix}${each.value.zone}"
   ]
-  cloud_labels = {
+  cloud_labels = merge({
     "k8s.io/cluster-autoscaler/enabled"     = "true"
     "k8s.io/cluster-autoscaler/${var.name}" = "true"
-  }
+  }, each.value.cloud_labels)
   taints = each.value.taints
   node_labels = merge(each.value.labels, {
     "kops.k8s.io/instancegroup"                               = each.key
