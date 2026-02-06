@@ -103,6 +103,7 @@ variable "node_groups" {
     types                       = optional(list(string), ["t3.medium"])
     taints                      = optional(list(string), [])
     labels                      = optional(map(string), {})
+    cloud_labels                = optional(map(string), {})
     on_demand_base              = optional(number, 0)
     on_demand_above_base        = optional(number, 0)
     max_instance_lifetime_hours = optional(number, 168)
