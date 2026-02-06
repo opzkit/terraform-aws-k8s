@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.28.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.27.0...v0.28.0) (2026-02-06)
+
+
+### Features
+
+* add optional cloud_labels to node group variables ([#260](https://github.com/opzkit/terraform-aws-k8s/issues/260)) ([8fd31d5](https://github.com/opzkit/terraform-aws-k8s/commit/8fd31d58868f8b4117d9fcbe382af4ec87f6dd8e))
+
+
+### Bug Fixes
+
+* add cloud_labels to node_group configuration ([#261](https://github.com/opzkit/terraform-aws-k8s/issues/261)) ([af8a4be](https://github.com/opzkit/terraform-aws-k8s/commit/af8a4bef76e13d9ae569cc3a67f39d6e3326d0a5))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v6.0.2 ([#257](https://github.com/opzkit/terraform-aws-k8s/issues/257)) ([c066989](https://github.com/opzkit/terraform-aws-k8s/commit/c0669890f6bb270c26d84948484d15189e4f2684))
+* **deps:** update actions/checkout digest to de0fac2 ([#259](https://github.com/opzkit/terraform-aws-k8s/issues/259)) ([770e3c8](https://github.com/opzkit/terraform-aws-k8s/commit/770e3c87d2dbb01b4f8dde9a358baebd4fe15e16))
+* **deps:** update actions/setup-python action to v6.2.0 ([#255](https://github.com/opzkit/terraform-aws-k8s/issues/255)) ([29ad4f7](https://github.com/opzkit/terraform-aws-k8s/commit/29ad4f78805c7d4d9e8ad41382388d8fee6315e4))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.84.0 ([#258](https://github.com/opzkit/terraform-aws-k8s/issues/258)) ([637dbb0](https://github.com/opzkit/terraform-aws-k8s/commit/637dbb078a09d353f4efb154e91245d63cd45096))
+
 ## [0.27.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.26.0...v0.27.0) (2026-01-21)
 
 
