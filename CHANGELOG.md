@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.28.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.28.0...v0.28.1) (2026-02-07)
+
+
+### Miscellaneous Chores
+
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler to v1.34.3 ([#262](https://github.com/opzkit/terraform-aws-k8s/issues/262)) ([6d5a258](https://github.com/opzkit/terraform-aws-k8s/commit/6d5a2586a09c2f3d110e343fbb9c982dfdff03e6))
+
 ## [0.28.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.27.0...v0.28.0) (2026-02-06)
 
 
