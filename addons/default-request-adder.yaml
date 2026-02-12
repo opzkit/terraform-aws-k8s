@@ -69,7 +69,7 @@ spec:
             requests:
               memory: "50Mi"
           imagePullPolicy: Always
-          image: oci.unbound.se/unboundsoftware/default-request-adder:1.6.1@sha256:ae225d7d02c82a72f88359168eaae9f9127d1f01b4fabeb85607e8f5c04af95d
+          image: oci.unbound.se/unboundsoftware/default-request-adder:1.6.2@sha256:8d8a5dafb10784ce9ef6a0948958a0c6afc2f26c32251b0ce0ceb2a45cfcf642
           args:
             - /default-request-adder
             - -excluded-ns=${ excluded_namespaces }
