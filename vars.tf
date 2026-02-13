@@ -241,3 +241,9 @@ variable "registry_mirrors" {
   description = "Registry mirrors for containerd - maps registry to list of mirror endpoints"
   default     = {}
 }
+
+variable "use_ecr_credentials_for_mirrors" {
+  type        = bool
+  default     = true
+  description = "Whether to use the ECR credentials for registry mirrors for containerd, see above"
+}

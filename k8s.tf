@@ -18,14 +18,17 @@ resource "aws_s3_object" "addons" {
   metadata    = {}
 }
 
+
 resource "kops_cluster" "k8s" {
   lifecycle {
     precondition {
       condition     = length(local.public_subnets) >= 2
       error_message = "At least 2 public subnets must be provided in order for AWS ALB to work."
     }
+
   }
   containerd {
+    use_ecr_credentials_for_mirrors = var.use_ecr_credentials_for_mirrors
     dynamic "registry_mirrors" {
       for_each = var.registry_mirrors
       content {
