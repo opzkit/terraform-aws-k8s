@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.29.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.28.1...v0.29.0) (2026-02-13)
+
+
+### Features
+
+* add ECR credentials support for containerd mirrors ([#269](https://github.com/opzkit/terraform-aws-k8s/issues/269)) ([13b0b41](https://github.com/opzkit/terraform-aws-k8s/commit/13b0b413752b9437845d8429b62e082c3ef2f732))
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.2 ([#267](https://github.com/opzkit/terraform-aws-k8s/issues/267)) ([3747363](https://github.com/opzkit/terraform-aws-k8s/commit/37473638c870dfe5b879b6756656cd59a573af63))
+* **deps:** update oci.unbound.se/unboundsoftware/default-request-adder docker tag to v1.6.2 ([#268](https://github.com/opzkit/terraform-aws-k8s/issues/268)) ([d599680](https://github.com/opzkit/terraform-aws-k8s/commit/d599680e08cfeaf6c31c17a6725b776f0c42ee46))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v42.95.1 ([#264](https://github.com/opzkit/terraform-aws-k8s/issues/264)) ([7408f78](https://github.com/opzkit/terraform-aws-k8s/commit/7408f78d6a751930794c4c7482405b086bf4c9a2))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43 ([#265](https://github.com/opzkit/terraform-aws-k8s/issues/265)) ([c87d510](https://github.com/opzkit/terraform-aws-k8s/commit/c87d510faeb09067884ff300b1b24adb19d781e2))
+
 ## [0.28.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.28.0...v0.28.1) (2026-02-07)
 
 
