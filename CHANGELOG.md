@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.29.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.29.0...v0.29.1) (2026-02-16)
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.15.1 ([#270](https://github.com/opzkit/terraform-aws-k8s/issues/270)) ([d8f5671](https://github.com/opzkit/terraform-aws-k8s/commit/d8f56712aa16ec586566269ef64b20240d20dd33))
+
 ## [0.29.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.28.1...v0.29.0) (2026-02-13)
 
 
