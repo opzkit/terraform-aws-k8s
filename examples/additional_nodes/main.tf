@@ -25,6 +25,11 @@ module "k8s" {
       labels               = { "tasks" = "processing" }
     }
   }
+
+  # Skip rolling update for the "processing" node group when updating the cluster.
+  # Useful for large or stateful node groups where you want to control the rollout
+  # separately. The group name must match a key in node_groups.
+  exclude_instance_groups = ["processing"]
 }
 
 resource "aws_s3_bucket" "state-store" {

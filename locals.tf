@@ -82,6 +82,16 @@ locals {
       architecture                = var.node_groups[k[0]].architecture
     }
   }
+  exclude_instance_groups = toset([for k in setproduct(var.exclude_instance_groups, keys(local.public_subnets)) : "${k[0]}-${k[1]}"])
+}
+
+resource "null_resource" "exclude_instance_groups_check" {
+  lifecycle {
+    precondition {
+      condition     = alltrue([for item in var.exclude_instance_groups : contains(keys(var.node_groups), item)])
+      error_message = "Exclusion group must be part of node_groups"
+    }
+  }
 }
 
 resource "null_resource" "nodes_subnet_check" {
