@@ -1,6 +1,9 @@
 SHELL = /bin/bash
 EXAMPLES = $(shell find ./examples/* -maxdepth 1 -type d -not -path '*/\.*')
 
+.PHONY: all
+all: test examples
+
 .PHONY: examples
 examples: $(addprefix example/,$(EXAMPLES))
 
@@ -10,3 +13,8 @@ example/%:
 	@terraform -chdir=$* init -upgrade
 	@terraform -chdir=$* validate
 	@terraform -chdir=$* plan
+
+.PHONY: test
+test:
+	@terraform init -upgrade
+	@terraform test

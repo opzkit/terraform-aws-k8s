@@ -247,3 +247,9 @@ variable "use_ecr_credentials_for_mirrors" {
   default     = true
   description = "Whether to use the ECR credentials for registry mirrors for containerd, see above"
 }
+
+variable "exclude_instance_groups" {
+  type        = list(string)
+  default     = []
+  description = "Name of node groups to exclude from rolling updates when the cluster is updated. Each name must match a key in the node_groups variable. The exclusion is expanded across all availability zones automatically."
+}
