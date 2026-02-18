@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.30.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.29.0...v0.30.0) (2026-02-18)
+
+
+### Features
+
+* exclude instance groups from rolling updates ([#272](https://github.com/opzkit/terraform-aws-k8s/issues/272)) ([cff5259](https://github.com/opzkit/terraform-aws-k8s/commit/cff5259567d702d79e98b8499bfcf42bd627b929))
+
+
+### Bug Fixes
+
+* use floor version constraints for provider versions ([#273](https://github.com/opzkit/terraform-aws-k8s/issues/273)) ([d2aef28](https://github.com/opzkit/terraform-aws-k8s/commit/d2aef28e15d72763d087044286a714b00713a6d6))
+* use floor version constraints for provider versions ([#274](https://github.com/opzkit/terraform-aws-k8s/issues/274)) ([97c53e5](https://github.com/opzkit/terraform-aws-k8s/commit/97c53e5a67a6ca2a602126950ea97d65beb5829e))
+* widen provider version constraints to floor constraints ([d2aef28](https://github.com/opzkit/terraform-aws-k8s/commit/d2aef28e15d72763d087044286a714b00713a6d6))
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.15.1 ([#270](https://github.com/opzkit/terraform-aws-k8s/issues/270)) ([d8f5671](https://github.com/opzkit/terraform-aws-k8s/commit/d8f56712aa16ec586566269ef64b20240d20dd33))
+
 ## [0.29.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.28.1...v0.29.0) (2026-02-13)
 
 
