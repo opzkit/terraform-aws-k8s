@@ -72,6 +72,7 @@ variable "control_plane" {
     on_demand_above_base        = optional(number, 0)
     max_instance_lifetime_hours = optional(number, 168)
     spot_allocation_strategy    = optional(string, "price-capacity-optimized")
+    cpu_credits                 = optional(string)
     image                       = optional(string)
     rolling_update = optional(object({
       drain_and_terminate = optional(bool, true)
@@ -108,6 +109,7 @@ variable "node_groups" {
     on_demand_above_base        = optional(number, 0)
     max_instance_lifetime_hours = optional(number, 168)
     spot_allocation_strategy    = optional(string, "price-capacity-optimized")
+    cpu_credits                 = optional(string)
     image                       = optional(string)
     rolling_update = optional(object({
       drain_and_terminate = optional(bool, true)

@@ -77,6 +77,7 @@ locals {
       on_demand_above_base        = var.node_groups[k[0]].on_demand_above_base
       max_instance_lifetime_hours = var.node_groups[k[0]].max_instance_lifetime_hours
       spot_allocation_strategy    = var.node_groups[k[0]].spot_allocation_strategy
+      cpu_credits                 = var.node_groups[k[0]].cpu_credits
       image                       = var.node_groups[k[0]].image
       rolling_update              = var.node_groups[k[0]].rolling_update
       architecture                = var.node_groups[k[0]].architecture
