@@ -280,6 +280,7 @@ resource "kops_instance_group" "control_plane" {
   min_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).min
   max_size     = lookup(var.control_plane.size, each.key, { min = 0, max = 0 }).max
   machine_type = var.control_plane.types[0]
+  cpu_credits  = var.control_plane.cpu_credits
   mixed_instances_policy {
     instances = var.control_plane.types
     on_demand_base {
@@ -316,6 +317,7 @@ resource "kops_instance_group" "nodes" {
   min_size     = each.value.size.min
   max_size     = each.value.size.max
   machine_type = each.value.types[0]
+  cpu_credits  = each.value.cpu_credits
   mixed_instances_policy {
     instances = each.value.types
     on_demand_base {
