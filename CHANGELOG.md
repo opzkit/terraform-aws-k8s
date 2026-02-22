@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.31.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.30.0...v0.31.0) (2026-02-22)
+
+
+### Features
+
+* add cpu_credits support for burstable instance types ([c35cbca](https://github.com/opzkit/terraform-aws-k8s/commit/c35cbca95fc112797a48a12be519670c24f92e0b))
+
+
+### Miscellaneous Chores
+
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler to v1.34.4 ([#275](https://github.com/opzkit/terraform-aws-k8s/issues/275)) ([dc8c8b1](https://github.com/opzkit/terraform-aws-k8s/commit/dc8c8b13ce8d3cfa027428e7470375a20350547a))
+
 ## [0.30.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.29.0...v0.30.0) (2026-02-18)
 
 
