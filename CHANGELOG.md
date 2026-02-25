@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.31.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.31.0...v0.31.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* update kops provider to v1.34.4 nullable boolean syntax ([#281](https://github.com/opzkit/terraform-aws-k8s/issues/281)) ([401fefb](https://github.com/opzkit/terraform-aws-k8s/commit/401fefb98d65016e720a3be70a79f5a25243e6af))
+
+
+### Miscellaneous Chores
+
+* **deps:** update hashicorp/setup-terraform action to v4 ([#280](https://github.com/opzkit/terraform-aws-k8s/issues/280)) ([2d6f516](https://github.com/opzkit/terraform-aws-k8s/commit/2d6f516a7c406b6ed1c8d1718c2da596d6f1faca))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.31.1 ([#278](https://github.com/opzkit/terraform-aws-k8s/issues/278)) ([37a33f7](https://github.com/opzkit/terraform-aws-k8s/commit/37a33f785885d0ba6199ccbd357e01ec832760fa))
+
 ## [0.31.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.30.0...v0.31.0) (2026-02-22)
 
 
