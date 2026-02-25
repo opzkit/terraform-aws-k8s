@@ -58,14 +58,18 @@ resource "kops_cluster" "k8s" {
       }
 
       node_termination_handler {
-        enable_prometheus_metrics         = false
-        enable_scheduled_event_draining   = false
+        enable_prometheus_metrics = false
+        enable_scheduled_event_draining {
+          value = false
+        }
         enable_spot_interruption_draining = var.node_termination_handler_sqs
         enabled                           = true
-        enable_sqs_termination_draining   = var.node_termination_handler_sqs
-        managed_asg_tag                   = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
-        enable_rebalance_draining         = var.enable_rebalance_draining
-        enable_rebalance_monitoring       = var.enable_rebalance_monitoring
+        enable_sqs_termination_draining {
+          value = var.node_termination_handler_sqs
+        }
+        managed_asg_tag             = var.node_termination_handler_sqs ? "aws-node-termination-handler/managed" : null
+        enable_rebalance_draining   = var.enable_rebalance_draining
+        enable_rebalance_monitoring = var.enable_rebalance_monitoring
       }
 
       pod_identity_webhook {

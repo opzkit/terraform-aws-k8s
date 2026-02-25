@@ -6,7 +6,7 @@ terraform {
     }
     kops = {
       source  = "terraform-kops/kops"
-      version = ">= 1.34.3"
+      version = ">= 1.34.4"
     }
     null = {
       source  = "hashicorp/null"
