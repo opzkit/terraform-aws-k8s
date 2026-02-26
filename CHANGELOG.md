@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.31.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.31.1...v0.31.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* enable scheduled event draining in NTH SQS queue processor mode ([#282](https://github.com/opzkit/terraform-aws-k8s/issues/282)) ([aa30635](https://github.com/opzkit/terraform-aws-k8s/commit/aa3063597fc4981390906a3822da8c7858ec42cc))
+
 ## [0.31.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.31.0...v0.31.1) (2026-02-25)
 
 
