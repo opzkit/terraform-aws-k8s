@@ -60,7 +60,7 @@ resource "kops_cluster" "k8s" {
       node_termination_handler {
         enable_prometheus_metrics = false
         enable_scheduled_event_draining {
-          value = false
+          value = var.node_termination_handler_sqs
         }
         enable_spot_interruption_draining = var.node_termination_handler_sqs
         enabled                           = true
