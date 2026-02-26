@@ -20,6 +20,98 @@ resource "aws_s3_object" "addons" {
 
 
 resource "kops_cluster" "k8s" {
+
+  file_assets {
+    content = <<EOT
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+# Drop some common events from the standard APIs
+- level: None
+  resources:
+  - group: ""
+    resources: ["events"]
+  - group: "coordination.k8s.io"
+    resources: ["leases"]
+
+# Drop all of the internal system processing commands
+- level: None
+  users:
+     - "system:serviceaccount:kube-system:generic-garbage-collector"
+     - "system:serviceaccount:kube-system:namespace-controller"
+
+# Dont log anything for system secrets
+- level: None
+  users:
+     - "system:kube-controller-manager"
+     - "system:apiserver"
+  resources:
+  - group: ""
+    resources: ["secrets", "configmaps", "serviceaccounts/token"]
+
+- level: None
+  userGroups: ["system:nodes"]
+  resources:
+  - group: ""
+    resources: ["secrets", "configmaps", "serviceaccounts/token"]
+
+#log only metadata for secrest
+- level: Metadata
+  resources:
+  - group: ""
+    resources: ["configmaps", "secrets", "serviceaccounts/token"]
+  omitStages:
+    - "RequestReceived"
+
+# Log pod executions (kubectl exec, attach, port-forward)
+- level: RequestResponse
+  resources:
+    - group: ""
+      resources: ["pods/exec", "pods/attach", "pods/portforward"]
+
+# Ignore logs for non modifying commands. This can save extra logs but you wont pickup any unauthoized calls which you may want to know about
+- level: None
+  verbs: ["get", "watch", "list"]
+
+#Log the full request response for common cluster operations
+- level: RequestResponse
+  verbs: ["create", "delete", "update", "patch", "deletecollection"]
+  resources:
+      - group: ""
+      - group: "admissionregistration.k8s.io"
+      - group: "apiextensions.k8s.io"
+      - group: "apiregistration.k8s.io"
+      - group: "apps"
+      - group: "authentication.k8s.io"
+      - group: "authorization.k8s.io"
+      - group: "autoscaling"
+      - group: "batch"
+      - group: "certificates.k8s.io"
+      - group: "extensions"
+      - group: "metrics.k8s.io"
+      - group: "networking.k8s.io"
+      - group: "policy"
+      - group: "rbac.authorization.k8s.io"
+      - group: "scheduling.k8s.io"
+      - group: "settings.k8s.io"
+      - group: "storage.k8s.io"
+  omitStages:
+      - "RequestReceived"
+
+- level: Metadata
+  omitStages:
+    - "RequestReceived"
+EOT
+
+    name  = "policy-config.yaml"
+    path  = "/etc/kubernetes/audit/policy-config.yaml"
+    roles = ["ControlPlane"]
+  }
+
+  kube_api_server {
+    audit_log_path    = "/var/log/kube-apiserver-audit.log"
+    audit_policy_file = "/etc/kubernetes/audit/policy-config.yaml"
+  }
   lifecycle {
     precondition {
       condition     = length(local.public_subnets) >= 2
