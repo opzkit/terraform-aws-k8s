@@ -33,6 +33,15 @@ locals {
         policy_ar_ns  = lookup(v.aws, "policy_ar_ns", tolist(null))
       }
     }
+    ] : [], var.external_load_balancer_controller ? [
+    for v in module.aws_load_balancer_controller.permissions : {
+      name      = v.name
+      namespace = v.namespace
+      aws = {
+        inline_policy = lookup(v.aws, "inline_policy", null)
+        policy_ar_ns  = lookup(v.aws, "policy_ar_ns", tolist(null))
+      }
+    }
   ] : [])
 
 
@@ -40,6 +49,7 @@ locals {
     var.extra_addons, [
       local.default_request_adder,
     ], var.external_cluster_autoscaler ? module.cluster_autoscaler.addons : [],
+    var.external_load_balancer_controller ? module.aws_load_balancer_controller.addons : [],
     length(local.allowed_cnis["cilium"]) == 1 ? local.cilium_patch_role : [],
     var.alb_ssl_policy != null ? local.default_ingress : []
   ])
