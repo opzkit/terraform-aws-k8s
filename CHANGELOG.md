@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.32.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.31.2...v0.32.0) (2026-02-27)
+
+
+### Features
+
+* add support for external AWS Load Balancer Controller ([8c2212d](https://github.com/opzkit/terraform-aws-k8s/commit/8c2212d6f8975c70c4006f8a94a64bcddd63ca79))
+
+
+### Miscellaneous Chores
+
+* add .external_modules to .gitignore ([#284](https://github.com/opzkit/terraform-aws-k8s/issues/284)) ([2487562](https://github.com/opzkit/terraform-aws-k8s/commit/2487562979f522ebde126c312bd25b68df0b055d))
+
 ## [0.31.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.31.1...v0.31.2) (2026-02-26)
 
 
