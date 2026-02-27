@@ -53,8 +53,11 @@ resource "kops_cluster" "k8s" {
 
   cloud_provider {
     aws {
-      load_balancer_controller {
-        enabled = true
+      dynamic "load_balancer_controller" {
+        for_each = var.external_load_balancer_controller ? [] : [1]
+        content {
+          enabled = true
+        }
       }
 
       node_termination_handler {
@@ -395,4 +398,12 @@ module "cluster_autoscaler" {
   source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler.git?ref=v1.34.4"
   replicas     = local.min_number_of_nodes > 1 ? 2 : 1
   cluster_name = var.name
+}
+
+module "aws_load_balancer_controller" {
+  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller.git?ref=v0.1.2"
+  replicas     = local.min_number_of_nodes > 1 ? 2 : 1
+  cluster_name = var.name
+  vpc_id       = var.vpc_id
+  region       = var.region
 }

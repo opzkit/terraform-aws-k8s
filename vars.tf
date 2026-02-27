@@ -196,6 +196,12 @@ variable "cloud_only" {
   description = "CloudOnly perform rolling update without confirming progress with k8s."
 }
 
+variable "external_load_balancer_controller" {
+  type        = bool
+  default     = false
+  description = "Use external AWS Load Balancer Controller addon instead of the kOps built-in"
+}
+
 variable "external_cluster_autoscaler" {
   type        = bool
   default     = false
