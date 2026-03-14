@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.32.2](https://github.com/opzkit/terraform-aws-k8s/compare/v0.32.1...v0.32.2) (2026-03-14)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/create-github-app-token action to v3 ([#296](https://github.com/opzkit/terraform-aws-k8s/issues/296)) ([5108466](https://github.com/opzkit/terraform-aws-k8s/commit/510846679143bd2b2991bcc5992c0e7958f9d04c))
+* **deps:** update actions/create-github-app-token digest to fee1f7d ([#294](https://github.com/opzkit/terraform-aws-k8s/issues/294)) ([b5b3c90](https://github.com/opzkit/terraform-aws-k8s/commit/b5b3c9032b99458da9f665cd9635b74623ec6c67))
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.3 ([#291](https://github.com/opzkit/terraform-aws-k8s/issues/291)) ([da1d61e](https://github.com/opzkit/terraform-aws-k8s/commit/da1d61e1b2c2aa25a2a14a84a916ff0ecd6e9140))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.59.4 ([#293](https://github.com/opzkit/terraform-aws-k8s/issues/293)) ([9cff349](https://github.com/opzkit/terraform-aws-k8s/commit/9cff349873f032d5317730938648204daa57e34b))
+* **deps:** update terraform-linters/setup-tflint action to v6.2.2 ([#295](https://github.com/opzkit/terraform-aws-k8s/issues/295)) ([739e866](https://github.com/opzkit/terraform-aws-k8s/commit/739e86658f9e8fe561f694c28e126a691c95ec2d))
+
 ## [0.32.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.32.0...v0.32.1) (2026-03-03)
 
 
