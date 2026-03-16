@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.33.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.32.1...v0.33.0) (2026-03-16)
+
+
+### Features
+
+* add Cilium Hubble configuration support ([#299](https://github.com/opzkit/terraform-aws-k8s/issues/299)) ([86f5ab1](https://github.com/opzkit/terraform-aws-k8s/commit/86f5ab15f3361e02413402bcdb27c05f3edccf89))
+
+
+### Bug Fixes
+
+* **commitlint:** increase header max length to 115 characters ([#298](https://github.com/opzkit/terraform-aws-k8s/issues/298)) ([bc67648](https://github.com/opzkit/terraform-aws-k8s/commit/bc67648e6359b98413c1b64d907e9252fc907e64))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/create-github-app-token action to v3 ([#296](https://github.com/opzkit/terraform-aws-k8s/issues/296)) ([5108466](https://github.com/opzkit/terraform-aws-k8s/commit/510846679143bd2b2991bcc5992c0e7958f9d04c))
+* **deps:** update actions/create-github-app-token digest to fee1f7d ([#294](https://github.com/opzkit/terraform-aws-k8s/issues/294)) ([b5b3c90](https://github.com/opzkit/terraform-aws-k8s/commit/b5b3c9032b99458da9f665cd9635b74623ec6c67))
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.3 ([#291](https://github.com/opzkit/terraform-aws-k8s/issues/291)) ([da1d61e](https://github.com/opzkit/terraform-aws-k8s/commit/da1d61e1b2c2aa25a2a14a84a916ff0ecd6e9140))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.59.4 ([#293](https://github.com/opzkit/terraform-aws-k8s/issues/293)) ([9cff349](https://github.com/opzkit/terraform-aws-k8s/commit/9cff349873f032d5317730938648204daa57e34b))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller to v0.1.5 ([e290952](https://github.com/opzkit/terraform-aws-k8s/commit/e290952067dacc289a882b8bedbee19b113b997d))
+* **deps:** update terraform-linters/setup-tflint action to v6.2.2 ([#295](https://github.com/opzkit/terraform-aws-k8s/issues/295)) ([739e866](https://github.com/opzkit/terraform-aws-k8s/commit/739e86658f9e8fe561f694c28e126a691c95ec2d))
+
 ## [0.32.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.32.0...v0.32.1) (2026-03-03)
 
 
