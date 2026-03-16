@@ -214,6 +214,19 @@ variable "networking_cni" {
   description = "Which CNI provider to use, supported values are 'calico' and 'cilium'"
 }
 
+variable "cilium_hubble" {
+  type = object({
+    enabled = optional(bool, false)
+    metrics = optional(list(string), ["dns", "drop", "flow", "flows-to-world", "httpV2", "icmp", "kafka", "port-distribution", "tcp"])
+  })
+  default     = {}
+  description = <<-EOT
+    Hubble observability configuration for Cilium. Requires networking_cni to be 'cilium'.
+    Valid metric values: dns, drop, flow, flows-to-world, httpV2, icmp, kafka, port-distribution, tcp.
+    Metrics can include options separated by semicolons, e.g. "dns:query;ignoreAAAA" or "httpV2:exemplars=true;labelsContext=source_ip".
+  EOT
+}
+
 variable "alb_ssl_policy" {
   type        = string
   default     = null
