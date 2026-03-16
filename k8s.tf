@@ -401,7 +401,7 @@ module "cluster_autoscaler" {
 }
 
 module "aws_load_balancer_controller" {
-  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller.git?ref=v0.1.2"
+  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller.git?ref=v0.1.5"
   replicas     = local.min_number_of_nodes > 1 ? 2 : 1
   cluster_name = var.name
   vpc_id       = var.vpc_id
