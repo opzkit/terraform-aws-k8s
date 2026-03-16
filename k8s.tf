@@ -123,6 +123,14 @@ resource "kops_cluster" "k8s" {
         preallocate_bpf_maps        = true
         enable_node_port            = true
         enable_prometheus_metrics   = true
+
+        dynamic "hubble" {
+          for_each = var.cilium_hubble.enabled ? [1] : []
+          content {
+            enabled = true
+            metrics = var.cilium_hubble.metrics
+          }
+        }
       }
     }
 
