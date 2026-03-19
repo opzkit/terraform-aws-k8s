@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.33.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.33.0...v0.33.1) (2026-03-19)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.4 ([#301](https://github.com/opzkit/terraform-aws-k8s/issues/301)) ([67a46c5](https://github.com/opzkit/terraform-aws-k8s/commit/67a46c54078b4a4d6c521555f4196787284483f1))
+* **deps:** update oci.unbound.se/unboundsoftware/default-request-adder docker tag to v1.6.4 ([#303](https://github.com/opzkit/terraform-aws-k8s/issues/303)) ([16f6056](https://github.com/opzkit/terraform-aws-k8s/commit/16f60569bf8be217e130f8e6a0e4357c12fc05d3))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler to v1.35.1 ([#300](https://github.com/opzkit/terraform-aws-k8s/issues/300)) ([c004cef](https://github.com/opzkit/terraform-aws-k8s/commit/c004cefa222c1e72b08c983e1e503c9032e1ab08))
+
 ## [0.33.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.32.1...v0.33.0) (2026-03-16)
 
 
