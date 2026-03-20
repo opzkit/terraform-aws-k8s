@@ -269,6 +269,16 @@ variable "use_ecr_credentials_for_mirrors" {
   description = "Whether to use the ECR credentials for registry mirrors for containerd, see above"
 }
 
+variable "node_cloudwatch_logging" {
+  type = object({
+    enabled   = optional(bool, false)
+    log_group = optional(string, "/k8s/node-bootstrap")
+    retention = optional(number, 30)
+  })
+  default     = {}
+  description = "Ship node bootstrap journal logs (kops-configuration, kubelet, containerd, cloud-init) to CloudWatch Logs. Creates a log group per cluster and installs the CloudWatch agent on all nodes via a kops hook."
+}
+
 variable "exclude_instance_groups" {
   type        = list(string)
   default     = []
