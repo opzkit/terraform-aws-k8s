@@ -272,11 +272,17 @@ variable "use_ecr_credentials_for_mirrors" {
 variable "node_cloudwatch_logging" {
   type = object({
     enabled   = optional(bool, false)
-    log_group = optional(string, "/k8s/node-bootstrap")
+    mode      = optional(string, "bootstrap")
+    log_group = optional(string, "/k8s/node-logs")
     retention = optional(number, 30)
   })
   default     = {}
-  description = "Ship node bootstrap journal logs (kops-configuration, kubelet, containerd, cloud-init) to CloudWatch Logs. Creates a log group per cluster and installs the CloudWatch agent on all nodes via a kops hook."
+  description = "Ship node journal logs (kops-configuration, kubelet, containerd, cloud-init) to CloudWatch Logs. Mode 'bootstrap' captures only the initial boot phase, 'continuous' streams ongoing. Creates a log group per cluster and installs the CloudWatch agent on all nodes via a kops hook."
+
+  validation {
+    condition     = contains(["bootstrap", "continuous"], var.node_cloudwatch_logging.mode)
+    error_message = "Mode must be 'bootstrap' or 'continuous'."
+  }
 }
 
 variable "exclude_instance_groups" {
