@@ -272,13 +272,66 @@ resource "kops_cluster" "k8s" {
   }
 
   external_policies {
-    key   = "control-plane"
-    value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+    key = "control-plane"
+    value = concat(
+      ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"],
+      var.node_cloudwatch_logging.enabled ? ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"] : []
+    )
   }
 
   external_policies {
-    key   = "node"
-    value = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
+    key = "node"
+    value = concat(
+      ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"],
+      var.node_cloudwatch_logging.enabled ? ["arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"] : []
+    )
+  }
+
+  dynamic "file_assets" {
+    for_each = var.node_cloudwatch_logging.enabled ? [1] : []
+    content {
+      name = "cloudwatch-agent-config"
+      path = "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
+      content = jsonencode({
+        logs = {
+          logs_collected = {
+            journald = {
+              units = ["kops-configuration", "kubelet", "containerd", "cloud-init"]
+              collect_list = [{
+                log_group_name  = "${var.node_cloudwatch_logging.log_group}/${var.name}"
+                log_stream_name = "{instance_id}"
+              }]
+            }
+          }
+        }
+      })
+    }
+  }
+
+  dynamic "hooks" {
+    for_each = var.node_cloudwatch_logging.enabled ? [1] : []
+    content {
+      name     = "install-cloudwatch-agent.service"
+      before   = ["kubelet.service"]
+      manifest = <<-EOT
+        [Unit]
+        Description=Install and start CloudWatch Agent
+        [Service]
+        Type=oneshot
+        ExecStart=/bin/bash -c '\
+          set -euo pipefail; \
+          TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 60"); \
+          REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region); \
+          ARCH=$(uname -m | sed "s/x86_64/amd64/;s/aarch64/arm64/"); \
+          curl -fsSL -o /tmp/amazon-cloudwatch-agent.deb \
+            "https://amazoncloudwatch-agent-$REGION.s3.$REGION.amazonaws.com/ubuntu/$ARCH/latest/amazon-cloudwatch-agent.deb" && \
+          dpkg -i /tmp/amazon-cloudwatch-agent.deb && \
+          rm -f /tmp/amazon-cloudwatch-agent.deb && \
+          /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+            -a fetch-config -m ec2 -s \
+            -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+      EOT
+    }
   }
 
   delete {
