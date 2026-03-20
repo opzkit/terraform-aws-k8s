@@ -295,16 +295,34 @@ resource "kops_cluster" "k8s" {
       content = jsonencode({
         logs = {
           logs_collected = {
-            journald = {
-              units = ["kops-configuration", "kubelet", "containerd", "cloud-init"]
+            files = {
               collect_list = [{
                 log_group_name  = "${var.node_cloudwatch_logging.log_group}/${var.name}"
                 log_stream_name = "{instance_id}"
+                file_path       = "/var/log/node-bootstrap.log"
               }]
             }
           }
         }
       })
+    }
+  }
+
+  dynamic "file_assets" {
+    for_each = var.node_cloudwatch_logging.enabled ? [1] : []
+    content {
+      name    = "journal-to-file-service"
+      path    = "/etc/systemd/system/journal-to-file.service"
+      content = <<-EOT
+        [Unit]
+        Description=Stream bootstrap journal units to log file
+        After=systemd-journald.service
+        [Service]
+        ExecStart=/bin/bash -c 'journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -f -o short-iso --no-tail >> /var/log/node-bootstrap.log'
+        Restart=on-failure
+        [Install]
+        WantedBy=multi-user.target
+      EOT
     }
   }
 
@@ -315,7 +333,7 @@ resource "kops_cluster" "k8s" {
       before   = ["kubelet.service"]
       manifest = <<-EOT
         [Unit]
-        Description=Install and start CloudWatch Agent
+        Description=Install CloudWatch Agent and start bootstrap log collection
         [Service]
         Type=oneshot
         ExecStart=/bin/bash -c '\
@@ -327,6 +345,9 @@ resource "kops_cluster" "k8s" {
             "https://amazoncloudwatch-agent-$REGION.s3.$REGION.amazonaws.com/ubuntu/$ARCH/latest/amazon-cloudwatch-agent.deb" && \
           dpkg -i /tmp/amazon-cloudwatch-agent.deb && \
           rm -f /tmp/amazon-cloudwatch-agent.deb && \
+          journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -o short-iso --no-tail > /var/log/node-bootstrap.log && \
+          systemctl daemon-reload && \
+          systemctl enable --now journal-to-file.service && \
           /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
             -a fetch-config -m ec2 -s \
             -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
