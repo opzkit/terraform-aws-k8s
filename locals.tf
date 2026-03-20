@@ -1,4 +1,45 @@
 locals {
+  cloudwatch_hook_install = <<-EOT
+    [Unit]
+    Description=Install CloudWatch Agent and capture bootstrap logs
+    [Service]
+    Type=oneshot
+    ExecStart=/bin/bash -c '\
+      set -euo pipefail; \
+      TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 60"); \
+      REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region); \
+      ARCH=$(uname -m | sed "s/x86_64/amd64/;s/aarch64/arm64/"); \
+      curl -fsSL -o /tmp/amazon-cloudwatch-agent.deb \
+        "https://amazoncloudwatch-agent-$REGION.s3.$REGION.amazonaws.com/ubuntu/$ARCH/latest/amazon-cloudwatch-agent.deb" && \
+      dpkg -i /tmp/amazon-cloudwatch-agent.deb && \
+      rm -f /tmp/amazon-cloudwatch-agent.deb && \
+      journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -o short-iso --no-tail > /var/log/node-bootstrap.log && \
+      /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+        -a fetch-config -m ec2 -s \
+        -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+  EOT
+
+  cloudwatch_hook_install_continuous = <<-EOT
+    [Unit]
+    Description=Install CloudWatch Agent and start log collection
+    [Service]
+    Type=oneshot
+    ExecStart=/bin/bash -c '\
+      set -euo pipefail; \
+      TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 60"); \
+      REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region); \
+      ARCH=$(uname -m | sed "s/x86_64/amd64/;s/aarch64/arm64/"); \
+      curl -fsSL -o /tmp/amazon-cloudwatch-agent.deb \
+        "https://amazoncloudwatch-agent-$REGION.s3.$REGION.amazonaws.com/ubuntu/$ARCH/latest/amazon-cloudwatch-agent.deb" && \
+      dpkg -i /tmp/amazon-cloudwatch-agent.deb && \
+      rm -f /tmp/amazon-cloudwatch-agent.deb && \
+      journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -o short-iso --no-tail > /var/log/node-bootstrap.log && \
+      systemctl daemon-reload && \
+      systemctl enable --now journal-to-file.service && \
+      /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+        -a fetch-config -m ec2 -s \
+        -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
+  EOT
   control_plane_policies_aws_loadbalancer = {
     Action = [
       "acm:ListCertificates",

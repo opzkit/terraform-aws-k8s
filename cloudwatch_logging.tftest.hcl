@@ -49,8 +49,8 @@ run "cloudwatch_enabled_creates_log_group" {
   }
 
   assert {
-    condition     = aws_cloudwatch_log_group.node_bootstrap[0].name == "/k8s/node-bootstrap/test-cluster"
-    error_message = "Expected log group name to be /k8s/node-bootstrap/test-cluster"
+    condition     = aws_cloudwatch_log_group.node_bootstrap[0].name == "/k8s/node-logs/test-cluster"
+    error_message = "Expected log group name to be /k8s/node-logs/test-cluster"
   }
 
   assert {
@@ -81,6 +81,15 @@ run "cloudwatch_custom_log_group_and_retention" {
   }
 }
 
+run "cloudwatch_default_mode_is_bootstrap" {
+  command = plan
+
+  assert {
+    condition     = var.node_cloudwatch_logging.mode == "bootstrap"
+    error_message = "Expected default mode to be bootstrap"
+  }
+}
+
 run "cloudwatch_default_retention_is_30" {
   command = plan
 
@@ -94,7 +103,43 @@ run "cloudwatch_default_log_group_prefix" {
   command = plan
 
   assert {
-    condition     = var.node_cloudwatch_logging.log_group == "/k8s/node-bootstrap"
-    error_message = "Expected default log group prefix to be /k8s/node-bootstrap"
+    condition     = var.node_cloudwatch_logging.log_group == "/k8s/node-logs"
+    error_message = "Expected default log group prefix to be /k8s/node-logs"
   }
+}
+
+run "cloudwatch_continuous_mode" {
+  command = plan
+
+  variables {
+    node_cloudwatch_logging = {
+      enabled = true
+      mode    = "continuous"
+    }
+  }
+
+  assert {
+    condition     = var.node_cloudwatch_logging.mode == "continuous"
+    error_message = "Expected continuous mode"
+  }
+
+  assert {
+    condition     = length(aws_cloudwatch_log_group.node_bootstrap) == 1
+    error_message = "Expected log group in continuous mode"
+  }
+}
+
+run "cloudwatch_invalid_mode_fails" {
+  command = plan
+
+  variables {
+    node_cloudwatch_logging = {
+      enabled = true
+      mode    = "invalid"
+    }
+  }
+
+  expect_failures = [
+    var.node_cloudwatch_logging,
+  ]
 }

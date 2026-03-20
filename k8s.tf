@@ -309,13 +309,13 @@ resource "kops_cluster" "k8s" {
   }
 
   dynamic "file_assets" {
-    for_each = var.node_cloudwatch_logging.enabled ? [1] : []
+    for_each = var.node_cloudwatch_logging.enabled && var.node_cloudwatch_logging.mode == "continuous" ? [1] : []
     content {
       name    = "journal-to-file-service"
       path    = "/etc/systemd/system/journal-to-file.service"
       content = <<-EOT
         [Unit]
-        Description=Stream bootstrap journal units to log file
+        Description=Stream node journal units to log file
         After=systemd-journald.service
         [Service]
         ExecStart=/bin/bash -c 'journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -f -o short-iso --no-tail >> /var/log/node-bootstrap.log'
@@ -331,27 +331,7 @@ resource "kops_cluster" "k8s" {
     content {
       name     = "install-cloudwatch-agent.service"
       before   = ["kubelet.service"]
-      manifest = <<-EOT
-        [Unit]
-        Description=Install CloudWatch Agent and start bootstrap log collection
-        [Service]
-        Type=oneshot
-        ExecStart=/bin/bash -c '\
-          set -euo pipefail; \
-          TOKEN=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 60"); \
-          REGION=$(curl -s -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/placement/region); \
-          ARCH=$(uname -m | sed "s/x86_64/amd64/;s/aarch64/arm64/"); \
-          curl -fsSL -o /tmp/amazon-cloudwatch-agent.deb \
-            "https://amazoncloudwatch-agent-$REGION.s3.$REGION.amazonaws.com/ubuntu/$ARCH/latest/amazon-cloudwatch-agent.deb" && \
-          dpkg -i /tmp/amazon-cloudwatch-agent.deb && \
-          rm -f /tmp/amazon-cloudwatch-agent.deb && \
-          journalctl -u kops-configuration -u kubelet -u containerd -u cloud-init -o short-iso --no-tail > /var/log/node-bootstrap.log && \
-          systemctl daemon-reload && \
-          systemctl enable --now journal-to-file.service && \
-          /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-            -a fetch-config -m ec2 -s \
-            -c file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'
-      EOT
+      manifest = var.node_cloudwatch_logging.mode == "continuous" ? local.cloudwatch_hook_install_continuous : local.cloudwatch_hook_install
     }
   }
 
