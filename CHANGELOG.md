@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.34.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.33.1...v0.34.0) (2026-03-23)
+
+
+### Features
+
+* add CloudWatch node bootstrap logging ([584a0a4](https://github.com/opzkit/terraform-aws-k8s/commit/584a0a482cc844c0adbab385e70517a8b5780598))
+* add configurable logging mode (bootstrap vs continuous) ([593b95d](https://github.com/opzkit/terraform-aws-k8s/commit/593b95d69fd875f0e828000d17bf3e92855d8436))
+
+
+### Bug Fixes
+
+* use file-based log collection instead of journald ([c419100](https://github.com/opzkit/terraform-aws-k8s/commit/c4191002e4d33b0428776272db6e67d24b6c27b5))
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.86.0 ([#306](https://github.com/opzkit/terraform-aws-k8s/issues/306)) ([1636469](https://github.com/opzkit/terraform-aws-k8s/commit/163646914b044427b31fd2833b5be733150e75d2))
+
+
+### Tests
+
+* add tests for CloudWatch node bootstrap logging ([13aca02](https://github.com/opzkit/terraform-aws-k8s/commit/13aca0203950e9e9e10e8d70b73f30d8abfa670d))
+
 ## [0.33.1](https://github.com/opzkit/terraform-aws-k8s/compare/v0.33.0...v0.33.1) (2026-03-19)
 
 
