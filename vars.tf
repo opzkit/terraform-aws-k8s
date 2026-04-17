@@ -214,6 +214,17 @@ variable "networking_cni" {
   description = "Which CNI provider to use, supported values are 'calico' and 'cilium'"
 }
 
+variable "cilium" {
+  type = object({
+    enable_remote_node_identity = optional(bool, true)
+    preallocate_bpf_maps        = optional(bool, true)
+    enable_node_port            = optional(bool, true)
+    enable_prometheus_metrics   = optional(bool, true)
+  })
+  default     = {}
+  description = "Cilium CNI configuration. Only applied when networking_cni is 'cilium'."
+}
+
 variable "cilium_hubble" {
   type = object({
     enabled = optional(bool, false)
