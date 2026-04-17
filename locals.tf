@@ -214,7 +214,7 @@ resource "null_resource" "cni_check" {
 resource "null_resource" "hubble_requires_cilium" {
   lifecycle {
     precondition {
-      condition     = !var.cilium_hubble.enabled || var.networking_cni == "cilium"
+      condition     = !var.cilium.hubble.enabled || var.networking_cni == "cilium"
       error_message = "Hubble requires networking_cni to be 'cilium'."
     }
   }

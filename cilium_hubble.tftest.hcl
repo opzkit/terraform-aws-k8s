@@ -28,7 +28,7 @@ run "hubble_disabled_by_default" {
   }
 
   assert {
-    condition     = var.cilium_hubble.enabled == false
+    condition     = var.cilium.hubble.enabled == false
     error_message = "Expected hubble to be disabled by default"
   }
 }
@@ -38,13 +38,15 @@ run "hubble_enabled_with_cilium" {
 
   variables {
     networking_cni = "cilium"
-    cilium_hubble = {
-      enabled = true
+    cilium = {
+      hubble = {
+        enabled = true
+      }
     }
   }
 
   assert {
-    condition     = var.cilium_hubble.enabled == true
+    condition     = var.cilium.hubble.enabled == true
     error_message = "Expected hubble to be enabled"
   }
 }
@@ -54,14 +56,16 @@ run "hubble_default_metrics" {
 
   variables {
     networking_cni = "cilium"
-    cilium_hubble = {
-      enabled = true
+    cilium = {
+      hubble = {
+        enabled = true
+      }
     }
   }
 
   assert {
-    condition     = length(var.cilium_hubble.metrics) == 9
-    error_message = "Expected 9 default metrics, got ${length(var.cilium_hubble.metrics)}"
+    condition     = length(var.cilium.hubble.metrics) == 9
+    error_message = "Expected 9 default metrics, got ${length(var.cilium.hubble.metrics)}"
   }
 }
 
@@ -70,15 +74,17 @@ run "hubble_custom_metrics" {
 
   variables {
     networking_cni = "cilium"
-    cilium_hubble = {
-      enabled = true
-      metrics = ["dns", "drop"]
+    cilium = {
+      hubble = {
+        enabled = true
+        metrics = ["dns", "drop"]
+      }
     }
   }
 
   assert {
-    condition     = length(var.cilium_hubble.metrics) == 2
-    error_message = "Expected 2 custom metrics, got ${length(var.cilium_hubble.metrics)}"
+    condition     = length(var.cilium.hubble.metrics) == 2
+    error_message = "Expected 2 custom metrics, got ${length(var.cilium.hubble.metrics)}"
   }
 }
 
@@ -87,8 +93,10 @@ run "hubble_with_calico_fails" {
 
   variables {
     networking_cni = "calico"
-    cilium_hubble = {
-      enabled = true
+    cilium = {
+      hubble = {
+        enabled = true
+      }
     }
   }
 
@@ -105,7 +113,7 @@ run "hubble_disabled_with_calico_succeeds" {
   }
 
   assert {
-    condition     = var.cilium_hubble.enabled == false
+    condition     = var.cilium.hubble.enabled == false
     error_message = "Expected hubble to be disabled"
   }
 }

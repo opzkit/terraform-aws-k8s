@@ -125,10 +125,10 @@ resource "kops_cluster" "k8s" {
         enable_prometheus_metrics   = var.cilium.enable_prometheus_metrics
 
         dynamic "hubble" {
-          for_each = var.cilium_hubble.enabled ? [1] : []
+          for_each = var.cilium.hubble.enabled ? [1] : []
           content {
             enabled = true
-            metrics = var.cilium_hubble.metrics
+            metrics = var.cilium.hubble.metrics
           }
         }
       }

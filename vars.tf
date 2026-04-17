@@ -220,21 +220,17 @@ variable "cilium" {
     preallocate_bpf_maps        = optional(bool, true)
     enable_node_port            = optional(bool, true)
     enable_prometheus_metrics   = optional(bool, true)
-  })
-  default     = {}
-  description = "Cilium CNI configuration. Only applied when networking_cni is 'cilium'."
-}
-
-variable "cilium_hubble" {
-  type = object({
-    enabled = optional(bool, false)
-    metrics = optional(list(string), ["dns", "drop", "flow", "flows-to-world", "httpV2", "icmp", "kafka", "port-distribution", "tcp"])
+    hubble = optional(object({
+      enabled = optional(bool, false)
+      metrics = optional(list(string), ["dns", "drop", "flow", "flows-to-world", "httpV2", "icmp", "kafka", "port-distribution", "tcp"])
+    }), {})
   })
   default     = {}
   description = <<-EOT
-    Hubble observability configuration for Cilium. Requires networking_cni to be 'cilium'.
-    Valid metric values: dns, drop, flow, flows-to-world, httpV2, icmp, kafka, port-distribution, tcp.
-    Metrics can include options separated by semicolons, e.g. "dns:query;ignoreAAAA" or "httpV2:exemplars=true;labelsContext=source_ip".
+    Cilium CNI configuration. Only applied when networking_cni is 'cilium'.
+    hubble: Hubble observability configuration. Requires networking_cni to be 'cilium'.
+      Valid metric values: dns, drop, flow, flows-to-world, httpV2, icmp, kafka, port-distribution, tcp.
+      Metrics can include options separated by semicolons, e.g. "dns:query;ignoreAAAA" or "httpV2:exemplars=true;labelsContext=source_ip".
   EOT
 }
 
