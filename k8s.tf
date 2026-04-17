@@ -119,10 +119,10 @@ resource "kops_cluster" "k8s" {
     dynamic "cilium" {
       for_each = local.allowed_cnis["cilium"]
       content {
-        enable_remote_node_identity = true
-        preallocate_bpf_maps        = true
-        enable_node_port            = true
-        enable_prometheus_metrics   = true
+        enable_remote_node_identity = var.cilium.enable_remote_node_identity
+        preallocate_bpf_maps        = var.cilium.preallocate_bpf_maps
+        enable_node_port            = var.cilium.enable_node_port
+        enable_prometheus_metrics   = var.cilium.enable_prometheus_metrics
 
         dynamic "hubble" {
           for_each = var.cilium_hubble.enabled ? [1] : []
