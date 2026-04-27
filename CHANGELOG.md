@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.0.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.34.0...v1.0.0) (2026-04-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `cilium_hubble` variable has been removed. Move its value under `cilium.hubble` instead:
+
+### Features
+
+* extract hardcoded Cilium configuration to variable ([0d990d6](https://github.com/opzkit/terraform-aws-k8s/commit/0d990d62d69a494765f14baca155ed8b2d6e693b))
+* fold cilium_hubble variable into cilium.hubble ([7bec880](https://github.com/opzkit/terraform-aws-k8s/commit/7bec8806acae4baeeadc0e2328a7b12eb0cfc743))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/create-github-app-token digest to 1b10c78 ([#312](https://github.com/opzkit/terraform-aws-k8s/issues/312)) ([a77940c](https://github.com/opzkit/terraform-aws-k8s/commit/a77940c92f8f8c962f873a2e155a4fd6b05015d0))
+* **deps:** update actions/create-github-app-token digest to 7bd0371 ([#311](https://github.com/opzkit/terraform-aws-k8s/issues/311)) ([8b04f5e](https://github.com/opzkit/terraform-aws-k8s/commit/8b04f5e7a9868b7ff7df3aa4a8068429f459aec0))
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.5 ([#317](https://github.com/opzkit/terraform-aws-k8s/issues/317)) ([3e35fb4](https://github.com/opzkit/terraform-aws-k8s/commit/3e35fb45b32b8d50ca5995f8e33ec5b1e6bf1fdc))
+* **deps:** update googleapis/release-please-action action to v5 ([#318](https://github.com/opzkit/terraform-aws-k8s/issues/318)) ([e0d928e](https://github.com/opzkit/terraform-aws-k8s/commit/e0d928e1ab09d954d737d3fecb339bbfd1c92d71))
+* **deps:** update googleapis/release-please-action digest to 5c625bf ([#314](https://github.com/opzkit/terraform-aws-k8s/issues/314)) ([898148e](https://github.com/opzkit/terraform-aws-k8s/commit/898148e0b7c9522d95dea1634183e9188d0be830))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.104.4 ([#309](https://github.com/opzkit/terraform-aws-k8s/issues/309)) ([c60c151](https://github.com/opzkit/terraform-aws-k8s/commit/c60c1511ca90b97826ada992f66c815de4a78ed5))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.111.0 ([#313](https://github.com/opzkit/terraform-aws-k8s/issues/313)) ([3786534](https://github.com/opzkit/terraform-aws-k8s/commit/378653477452803b1f2fa3c1a18d230f121d494b))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.126.0 ([#316](https://github.com/opzkit/terraform-aws-k8s/issues/316)) ([761e2fd](https://github.com/opzkit/terraform-aws-k8s/commit/761e2fd69bfb9773599e70c00438ca2c2b1520cb))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.140.0 ([#319](https://github.com/opzkit/terraform-aws-k8s/issues/319)) ([e08a9eb](https://github.com/opzkit/terraform-aws-k8s/commit/e08a9ebc580ef38750f6030e43cd1f5c6addc632))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.99.1 ([#307](https://github.com/opzkit/terraform-aws-k8s/issues/307)) ([96a0563](https://github.com/opzkit/terraform-aws-k8s/commit/96a056346e8864c8e7db069aaaddf54a635908c1))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller to v0.1.6 ([#310](https://github.com/opzkit/terraform-aws-k8s/issues/310)) ([f1630df](https://github.com/opzkit/terraform-aws-k8s/commit/f1630dfdcf65c86f7603d7f48ece22c6b0743b73))
+
 ## [0.34.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.33.1...v0.34.0) (2026-03-23)
 
 
