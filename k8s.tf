@@ -212,7 +212,7 @@ resource "kops_cluster" "k8s" {
         for_each = var.iam_role_mappings
         content {
           arn      = identity_mappings.key
-          username = "role:{{SessionName}}}"
+          username = "role:{{SessionName}}"
           groups   = [identity_mappings.value]
         }
       }
