@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.0.0...v1.0.1) (2026-06-30)
+
+
+### Bug Fixes
+
+* **auth:** drop stray brace in aws-iam-authenticator username template ([#341](https://github.com/opzkit/terraform-aws-k8s/issues/341)) ([cbac2a8](https://github.com/opzkit/terraform-aws-k8s/commit/cbac2a83d7e825fc8f4cb4bd46106b987ea8fc19))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout action to v6.0.3 ([#330](https://github.com/opzkit/terraform-aws-k8s/issues/330)) ([057f1ef](https://github.com/opzkit/terraform-aws-k8s/commit/057f1efdb52b6cb7d9b89767ae788643278b3ec7))
+* **deps:** update actions/checkout action to v7 ([#335](https://github.com/opzkit/terraform-aws-k8s/issues/335)) ([d7d810b](https://github.com/opzkit/terraform-aws-k8s/commit/d7d810b13531342ab749bfca1089196306f2aac9))
+* **deps:** update actions/checkout digest to df4cb1c ([#329](https://github.com/opzkit/terraform-aws-k8s/issues/329)) ([4bf05b8](https://github.com/opzkit/terraform-aws-k8s/commit/4bf05b873d4c0829e6e6e04e97fd1771cffe649d))
+* **deps:** update actions/create-github-app-token digest to bcd2ba4 ([#325](https://github.com/opzkit/terraform-aws-k8s/issues/325)) ([30894fd](https://github.com/opzkit/terraform-aws-k8s/commit/30894fd15f86d22c2f824c4f8e9d52f819e15d89))
+* **deps:** update actions/setup-python action to v6.3.0 ([#339](https://github.com/opzkit/terraform-aws-k8s/issues/339)) ([3cdbf13](https://github.com/opzkit/terraform-aws-k8s/commit/3cdbf13b55c229f6073e53e8648643c1718bc612))
+* **deps:** update default-request-adder to v1.6.7 ([#333](https://github.com/opzkit/terraform-aws-k8s/issues/333)) ([e43e027](https://github.com/opzkit/terraform-aws-k8s/commit/e43e02729eed9e3113dc3895365fe301a87f5bc8))
+* **deps:** update default-request-adder to v1.6.8 ([#334](https://github.com/opzkit/terraform-aws-k8s/issues/334)) ([d5b1e99](https://github.com/opzkit/terraform-aws-k8s/commit/d5b1e9976d58f4d7f111f34646ec25b201821851))
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.6 ([#327](https://github.com/opzkit/terraform-aws-k8s/issues/327)) ([d3d540e](https://github.com/opzkit/terraform-aws-k8s/commit/d3d540e63966709d399f97d0415d19f0308dff24))
+* **deps:** update hashicorp/setup-terraform action to v4.0.1 ([#326](https://github.com/opzkit/terraform-aws-k8s/issues/326)) ([9c72678](https://github.com/opzkit/terraform-aws-k8s/commit/9c7267866807c57302c5b8110aea8fb3cc960333))
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.26.0 ([#340](https://github.com/opzkit/terraform-aws-k8s/issues/340)) ([9591103](https://github.com/opzkit/terraform-aws-k8s/commit/9591103a4819285ebd446a5c3098e63bd8698378))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.106.0 ([#328](https://github.com/opzkit/terraform-aws-k8s/issues/328)) ([1ffe9ac](https://github.com/opzkit/terraform-aws-k8s/commit/1ffe9acf5f1b375b0a50e6a4a23d630353502467))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.107.0 ([#336](https://github.com/opzkit/terraform-aws-k8s/issues/336)) ([269da2b](https://github.com/opzkit/terraform-aws-k8s/commit/269da2b8da459dd733bd14d4e110d4b7e47b70b0))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.108.0 ([#338](https://github.com/opzkit/terraform-aws-k8s/issues/338)) ([e526462](https://github.com/opzkit/terraform-aws-k8s/commit/e526462f37287f470f33bc9a41450415df2ec1e6))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.150.0 ([#323](https://github.com/opzkit/terraform-aws-k8s/issues/323)) ([a0765e2](https://github.com/opzkit/terraform-aws-k8s/commit/a0765e237ca801cf9290e52ab782ce30231d0944))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.212.4 ([#332](https://github.com/opzkit/terraform-aws-k8s/issues/332)) ([3b68d12](https://github.com/opzkit/terraform-aws-k8s/commit/3b68d126d16e90444dece391364767de9f6b1083))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.227.0 ([#337](https://github.com/opzkit/terraform-aws-k8s/issues/337)) ([f2303b4](https://github.com/opzkit/terraform-aws-k8s/commit/f2303b45246700c25f8a137ca9a410f0eefb747d))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller to v0.1.8 ([#331](https://github.com/opzkit/terraform-aws-k8s/issues/331)) ([4c74f8e](https://github.com/opzkit/terraform-aws-k8s/commit/4c74f8e4cc33d7e50bac28278a639a8b250f2079))
+
 ## [1.0.0](https://github.com/opzkit/terraform-aws-k8s/compare/v0.34.0...v1.0.0) (2026-05-09)
 
 
