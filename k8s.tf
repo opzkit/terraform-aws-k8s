@@ -288,6 +288,16 @@ resource "kops_cluster" "k8s" {
   }
 
   dynamic "file_assets" {
+    for_each = var.file_assets
+    content {
+      name    = file_assets.value.name
+      path    = file_assets.value.path
+      content = file_assets.value.content
+      roles   = file_assets.value.roles
+    }
+  }
+
+  dynamic "file_assets" {
     for_each = var.node_cloudwatch_logging.enabled ? [1] : []
     content {
       name = "cloudwatch-agent-config"

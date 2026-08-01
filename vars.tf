@@ -264,6 +264,17 @@ variable "containerd_config_additions" {
   default     = {}
 }
 
+variable "file_assets" {
+  type = list(object({
+    name    = string
+    path    = string
+    content = string
+    roles   = optional(list(string))
+  }))
+  default     = []
+  description = "Files to write on the nodes, see https://kops.sigs.k8s.io/cluster_spec/#file-assets. Roles defaults to all roles."
+}
+
 variable "registry_mirrors" {
   type        = map(list(string))
   description = "Registry mirrors for containerd - maps registry to list of mirror endpoints"
