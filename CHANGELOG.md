@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.1.0...v1.2.0) (2026-08-01)
+
+
+### Features
+
+* expose file_assets on the cluster ([#349](https://github.com/opzkit/terraform-aws-k8s/issues/349)) ([40f4118](https://github.com/opzkit/terraform-aws-k8s/commit/40f41186d0e2d377650d6c1c30311f8c40fc6aff))
+
 ## [1.1.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.0.1...v1.1.0) (2026-08-01)
 
 
