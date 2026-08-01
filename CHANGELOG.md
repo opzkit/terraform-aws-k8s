@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.0.1...v1.1.0) (2026-08-01)
+
+
+### Features
+
+* update cluster-autoscaler module to v1.36.0 ([#348](https://github.com/opzkit/terraform-aws-k8s/issues/348)) ([6538265](https://github.com/opzkit/terraform-aws-k8s/commit/6538265fd38d6a2375c92aaed7f4a1adcced85c1))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/checkout digest to 3d3c42e ([#345](https://github.com/opzkit/terraform-aws-k8s/issues/345)) ([202e09e](https://github.com/opzkit/terraform-aws-k8s/commit/202e09ed53159f07e0b2503a46669d49ff0d2ff6))
+* **deps:** update actions/setup-python action to v7 ([#346](https://github.com/opzkit/terraform-aws-k8s/issues/346)) ([914625f](https://github.com/opzkit/terraform-aws-k8s/commit/914625f8c64d06dd5095782be23e0de9bd354c80))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.108.1 ([#347](https://github.com/opzkit/terraform-aws-k8s/issues/347)) ([29d58ab](https://github.com/opzkit/terraform-aws-k8s/commit/29d58abc39e572de5ba14fe85bb4cf31e05d7e71))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.257.2 ([#344](https://github.com/opzkit/terraform-aws-k8s/issues/344)) ([8d18b92](https://github.com/opzkit/terraform-aws-k8s/commit/8d18b9298e3edebd493d403c8895ae9a12b1e67e))
+* **deps:** update terraform-linters/setup-tflint action to v6.3.0 ([#342](https://github.com/opzkit/terraform-aws-k8s/issues/342)) ([9836609](https://github.com/opzkit/terraform-aws-k8s/commit/98366096537457eb0db0e7ab362c9a55474aed1c))
+
 ## [1.0.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.0.0...v1.0.1) (2026-06-30)
 
 
