@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.0...v1.2.1) (2026-08-17)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.9 ([#355](https://github.com/opzkit/terraform-aws-k8s/issues/355)) ([378e2a4](https://github.com/opzkit/terraform-aws-k8s/commit/378e2a46b5adba0079f1f32c46dd7fce22abc883))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v43.288.0 ([#351](https://github.com/opzkit/terraform-aws-k8s/issues/351)) ([17cea1f](https://github.com/opzkit/terraform-aws-k8s/commit/17cea1ff4c051838b0f1a32cde02981dc9fe2b89))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v44 ([#352](https://github.com/opzkit/terraform-aws-k8s/issues/352)) ([07cc681](https://github.com/opzkit/terraform-aws-k8s/commit/07cc681a80ee6d3646f69c12f40f10542dfda0af))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v44.14.3 ([#354](https://github.com/opzkit/terraform-aws-k8s/issues/354)) ([6e1ffc9](https://github.com/opzkit/terraform-aws-k8s/commit/6e1ffc9dbcec7bf5a0387b24996ae1178bd669ab))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v44.29.4 ([#356](https://github.com/opzkit/terraform-aws-k8s/issues/356)) ([c1c23aa](https://github.com/opzkit/terraform-aws-k8s/commit/c1c23aaef0e090d232dc063051aaac86b51a7702))
+
 ## [1.2.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.1.0...v1.2.0) (2026-08-01)
 
 
