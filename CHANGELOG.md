@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.1...v1.2.2) (2026-09-07)
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.109.1 ([#360](https://github.com/opzkit/terraform-aws-k8s/issues/360)) ([37c0247](https://github.com/opzkit/terraform-aws-k8s/commit/37c0247f59449fe1fdfd17e92ef5334e93b9fc9a))
+* **deps:** update terraform-linters/setup-tflint action to v6.3.1 ([#361](https://github.com/opzkit/terraform-aws-k8s/issues/361)) ([06116ca](https://github.com/opzkit/terraform-aws-k8s/commit/06116ca9c48faa5179eacecbb2dc77a297f8e106))
+
 ## [1.2.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.0...v1.2.1) (2026-09-06)
 
 
