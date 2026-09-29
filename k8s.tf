@@ -467,9 +467,10 @@ data "aws_security_group" "nodes" {
 }
 
 module "cluster_autoscaler" {
-  source       = "git::https://github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler.git?ref=v1.36.0"
-  replicas     = local.min_number_of_nodes > 1 ? 2 : 1
-  cluster_name = var.name
+  source                           = "git::https://github.com/opzkit/terraform-aws-k8s-addons-cluster-autoscaler.git?ref=v1.36.1"
+  replicas                         = local.min_number_of_nodes > 1 ? 2 : 1
+  cluster_name                     = var.name
+  scale_down_utilization_threshold = var.cluster_autoscaler_scale_down_utilization_threshold
 }
 
 module "aws_load_balancer_controller" {

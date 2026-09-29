@@ -208,6 +208,12 @@ variable "external_cluster_autoscaler" {
   description = "Use external cluster autoscaler and not the built in kOps addon (to support clusters with only spot instances)"
 }
 
+variable "cluster_autoscaler_scale_down_utilization_threshold" {
+  type        = number
+  default     = 0.5
+  description = "Node utilization level below which a node can be considered for scale down (only used with external_cluster_autoscaler)"
+}
+
 variable "networking_cni" {
   type        = string
   default     = "calico"
