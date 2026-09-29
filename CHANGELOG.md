@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.1...v1.3.0) (2026-09-29)
+
+
+### Features
+
+* add cluster_autoscaler_scale_down_utilization_threshold ([#364](https://github.com/opzkit/terraform-aws-k8s/issues/364)) ([695091b](https://github.com/opzkit/terraform-aws-k8s/commit/695091b363b5b9137019893ab831e115b6a47f11))
+
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook alessandrojcm/commitlint-pre-commit-hook to v9.27.0 ([#363](https://github.com/opzkit/terraform-aws-k8s/issues/363)) ([ea315d8](https://github.com/opzkit/terraform-aws-k8s/commit/ea315d8ada5957b1feee04a69e47e7d2851ac98b))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.109.1 ([#360](https://github.com/opzkit/terraform-aws-k8s/issues/360)) ([37c0247](https://github.com/opzkit/terraform-aws-k8s/commit/37c0247f59449fe1fdfd17e92ef5334e93b9fc9a))
+* **deps:** update terraform-linters/setup-tflint action to v6.3.1 ([#361](https://github.com/opzkit/terraform-aws-k8s/issues/361)) ([06116ca](https://github.com/opzkit/terraform-aws-k8s/commit/06116ca9c48faa5179eacecbb2dc77a297f8e106))
+
 ## [1.2.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.0...v1.2.1) (2026-09-06)
 
 
