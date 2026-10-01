@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.3.0...v1.4.0) (2026-10-01)
+
+
+### Features
+
+* expose update_policy on the cluster ([#365](https://github.com/opzkit/terraform-aws-k8s/issues/365)) ([766e500](https://github.com/opzkit/terraform-aws-k8s/commit/766e500bb0c0e5a43d92dcb7e9f235adc634924d))
+
 ## [1.3.0](https://github.com/opzkit/terraform-aws-k8s/compare/v1.2.1...v1.3.0) (2026-09-29)
 
 
