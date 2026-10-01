@@ -84,6 +84,7 @@ resource "kops_cluster" "k8s" {
   channel            = "stable"
   kubernetes_version = var.kubernetes_version
   dns_zone           = var.dns_zone
+  update_policy      = var.update_policy
   kube_proxy {
     enabled = length(local.allowed_cnis["cilium"]) == 0
   }

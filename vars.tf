@@ -314,3 +314,14 @@ variable "exclude_instance_groups" {
   default     = []
   description = "Name of node groups to exclude from rolling updates when the cluster is updated. Each name must match a key in the node_groups variable. The exclusion is expanded across all availability zones automatically."
 }
+
+variable "update_policy" {
+  type        = string
+  default     = null
+  description = "kOps updatePolicy for the cluster: automatic (nodeup enables unattended-upgrades on every node) or external (OS updates are left to node replacement). null leaves the field unset, which kOps treats as automatic."
+
+  validation {
+    condition     = contains(["automatic", "external"], coalesce(var.update_policy, "automatic"))
+    error_message = "update_policy must be automatic or external."
+  }
+}
