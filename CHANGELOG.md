@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.2](https://github.com/opzkit/terraform-aws-k8s/compare/v1.4.1...v1.4.2) (2026-11-15)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency unboundsoftware/default-request-adder to v1.6.13 ([#385](https://github.com/opzkit/terraform-aws-k8s/issues/385)) ([7d068b9](https://github.com/opzkit/terraform-aws-k8s/commit/7d068b973409d774a7c418bc051d4be8e2b8a81b))
+* **deps:** update pre-commit hook antonbabenko/pre-commit-terraform to v1.109.5 ([#384](https://github.com/opzkit/terraform-aws-k8s/issues/384)) ([eb7833e](https://github.com/opzkit/terraform-aws-k8s/commit/eb7833e2fcb828a3a9978460680fc2ff6082a100))
+* **deps:** update pre-commit hook renovatebot/pre-commit-hooks to v44.221.1 ([#382](https://github.com/opzkit/terraform-aws-k8s/issues/382)) ([6f16646](https://github.com/opzkit/terraform-aws-k8s/commit/6f1664621dfff66edb4cf57a12fcf4ba0e5c0265))
+
 ## [1.4.1](https://github.com/opzkit/terraform-aws-k8s/compare/v1.4.0...v1.4.1) (2026-11-02)
 
 
