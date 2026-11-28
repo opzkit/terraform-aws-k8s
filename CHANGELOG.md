@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.4](https://github.com/opzkit/terraform-aws-k8s/compare/v1.4.3...v1.4.4) (2026-11-28)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/create-github-app-token digest to f418cff ([#389](https://github.com/opzkit/terraform-aws-k8s/issues/389)) ([879c781](https://github.com/opzkit/terraform-aws-k8s/commit/879c78161b1f94898acab74b63cd7e48a66b0353))
+* **deps:** update terraform github.com/opzkit/terraform-aws-k8s-addons-aws-load-balancer-controller to v0.1.12 ([#391](https://github.com/opzkit/terraform-aws-k8s/issues/391)) ([5f4db3d](https://github.com/opzkit/terraform-aws-k8s/commit/5f4db3d7bc449b223d26959877a199f5bde5306c))
+
 ## [1.4.3](https://github.com/opzkit/terraform-aws-k8s/compare/v1.4.2...v1.4.3) (2026-11-20)
 
 
